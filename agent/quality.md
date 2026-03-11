@@ -85,6 +85,11 @@
 - 提交标题不得超过 `72` 个字符
 - 提交标题不得以句号结尾
 
+### PR 描述
+- 仅在 `pull_request` 事件中硬生效
+- PR 描述必须保留模板中的四个分区：`Summary` `Hard checks` `Structure review` `AI-specific review`
+- PR 描述中不得保留未完成的模板复选框 `- [ ]`
+
 ### 文档入口一致性
 - `agent/context.md` 必须包含并链接当前强制入口文档
 - `agent/product.md` `agent/quality.md` `agent/presets.md` `agent/scope.md` `agent/architecture.md` `agent/status.md` `agent/rules.md` 必须存在
@@ -135,6 +140,7 @@
 - 这次改动有没有顺手引入本不需要的新依赖？
 - 这次改动有没有大到应该拆成两个提交或两个 PR？
 - 这次改动的提交信息是否能让人快速理解范围和目的？
+- PR 描述是否真的完成了模板，而不是把空复选框原样提交？
 - 这次改动有没有让 `agent/` 文档过期？
 - 这次改动有没有把 demo / cases / tests 一起更新？
 
@@ -157,4 +163,4 @@
 ## 下一步可升级项
 - 将重复代码检测视噪音情况升级为 hard gate
 - 继续收紧架构边界，例如限制跨层调用的方向更细
-- 提交描述和 PR 描述做模板级强制检查
+- PR 描述进一步校验“Summary”内容不是空话或模板残留

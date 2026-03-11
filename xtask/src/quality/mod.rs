@@ -7,6 +7,7 @@ mod complexity;
 mod dependencies;
 mod dependencies_parse;
 mod duplicates;
+mod pr;
 
 use crate::demo_builds;
 use crate::utils::repo_root;
@@ -25,6 +26,7 @@ pub fn run() -> Result<(), String> {
     duplicates::test_duplicate_blocks(&root, &tracked, &mut warnings)?;
     changes::test_change_size(&root, &mut failures, &mut warnings);
     commit::test_commit_message(&root, &mut failures, &mut warnings);
+    pr::test_pr_description(&mut failures, &mut warnings);
 
     if let Err(error) = crate::utils::run_step(
         "cargo fmt --all --check",
