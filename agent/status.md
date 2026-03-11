@@ -7,8 +7,9 @@
 
 ## 当前已完成
 - 已建立顶层目录：`agent/` `core/` `web/` `demo/` `cases/` `tests/` `tokens/`
-- 已建立最小 Rust workspace：根 `Cargo.toml` + `core/Cargo.toml`
+- 已建立最小 Rust workspace：根 `Cargo.toml` + `core/Cargo.toml` + `xtask/Cargo.toml`
 - 已建立库入口与 CLI 入口：`core/src/lib.rs` + `core/src/main.rs`
+- 已建立跨平台工程入口：`xtask/`
 - 已恢复 `core/src/` 模块目录：`cli/` `scan/` `parse/` `gen/` `token/` `rule/` `write/` `shared/`
 - 已实现最小扫描链路：递归扫描目录、过滤构建产物目录、支持 `.html` `.jsx` `.ts` `.tsx` `.vue` `.svelte`
 - 已实现最小 DSL 解析：拆解变体、风格前缀、utility、value，并限制 `hover:` `focus:` `active:` `dark:`
@@ -30,11 +31,11 @@
 - 已将 Rust 测试迁移到 `core/tests/`，不在源文件内内联
 - 已补 token 载入测试并验证通过：`cargo test -p motif-core`
 - 已补 CLI 端到端测试：覆盖 `cases/` 与四类 `demo/` 的 `basic/` / `variants/` / `theme/` / `workspace/` 场景 CSS 生成结果
-- 已补 demo 构建检查脚本：`scripts/check-demo-builds.ps1`
-- 已补质量闸门脚本：`scripts/check-quality.ps1`
+- 已补跨平台工程任务：`cargo run -p xtask -- quality` 与 `cargo run -p xtask -- demo-builds`
+- 已将 `scripts/check-quality.ps1` 与 `scripts/check-demo-builds.ps1` 收敛为本地包装
 - 已补 GitHub Actions：`quality`、`coverage`、`CodeQL`
 - 已补 Dependabot 配置与 PR 模板
-- 已完成一次 TS / React / Vue demo 全量构建级验证：`basic/`、`variants/`、`theme/`、`workspace/` 均可安装依赖并成功 build
+- 已完成一次 `cargo run -p xtask -- quality` 本地验证并通过
 
 ## 当前优先级
 1. 把质量闸门在 GitHub 仓库设置中真正接成 required checks

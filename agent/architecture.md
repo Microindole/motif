@@ -2,6 +2,7 @@
 
 ## 顶层结构
 - `core/`：CLI 与核心生成链路
+- `xtask/`：跨平台工程任务入口，承载质量检查与 demo 构建验证
 - `web/`：前端演示或交互界面
 - `demo/`：原生 / TS / React / Vue 示例，按 `framework/scenario` 组织
 - `cases/`：原生 / TS / React / Vue 测试输入，按 `framework/scenario` 组织
@@ -37,8 +38,10 @@
 - v0.1 先由 CLI 内嵌加载 JSON，不提前平台化第三套 preset
 
 ## 质量闸门结构
-- `scripts/check-quality.ps1`：本地与 CI 共用的硬闸门入口
-- `scripts/check-demo-builds.ps1`：demo 构建级验证入口
+- `cargo run -p xtask -- quality`：跨平台硬闸门入口
+- `cargo run -p xtask -- demo-builds`：跨平台 demo 构建验证入口
+- `scripts/check-quality.ps1`：Windows 本地便捷包装
+- `scripts/check-demo-builds.ps1`：Windows 本地便捷包装
 - `.github/workflows/quality.yml`：运行格式化、lint、测试、结构检查、demo 构建
 - `.github/workflows/coverage.yml`：运行 Rust 覆盖率阈值检查
 - `.github/workflows/codeql.yml`：运行 GitHub CodeQL 扫描
@@ -57,4 +60,4 @@
 3. 解析前缀 / 变体 / utility / value
 4. 查 token 与规则
 5. 生成并写出 `motif.css`
-6. 通过质量闸门压制 AI 生成代码的熵增
+6. 通过 `xtask` 质量闸门压制 AI 生成代码的熵增
