@@ -3,7 +3,7 @@
 更新时间：2026-03-11
 
 ## 当前阶段
-- P0：最小扫描到 CSS 输出闭环、四类 demo 与 token 驱动落地
+- P0：最小扫描到 CSS 输出闭环、四类 demo、token 驱动与 e2e 落地
 
 ## 当前已完成
 - 已建立顶层目录：`agent/` `core/` `web/` `demo/` `cases/` `tests/` `tokens/`
@@ -21,18 +21,17 @@
 - 已补四类最小 demo：原生直接可开；TS / React / Vue 提供最小项目文件与运行说明
 - 已将 Rust 测试迁移到 `core/tests/`，不在源文件内内联
 - 已补 token 载入测试并验证通过：`cargo test -p motif-core`
-- 已验证最小闭环命令可运行：`cargo run -p motif-core -- cases`
+- 已补 CLI 端到端测试：覆盖 `cases/` 与四类 `demo/` 的 CSS 生成结果
 
 ## 当前优先级
-1. 补 `tests/e2e/`
-2. 将规则逐步迁移到更完整的 token 数据驱动
-3. 扩展 demo 与 cases 场景
+1. 将规则逐步迁移到更完整的 token 数据驱动
+2. 扩展 demo 与 cases 场景
+3. 评估 demo 构建级验证（TS / React / Vue）
 
 ## 当前阻塞
-- FIXME: `tests/e2e/` 还没有实际内容。
-- FIXME: React / Vue demo 依赖未安装，当前只验证了扫描与 CSS 生成，未验证 dev server 运行。
+- FIXME: React / Vue demo 依赖未安装，当前只验证了扫描与 CSS 生成，未验证 dev server / bundler 构建。
 
 ## 当前待办
-- TODO: 增加端到端断言，覆盖 `motif.css` 生成结果。
 - TODO: 为 token 数据增加更清晰的 schema 与字段约束。
 - TODO: 为 demo 增加更完整的场景，例如 `variants/` 与 `theme/`。
+- TODO: 决定是否为 TS / React / Vue demo 增加可选构建检查脚本。
