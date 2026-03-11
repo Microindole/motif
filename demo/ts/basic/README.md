@@ -1,3 +1,5 @@
-# ts basic demo
+# TypeScript basic demo
 
-占位：后续接入 TypeScript 最小示例与 `motif.css`。
+1. Generate CSS: `cargo run -p motif-core -- .`
+2. Compile TS: `npx tsc -p tsconfig.json`
+3. Open `index.html`

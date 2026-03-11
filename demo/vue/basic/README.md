@@ -1,3 +1,5 @@
-# vue basic demo
+# Vue basic demo
 
-占位：后续接入 Vue 最小示例与 `motif.css`。
+1. Generate CSS: `cargo run -p motif-core -- .`
+2. Install deps: `npm install`
+3. Start dev server: `npm run dev`

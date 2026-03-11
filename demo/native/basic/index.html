@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>motif native basic demo</title>
+    <link rel="stylesheet" href="./motif.css" />
+    <style>
+      body {
+        margin: 0;
+        font-family: "Segoe UI", sans-serif;
+        background: linear-gradient(180deg, #f3f2f1 0%, #ffffff 100%);
+        color: #1f1f1f;
+      }
+
+      .shell {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 32px;
+      }
+
+      .card-copy {
+        margin: 0;
+        line-height: 1.5;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <section class="m-surface f-stack">
+        <h1 class="f-text-primary">motif native demo</h1>
+        <p class="card-copy">Use the CLI to generate <code>motif.css</code> into this folder, then open this file directly.</p>
+        <button class="focus:f-ring hover:f-bg-primary">Native basic</button>
+      </section>
+    </main>
+  </body>
+</html>
