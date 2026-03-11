@@ -1,7 +1,7 @@
 use std::env;
 use std::path::PathBuf;
 
-use motif_core::{gen, parse, rule, scan, write};
+use motif_core::{gen, parse, rule, scan, token, write};
 
 fn main() {
     let mut args = env::args_os().skip(1);
@@ -32,12 +32,13 @@ struct RunSummary {
 
 fn run(root: &std::path::Path, output_path: Option<&std::path::Path>) -> Result<RunSummary, String> {
     let scan_result = scan::scan_root(root).map_err(|error| error.to_string())?;
+    let token_registry = token::load_registry().map_err(|error| error.to_string())?;
 
     let resolved_rules = scan_result
         .class_names
         .iter()
         .filter_map(|class_name| parse::parse_class_name(class_name).ok())
-        .filter_map(|parsed| rule::resolve_rule(&parsed))
+        .filter_map(|parsed| rule::resolve_rule(&parsed, &token_registry))
         .collect::<Vec<_>>();
 
     let stylesheet = gen::render_stylesheet(&resolved_rules);

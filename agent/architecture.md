@@ -15,7 +15,7 @@
 - 每个 demo 目录可单独运行 `cargo run -p motif-core -- .` 生成本目录的 `motif.css`
 
 ## core 结构
-- `src/lib.rs`：库入口，暴露扫描、解析、规则、生成、输出模块
+- `src/lib.rs`：库入口，暴露扫描、解析、规则、生成、token、输出模块
 - `src/main.rs`：CLI 入口
 - `src/cli/`：命令参数与流程编排
 - `src/scan/`：文件发现与类名提取
@@ -26,6 +26,11 @@
 - `src/write/`：输出写入
 - `src/shared/`：共享类型与错误
 - `tests/`：Rust 集成测试，不在源文件内内联
+
+## token 约定
+- `tokens/fluent.json`：Fluent 最小 token 集
+- `tokens/material.json`：Material 最小 token 集
+- v0.1 先由 CLI 内嵌加载 JSON，再逐步扩展为更完整的数据驱动规则
 
 ## 主链路
 1. 扫描输入文件

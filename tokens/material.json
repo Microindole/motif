@@ -1,0 +1,13 @@
+{
+  "color": {
+    "surface": "#ffffff",
+    "on-surface": "#1f1f1f"
+  },
+  "radius": {
+    "lg": "12px"
+  },
+  "shadow": {
+    "1": "0 1px 2px rgba(0, 0, 0, 0.3)",
+    "2": "0 2px 6px rgba(0, 0, 0, 0.24)"
+  }
+}

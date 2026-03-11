@@ -11,6 +11,7 @@
 - 支持 `hover:` `focus:` `active:` `dark:`
 - `demo/` 提供原生、TS、React、Vue 四类最小可用示例
 - `cases/` 提供原生、TS、React、Vue 四类最小扫描输入
+- 当前白名单规则至少由 `tokens/fluent.json` 与 `tokens/material.json` 驱动颜色、间距、圆角、阴影等核心值
 
 ## v0.1 非目标
 - AST 级复杂表达式求值
