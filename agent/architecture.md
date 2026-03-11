@@ -12,8 +12,10 @@
 - 第一层：`native/` `ts/` `react/` `vue/`
 - 第二层：场景名，例如 `basic/` `variants/` `theme/`
 - `cases/` 放最小扫描输入；`demo/` 放面向人看的最小可用示例
+- 每个 demo 目录可单独运行 `cargo run -p motif-core -- .` 生成本目录的 `motif.css`
 
 ## core 结构
+- `src/lib.rs`：库入口，暴露扫描、解析、规则、生成、输出模块
 - `src/main.rs`：CLI 入口
 - `src/cli/`：命令参数与流程编排
 - `src/scan/`：文件发现与类名提取
@@ -23,6 +25,7 @@
 - `src/rule/`：规则映射
 - `src/write/`：输出写入
 - `src/shared/`：共享类型与错误
+- `tests/`：Rust 集成测试，不在源文件内内联
 
 ## 主链路
 1. 扫描输入文件

@@ -1,11 +1,7 @@
-pub mod gen;
-pub mod parse;
-pub mod rule;
-pub mod scan;
-pub mod write;
-
 use std::env;
 use std::path::PathBuf;
+
+use motif_core::{gen, parse, rule, scan, write};
 
 fn main() {
     let mut args = env::args_os().skip(1);
