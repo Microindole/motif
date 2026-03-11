@@ -1,6 +1,8 @@
 mod boundary;
+mod changes;
 mod checks;
 mod complexity;
+mod dependencies;
 mod duplicates;
 
 use crate::demo_builds;
@@ -16,7 +18,9 @@ pub fn run() -> Result<(), String> {
     checks::run_core_checks(&root, &tracked, &mut failures, &mut warnings)?;
     boundary::test_architecture_boundaries(&root, &tracked, &mut failures)?;
     complexity::test_complexity_heuristics(&root, &tracked, &mut failures, &mut warnings)?;
+    dependencies::test_dependency_hygiene(&root, &tracked, &mut failures, &mut warnings)?;
     duplicates::test_duplicate_blocks(&root, &tracked, &mut warnings)?;
+    changes::test_change_size(&root, &mut failures, &mut warnings);
 
     if let Err(error) = crate::utils::run_step(
         "cargo fmt --all --check",

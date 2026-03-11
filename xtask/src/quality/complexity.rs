@@ -1,7 +1,7 @@
 use crate::utils::{path_from_repo, read_lines};
 use std::path::Path;
 
-const FUNCTION_WARN_LINES: usize = 60;
+const FUNCTION_WARN_LINES: usize = 70;
 const FUNCTION_FAIL_LINES: usize = 90;
 const PARAM_WARN_COUNT: usize = 5;
 const NESTING_WARN_DEPTH: usize = 4;

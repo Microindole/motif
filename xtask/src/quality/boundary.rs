@@ -1,3 +1,4 @@
+// Keep core layers one-way so AI changes cannot quietly tangle scanning, parsing, rules, generation, and IO.
 use crate::utils::path_from_repo;
 use std::path::Path;
 
