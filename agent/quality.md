@@ -49,6 +49,7 @@
 - `demo/` `cases/` 下源码 / 配置文件不得超过 `260` 行
 - 单目录直接跟踪文件数不得超过 `12`
 - 跟踪文件中不得出现构建产物：`target/` `node_modules/` `dist/` `coverage/` `.vite/` `motif.css` `*.tsbuildinfo`
+- 极端长函数直接失败：单函数不得超过 `90` 行
 
 ### 危险写法
 - 非测试源码中禁止 `unsafe`
@@ -57,6 +58,12 @@
 - 禁止 `todo!()` `unimplemented!()` `dbg!()`
 - `core/src/` 中除 `main.rs` 外禁止 `unwrap()` / `expect()`
 - `core/src/` 中除 `main.rs` 外禁止 `println!()` / `eprintln!()`
+
+### 架构边界
+- `scan` 不得依赖 `rule` `token` `gen` `write`
+- `parse` 不得依赖 `scan` `rule` `token` `gen` `write`
+- `token` `rule` `gen` 不得做文件 IO
+- `write` 不得反向依赖 `scan` `parse` `rule` `token` `gen`
 
 ### 文档入口一致性
 - `agent/context.md` 必须包含并链接当前强制入口文档
@@ -78,8 +85,12 @@
 - 重复窗口命中时先告警，不立即阻止合并
 - 目的是先发现 AI copy-paste 蔓延，再视噪音情况决定是否升级为 hard gate
 
-### 单一职责代理指标
-当前暂不做硬卡，但 review 时要特别关注：
+### 单一职责与复杂度代理指标
+- 单函数超过 `60` 行告警，超过 `90` 行直接失败
+- 单函数参数超过 `5` 个告警
+- 单函数嵌套深度超过 `4` 告警
+- 单文件函数数超过 `12` 告警
+- 当前仍以代理指标为主，review 时要特别关注：
 - 一个文件同时做扫描、解析、IO、格式化、规则映射
 - 一个模块同时承担产品策略和底层工具职责
 - 一个 demo 页面复制了大量平行结构却没有复用策略
@@ -111,6 +122,6 @@
 
 ## 下一步可升级项
 - 将重复代码检测视噪音情况升级为 hard gate
-- 架构边界检查，例如 `rule` 不做 IO、`scan` 不依赖 `gen`
+- 继续收紧架构边界，例如限制跨层调用的方向更细
 - 依赖膨胀检查
 - 变更规模检查

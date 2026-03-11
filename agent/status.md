@@ -44,7 +44,7 @@
 4. 为 token 数据增加更清晰的 schema 与字段约束
 
 ## 当前阻塞
-- FIXME: 当前质量闸门已在仓库中落地，但 GitHub 分支保护和 CodeQL / Dependabot 的仓库级启用仍需在仓库设置里打开。
+- FIXME: 当前质量闸门已在仓库中落地，并已补上 diff coverage、重复代码软告警、架构边界和复杂度代理检查，但 GitHub 分支保护和 CodeQL / Dependabot 的仓库级启用仍需在仓库设置里打开。
 - FIXME: 当前 preset 已能看出较明显差异，但 Win11 向的云母/亚克力层次与 Google 向的完整 container / field / action 系统仍是第一版。
 
 ## 当前待办
@@ -52,4 +52,6 @@
 - TODO: 继续扩展 `f-` 的 mica / acrylic / border / hover / field 细节。
 - TODO: 继续扩展 `m-` 的 container / shape / typography / field / action 层次。
 - TODO: 为 token 数据增加更清晰的 schema 与字段约束。
-- TODO: 评估 diff coverage、重复代码检测与架构边界检查。
+- TODO: 继续把重复代码检测与复杂度代理检查调到低噪音，再决定哪些升级为 hard gate。
+- TODO: 评估依赖膨胀检查、变更规模检查与提交规范检查。
+
