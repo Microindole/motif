@@ -7,6 +7,7 @@
 - `cases/`：原生 / TS / React / Vue 测试输入，按 `framework/scenario` 组织
 - `tests/`：e2e 与回归断言
 - `tokens/`：双 preset token 文件；当前仅 `f-` / `m-`
+- `.github/`：GitHub Actions、Dependabot、PR 模板
 
 ## demo / cases 约定
 - 第一层：`native/` `ts/` `react/` `vue/`
@@ -35,6 +36,15 @@
 - `tokens/material.json`：Google 向 `m-` preset 的最小 token 集
 - v0.1 先由 CLI 内嵌加载 JSON，不提前平台化第三套 preset
 
+## 质量闸门结构
+- `scripts/check-quality.ps1`：本地与 CI 共用的硬闸门入口
+- `scripts/check-demo-builds.ps1`：demo 构建级验证入口
+- `.github/workflows/quality.yml`：运行格式化、lint、测试、结构检查、demo 构建
+- `.github/workflows/coverage.yml`：运行 Rust 覆盖率阈值检查
+- `.github/workflows/codeql.yml`：运行 GitHub CodeQL 扫描
+- `.github/dependabot.yml`：维护 Cargo、npm、GitHub Actions 依赖
+- `.github/pull_request_template.md`：保留给人工 review 的结构清单
+
 ## e2e 约定
 - `core/tests/e2e_cli.rs` 运行真实 `motif` 二进制
 - `tests/e2e/` 保存 e2e 说明与后续夹具
@@ -47,3 +57,4 @@
 3. 解析前缀 / 变体 / utility / value
 4. 查 token 与规则
 5. 生成并写出 `motif.css`
+6. 通过质量闸门压制 AI 生成代码的熵增
