@@ -1,4 +1,5 @@
 use crate::parse::{Family, ParsedClass, Variant};
+use crate::token::TokenRegistry;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct RuleMatch {
@@ -13,7 +14,7 @@ pub struct RuleMatch {
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Declaration {
     pub property: &'static str,
-    pub value: &'static str,
+    pub value: String,
 }
 
 impl RuleMatch {
@@ -33,35 +34,35 @@ impl RuleMatch {
     }
 }
 
-pub fn resolve_rule(parsed: &ParsedClass) -> Option<RuleMatch> {
+pub fn resolve_rule(parsed: &ParsedClass, tokens: &TokenRegistry) -> Option<RuleMatch> {
     let declarations = match (parsed.family, parsed.utility.as_str(), parsed.value.as_deref()) {
         (Family::Fluent, "stack", None) => vec![
             declaration("display", "flex"),
             declaration("flex-direction", "column"),
-            declaration("gap", "1rem"),
+            token_declaration("gap", tokens.fluent.space.get("md")?),
         ],
         (Family::Fluent, "ring", None) => vec![
-            declaration("outline-width", "2px"),
+            token_declaration("outline-width", tokens.fluent.outline.get("focus-width")?),
             declaration("outline-style", "solid"),
-            declaration("outline-color", "#0f6cbd"),
-            declaration("outline-offset", "2px"),
+            token_declaration("outline-color", tokens.fluent.color.get("primary")?),
+            token_declaration("outline-offset", tokens.fluent.space.get("focus-offset")?),
         ],
         (Family::Fluent, "bg", Some("primary")) => {
-            vec![declaration("background-color", "#0f6cbd")]
+            vec![token_declaration("background-color", tokens.fluent.color.get("primary")?)]
         }
         (Family::Fluent, "text", Some("primary")) => {
-            vec![declaration("color", "#0f6cbd")]
+            vec![token_declaration("color", tokens.fluent.color.get("primary")?)]
         }
         (Family::Material, "surface", None) => vec![
-            declaration("background-color", "#ffffff"),
-            declaration("color", "#1f1f1f"),
-            declaration("border-radius", "12px"),
+            token_declaration("background-color", tokens.material.color.get("surface")?),
+            token_declaration("color", tokens.material.color.get("on-surface")?),
+            token_declaration("border-radius", tokens.material.radius.get("lg")?),
         ],
         (Family::Material, "elevation", Some("1")) => {
-            vec![declaration("box-shadow", "0 1px 2px rgba(0, 0, 0, 0.3)")]
+            vec![token_declaration("box-shadow", tokens.material.shadow.get("1")?)]
         }
         (Family::Material, "shadow", Some("2")) => {
-            vec![declaration("box-shadow", "0 2px 6px rgba(0, 0, 0, 0.24)")]
+            vec![token_declaration("box-shadow", tokens.material.shadow.get("2")?)]
         }
         _ => return None,
     };
@@ -77,5 +78,15 @@ pub fn resolve_rule(parsed: &ParsedClass) -> Option<RuleMatch> {
 }
 
 fn declaration(property: &'static str, value: &'static str) -> Declaration {
-    Declaration { property, value }
+    Declaration {
+        property,
+        value: value.to_string(),
+    }
+}
+
+fn token_declaration(property: &'static str, value: &str) -> Declaration {
+    Declaration {
+        property,
+        value: value.to_string(),
+    }
 }

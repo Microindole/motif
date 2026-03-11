@@ -1,0 +1,12 @@
+{
+  "color": {
+    "primary": "#0f6cbd"
+  },
+  "space": {
+    "md": "1rem",
+    "focus-offset": "2px"
+  },
+  "outline": {
+    "focus-width": "2px"
+  }
+}
