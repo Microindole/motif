@@ -29,3 +29,7 @@ Thumbs.db
 # Temporary
 *.tmp
 *.temp
+
+# Generated output
+motif.css
+**/motif.css
