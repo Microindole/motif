@@ -1,5 +1,11 @@
 // Keep dependency growth visible before AI changes turn small demos or tooling into dependency sinks.
-use crate::utils::{path_from_repo, read_lines};
+
+use super::changes;
+use super::dependencies_parse::{
+    collect_version_map, count_cargo_dependencies, count_json_object_entries,
+    extract_added_cargo_dependencies, extract_added_json_dependencies,
+};
+use crate::utils::{command_output, path_from_repo, read_lines};
 use std::collections::{BTreeMap, BTreeSet};
 use std::path::Path;
 
@@ -33,6 +39,7 @@ pub fn test_dependency_hygiene(
         warnings,
     )?;
     test_package_manifests(root, tracked, failures, warnings)?;
+    test_added_dependencies(root, failures, warnings)?;
     Ok(())
 }
 
@@ -88,11 +95,11 @@ fn test_package_manifests(
             ));
         }
 
-        for section in ["dependencies", "devDependencies"] {
-            for (name, version) in extract_json_pairs(&content, section) {
-                versions.entry(name).or_default().insert(version);
-            }
-        }
+        collect_version_map(
+            &mut versions,
+            &content,
+            &["dependencies", "devDependencies"],
+        );
     }
 
     for (name, version_set) in versions {
@@ -107,76 +114,73 @@ fn test_package_manifests(
     Ok(())
 }
 
-fn count_cargo_dependencies(lines: &[String]) -> usize {
-    let mut count = 0usize;
-    let mut in_dependencies = false;
-
-    for line in lines {
-        let trimmed = line.trim();
-        if trimmed.starts_with('[') {
-            in_dependencies = trimmed == "[dependencies]";
-            continue;
-        }
-        if !in_dependencies || trimmed.is_empty() || trimmed.starts_with('#') {
-            continue;
-        }
-        if trimmed.contains('=') {
-            count += 1;
-        }
-    }
-
-    count
-}
-
-fn count_json_object_entries(content: &str, key: &str) -> usize {
-    extract_json_pairs(content, key).len()
-}
-
-fn extract_json_pairs(content: &str, key: &str) -> Vec<(String, String)> {
-    let Some(body) = extract_json_object_body(content, key) else {
-        return Vec::new();
+fn test_added_dependencies(
+    root: &Path,
+    failures: &mut Vec<String>,
+    warnings: &mut Vec<String>,
+) -> Result<(), String> {
+    let Some(spec) = changes::diff_spec(root) else {
+        warnings.push("dependency-diff check skipped: no usable diff base available".to_string());
+        return Ok(());
     };
 
-    body.lines()
-        .filter_map(|line| {
-            let trimmed = line.trim().trim_end_matches(',').trim();
-            if trimmed.is_empty() || !trimmed.starts_with('"') {
-                return None;
-            }
-            let mut parts = trimmed.splitn(2, ':');
-            let name = parts.next()?.trim().trim_matches('"').to_string();
-            let version = parts.next()?.trim().trim_matches('"').to_string();
-            Some((name, version))
-        })
-        .collect()
-}
+    for manifest in ["core/Cargo.toml", "xtask/Cargo.toml"] {
+        let diff = manifest_diff(root, &spec.range, manifest)?;
+        let names = extract_added_cargo_dependencies(&diff);
+        if names.is_empty() {
+            continue;
+        }
 
-fn extract_json_object_body<'a>(content: &'a str, key: &str) -> Option<&'a str> {
-    let marker = format!("\"{key}\"");
-    let start = content.find(&marker)?;
-    let after_marker = &content[start + marker.len()..];
-    let open_offset = after_marker.find('{')?;
-    let body_start = start + marker.len() + open_offset + 1;
-
-    let mut depth = 1usize;
-    let mut end = body_start;
-    for (index, ch) in content[body_start..].char_indices() {
-        match ch {
-            '{' => depth += 1,
-            '}' => {
-                depth -= 1;
-                if depth == 0 {
-                    end = body_start + index;
-                    break;
-                }
-            }
-            _ => {}
+        let message = format!(
+            "{manifest} adds direct dependencies in {}: {}",
+            spec.label,
+            names.join(", ")
+        );
+        if spec.hard_gate {
+            failures.push(message);
+        } else {
+            warnings.push(format!("{message}; local branch signal only"));
         }
     }
 
-    if end == body_start {
-        None
-    } else {
-        Some(&content[body_start..end])
+    for manifest in tracked_demo_manifests(root)? {
+        let diff = manifest_diff(root, &spec.range, &manifest)?;
+        let names = extract_added_json_dependencies(&diff);
+        if names.is_empty() {
+            continue;
+        }
+
+        let message = format!(
+            "{manifest} adds npm dependencies in {}: {}",
+            spec.label,
+            names.join(", ")
+        );
+        if spec.hard_gate && names.len() >= 3 {
+            failures.push(format!(
+                "{message}; demo dependency additions are too broad for one change"
+            ));
+        } else {
+            warnings.push(message);
+        }
     }
+
+    Ok(())
+}
+
+fn tracked_demo_manifests(root: &Path) -> Result<Vec<String>, String> {
+    let output = command_output("git", &["ls-files", "demo/**/package.json"], root)?;
+    Ok(output
+        .lines()
+        .filter(|line| !line.trim().is_empty())
+        .map(|line| line.replace('\\', "/"))
+        .collect())
+}
+
+fn manifest_diff(root: &Path, range: &str, manifest: &str) -> Result<Vec<String>, String> {
+    let output = command_output(
+        "git",
+        &["diff", "--unified=20", range, "--", manifest],
+        root,
+    )?;
+    Ok(output.lines().map(|line| line.to_string()).collect())
 }

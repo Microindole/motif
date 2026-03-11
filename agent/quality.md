@@ -70,9 +70,14 @@
 - `core/Cargo.toml` 直接依赖不得超过 `8`
 - `xtask/Cargo.toml` 直接依赖不得超过 `6`
 - 单个 demo `package.json` 依赖总数不得超过 `10`
+- PR / CI 环境下，`core` 或 `xtask` 新增直接依赖默认直接失败
+- PR / CI 环境下，单个 demo 一次新增过多 npm 依赖直接失败
 
 ### 变更规模
-- PR / CI 环境下，按基线分支 merge-base 计算的变更文件数不得超过 `24``r`n- PR / CI 环境下，按基线分支 merge-base 计算的新增行数不得超过 `700``r`n- PR / CI 环境下，按基线分支 merge-base 计算的删除行数不得超过 `500``r`n- 本地默认按 `HEAD~1..HEAD` 做硬卡，同时对 `origin/main` 的 merge-base 变化量给告警信号
+- PR / CI 环境下，按基线分支 merge-base 计算的变更文件数不得超过 `24`
+- PR / CI 环境下，按基线分支 merge-base 计算的新增行数不得超过 `700`
+- PR / CI 环境下，按基线分支 merge-base 计算的删除行数不得超过 `500`
+- 本地默认按 `HEAD~1..HEAD` 做硬卡，同时对 `origin/main` 的 merge-base 变化量给告警信号
 
 ### 提交信息
 - `HEAD` 提交标题必须匹配 `type: description` 或 `type(scope): description`
@@ -115,6 +120,7 @@
 - `xtask/Cargo.toml` 直接依赖超过 `3` 时告警
 - 单个 demo `package.json` 依赖总数超过 `8` 时告警
 - demo 间同名 npm 依赖版本漂移时告警
+- 本地对 `origin/main` merge-base 下的依赖新增给出告警信号
 - 最近一个提交变更文件数超过 `12` 时告警
 - 最近一个提交新增行数超过 `300` 时告警
 - 最近一个提交删除行数超过 `200` 时告警
@@ -151,6 +157,4 @@
 ## 下一步可升级项
 - 将重复代码检测视噪音情况升级为 hard gate
 - 继续收紧架构边界，例如限制跨层调用的方向更细
-- 依赖新增做 diff 级审查，而不只是看总量
 - 提交描述和 PR 描述做模板级强制检查
-
