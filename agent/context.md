@@ -16,7 +16,7 @@
 - `demo/`：面向用户的示例
 - `cases/`：面向测试的最小输入
 - `tests/`：端到端与回归测试
-- `tokens/`：设计语言 token 数据
+- `tokens/`：双 preset 设计 token 数据
 
 ## 一句话定位
-- `motif` 是一个 Rust 多风格原子 CSS 引擎；v0.1 先验证扫描 -> 解析 -> 生成 `motif.css` 的最小闭环。
+- `motif` 是一个 Rust 原子 CSS 引擎；当前固定提供两个内建 preset：Win11 向的 `f-` 与 Google 向的 `m-`，v0.1 先验证扫描 -> 解析 -> 生成 `motif.css` 的最小闭环。

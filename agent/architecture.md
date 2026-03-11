@@ -6,7 +6,7 @@
 - `demo/`：原生 / TS / React / Vue 示例，按 `framework/scenario` 组织
 - `cases/`：原生 / TS / React / Vue 测试输入，按 `framework/scenario` 组织
 - `tests/`：e2e 与回归断言
-- `tokens/`：Fluent / Material token 文件
+- `tokens/`：双 preset token 文件；当前仅 `f-` / `m-`
 
 ## demo / cases 约定
 - 第一层：`native/` `ts/` `react/` `vue/`
@@ -14,6 +14,7 @@
 - `cases/` 放最小扫描输入；`demo/` 放面向人看的最小可用示例
 - 每个 demo 目录可单独运行 `cargo run -p motif-core -- .` 生成本目录的 `motif.css`
 - `variants/` 用于覆盖 `focus:` `hover:` `active:` `dark:` 这类已支持变体
+- `theme/` 用于并排展示 Win11 向 `f-` preset 与 Google 向 `m-` preset 的视觉差异
 
 ## core 结构
 - `src/lib.rs`：库入口，暴露扫描、解析、规则、生成、token、输出模块
@@ -29,15 +30,15 @@
 - `tests/`：Rust 集成测试，不在源文件内内联
 
 ## token 约定
-- `tokens/fluent.json`：Fluent 最小 token 集
-- `tokens/material.json`：Material 最小 token 集
-- v0.1 先由 CLI 内嵌加载 JSON，再逐步扩展为更完整的数据驱动规则
+- `tokens/fluent.json`：Win11 向 `f-` preset 的最小 token 集
+- `tokens/material.json`：Google 向 `m-` preset 的最小 token 集
+- v0.1 先由 CLI 内嵌加载 JSON，不提前平台化第三套 preset
 
 ## e2e 约定
 - `core/tests/e2e_cli.rs` 运行真实 `motif` 二进制
 - `tests/e2e/` 保存 e2e 说明与后续夹具
 - e2e 通过临时输出文件断言 CSS 结果，不污染仓库目录
-- 当前 e2e 覆盖 `cases/` 与四类 `demo/` 的 `basic/` / `variants/` 场景
+- 当前 e2e 覆盖 `cases/` 与四类 `demo/` 的 `basic/` / `variants/` / `theme/` 场景
 
 ## 主链路
 1. 扫描输入文件

@@ -24,6 +24,7 @@ fn generates_expected_css_for_cases_directory() {
     let css = fs::read_to_string(&output).expect("failed to read generated css for cases");
     assert_case_selectors(&css);
     assert_variant_selectors(&css);
+    assert_theme_selectors(&css);
 
     cleanup_file(&output);
 }
@@ -34,12 +35,16 @@ fn generates_expected_css_for_all_demo_scenarios() {
     let demos = [
         repo_root.join("demo").join("native").join("basic"),
         repo_root.join("demo").join("native").join("variants"),
+        repo_root.join("demo").join("native").join("theme"),
         repo_root.join("demo").join("ts").join("basic"),
         repo_root.join("demo").join("ts").join("variants"),
+        repo_root.join("demo").join("ts").join("theme"),
         repo_root.join("demo").join("react").join("basic"),
         repo_root.join("demo").join("react").join("variants"),
+        repo_root.join("demo").join("react").join("theme"),
         repo_root.join("demo").join("vue").join("basic"),
         repo_root.join("demo").join("vue").join("variants"),
+        repo_root.join("demo").join("vue").join("theme"),
     ];
 
     for demo_dir in demos {
@@ -74,6 +79,9 @@ fn generates_expected_css_for_all_demo_scenarios() {
         if demo_dir.ends_with("variants") {
             assert_variant_selectors(&css);
         }
+        if demo_dir.ends_with("theme") {
+            assert_theme_selectors(&css);
+        }
 
         cleanup_file(&output);
     }
@@ -97,6 +105,16 @@ fn assert_variant_selectors(css: &str) {
     assert!(css.contains("@media (prefers-color-scheme: dark) {"));
     assert!(css.contains(".dark\\:m-elevation-1 {"));
     assert!(css.contains("box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);"));
+}
+
+fn assert_theme_selectors(css: &str) {
+    assert!(css.contains(".f-surface {"));
+    assert!(css.contains("background-color: #f3f3f3;"));
+    assert!(css.contains("border-radius: 8px;"));
+    assert!(css.contains(".m-bg-primary {"));
+    assert!(css.contains("background-color: #1a73e8;"));
+    assert!(css.contains(".m-text-on-primary {"));
+    assert!(css.contains("color: #ffffff;"));
 }
 
 fn repo_root() -> PathBuf {

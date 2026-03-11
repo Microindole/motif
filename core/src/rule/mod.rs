@@ -53,11 +53,25 @@ pub fn resolve_rule(parsed: &ParsedClass, tokens: &TokenRegistry) -> Option<Rule
         (Family::Fluent, "text", Some("primary")) => {
             vec![token_declaration("color", tokens.fluent.color.get("primary")?)]
         }
+        (Family::Fluent, "surface", None) => vec![
+            token_declaration("background-color", tokens.fluent.color.get("surface")?),
+            token_declaration("color", tokens.fluent.color.get("text")?),
+            token_declaration("border-radius", tokens.fluent.radius.get("md")?),
+        ],
         (Family::Material, "surface", None) => vec![
             token_declaration("background-color", tokens.material.color.get("surface")?),
             token_declaration("color", tokens.material.color.get("on-surface")?),
             token_declaration("border-radius", tokens.material.radius.get("lg")?),
         ],
+        (Family::Material, "bg", Some("primary")) => {
+            vec![token_declaration("background-color", tokens.material.color.get("primary")?)]
+        }
+        (Family::Material, "text", Some("primary")) => {
+            vec![token_declaration("color", tokens.material.color.get("primary")?)]
+        }
+        (Family::Material, "text", Some("on-primary")) => {
+            vec![token_declaration("color", tokens.material.color.get("on-primary")?)]
+        }
         (Family::Material, "elevation", Some("1")) => {
             vec![token_declaration("box-shadow", tokens.material.shadow.get("1")?)]
         }

@@ -1,5 +1,7 @@
 {
   "color": {
+    "primary": "#1a73e8",
+    "on-primary": "#ffffff",
     "surface": "#ffffff",
     "on-surface": "#1f1f1f"
   },

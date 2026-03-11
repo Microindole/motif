@@ -1,6 +1,8 @@
 {
   "color": {
-    "primary": "#0f6cbd"
+    "primary": "#0f6cbd",
+    "surface": "#f3f3f3",
+    "text": "#1f1f1f"
   },
   "space": {
     "md": "1rem",
@@ -8,5 +10,8 @@
   },
   "outline": {
     "focus-width": "2px"
+  },
+  "radius": {
+    "md": "8px"
   }
 }

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>motif native theme demo</title>
+    <link rel="stylesheet" href="./motif.css" />
+    <style>
+      body {
+        margin: 0;
+        font-family: "Segoe UI", sans-serif;
+        background: linear-gradient(180deg, #e9eef7 0%, #ffffff 100%);
+      }
+      .shell {
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 24px;
+        padding: 32px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <section class="f-surface f-stack">
+        <h2 class="f-text-primary">Win11 preset</h2>
+        <p>Soft surface, restrained radius, Fluent blue focus treatment.</p>
+        <button class="focus:f-ring hover:f-bg-primary">Fluent button</button>
+      </section>
+      <section class="m-surface f-stack dark:m-elevation-1">
+        <h2 class="m-text-primary">Google preset</h2>
+        <p>Clear primary color, stronger elevation, Material emphasis button.</p>
+        <button class="m-bg-primary m-text-on-primary active:m-shadow-2">Material button</button>
+      </section>
+    </main>
+  </body>
+</html>

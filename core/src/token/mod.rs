@@ -13,6 +13,7 @@ pub struct FluentTokens {
     pub color: BTreeMap<String, String>,
     pub space: BTreeMap<String, String>,
     pub outline: BTreeMap<String, String>,
+    pub radius: BTreeMap<String, String>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Deserialize)]
