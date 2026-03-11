@@ -68,7 +68,13 @@ fn generates_expected_css_for_all_demo_scenarios() {
             .arg(&demo_dir)
             .arg(&output)
             .output()
-            .unwrap_or_else(|error| panic!("failed to run motif binary for {}: {}", demo_dir.display(), error));
+            .unwrap_or_else(|error| {
+                panic!(
+                    "failed to run motif binary for {}: {}",
+                    demo_dir.display(),
+                    error
+                )
+            });
 
         assert!(
             result.status.success(),
@@ -78,8 +84,13 @@ fn generates_expected_css_for_all_demo_scenarios() {
             String::from_utf8_lossy(&result.stderr)
         );
 
-        let css = fs::read_to_string(&output)
-            .unwrap_or_else(|error| panic!("failed to read generated css for {}: {}", demo_dir.display(), error));
+        let css = fs::read_to_string(&output).unwrap_or_else(|error| {
+            panic!(
+                "failed to read generated css for {}: {}",
+                demo_dir.display(),
+                error
+            )
+        });
         assert_demo_selectors(&css);
         if demo_dir.ends_with("variants") {
             assert_variant_selectors(&css);

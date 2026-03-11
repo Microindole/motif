@@ -5,10 +5,7 @@ use std::path::{Path, PathBuf};
 
 #[derive(Debug)]
 pub enum WriteError {
-    Io {
-        path: PathBuf,
-        source: io::Error,
-    },
+    Io { path: PathBuf, source: io::Error },
 }
 
 impl fmt::Display for WriteError {

@@ -5,3 +5,5 @@ These fixtures are exercised by `core/tests/e2e_cli.rs`, which runs the real `mo
 The current e2e matrix covers `basic/`, `variants/`, `theme/`, and `workspace/` across `native`, `ts`, `react`, and `vue`.
 
 Build-level demo verification lives in `scripts/check-demo-builds.ps1`. It generates `motif.css`, installs demo dependencies, and runs each TS / React / Vue build.
+
+Repository-wide hard gates live in `scripts/check-quality.ps1`, which is also the entry point used by the `quality` GitHub Actions workflow.

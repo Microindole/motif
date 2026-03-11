@@ -33,9 +33,7 @@ pub struct MaterialTokens {
 
 #[derive(Debug)]
 pub enum TokenError {
-    Parse {
-        source: serde_json::Error,
-    },
+    Parse { source: serde_json::Error },
 }
 
 impl fmt::Display for TokenError {
@@ -51,8 +49,9 @@ impl std::error::Error for TokenError {}
 pub fn load_registry() -> Result<TokenRegistry, TokenError> {
     let fluent = serde_json::from_str::<FluentTokens>(include_str!("../../../tokens/fluent.json"))
         .map_err(|source| TokenError::Parse { source })?;
-    let material = serde_json::from_str::<MaterialTokens>(include_str!("../../../tokens/material.json"))
-        .map_err(|source| TokenError::Parse { source })?;
+    let material =
+        serde_json::from_str::<MaterialTokens>(include_str!("../../../tokens/material.json"))
+            .map_err(|source| TokenError::Parse { source })?;
 
     Ok(TokenRegistry { fluent, material })
 }

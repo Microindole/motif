@@ -1,0 +1,37 @@
+version: 2
+updates:
+  - package-ecosystem: cargo
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+
+  - package-ecosystem: npm
+    directories:
+      - /demo/ts/basic
+      - /demo/ts/variants
+      - /demo/ts/theme
+      - /demo/ts/workspace
+      - /demo/react/basic
+      - /demo/react/variants
+      - /demo/react/theme
+      - /demo/react/workspace
+      - /demo/vue/basic
+      - /demo/vue/variants
+      - /demo/vue/theme
+      - /demo/vue/workspace
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies

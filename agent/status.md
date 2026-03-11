@@ -3,7 +3,7 @@
 更新时间：2026-03-11
 
 ## 当前阶段
-- P0：最小扫描到 CSS 输出闭环、双 preset、四类 demo、token 驱动、e2e、构建级验证，以及真实页面高频语义的第一轮落地
+- P0：最小扫描到 CSS 输出闭环、双 preset、四类 demo、token 驱动、e2e、构建级验证，以及 AI 熵增防护的第一轮质量闸门落地
 
 ## 当前已完成
 - 已建立顶层目录：`agent/` `core/` `web/` `demo/` `cases/` `tests/` `tokens/`
@@ -14,6 +14,7 @@
 - 已实现最小 DSL 解析：拆解变体、风格前缀、utility、value，并限制 `hover:` `focus:` `active:` `dark:`
 - 已明确当前只支持两个内建 preset：`f-` 为 Win11 向，`m-` 为 Google 向
 - 已建立产品入口文档：`agent/product.md`
+- 已建立质量纲领文档：`agent/quality.md`
 - 已实现最小 token 数据：`tokens/fluent.json` 与 `tokens/material.json`
 - 已将 token 扩展到 color、surface、radius、shadow、typography、motion、border、space 等维度
 - 已实现最小白名单规则映射，并由 token 驱动颜色、间距、圆角、阴影、字体、状态反馈等值
@@ -30,19 +31,24 @@
 - 已补 token 载入测试并验证通过：`cargo test -p motif-core`
 - 已补 CLI 端到端测试：覆盖 `cases/` 与四类 `demo/` 的 `basic/` / `variants/` / `theme/` / `workspace/` 场景 CSS 生成结果
 - 已补 demo 构建检查脚本：`scripts/check-demo-builds.ps1`
+- 已补质量闸门脚本：`scripts/check-quality.ps1`
+- 已补 GitHub Actions：`quality`、`coverage`、`CodeQL`
+- 已补 Dependabot 配置与 PR 模板
 - 已完成一次 TS / React / Vue demo 全量构建级验证：`basic/`、`variants/`、`theme/`、`workspace/` 均可安装依赖并成功 build
 
 ## 当前优先级
-1. 继续把两套 preset 做得更像 Win11 与 Google 风格
-2. 把 `field` / `action` / `divider` / `label` 继续做细，让真实页面更稳
-3. 为 token 数据增加更清晰的 schema 与字段约束
-4. 评估是否需要把 demo 构建检查接进固定检查流程
+1. 把质量闸门在 GitHub 仓库设置中真正接成 required checks
+2. 继续把两套 preset 做得更像 Win11 与 Google 风格
+3. 把 `field` / `action` / `divider` / `label` 继续做细，让真实页面更稳
+4. 为 token 数据增加更清晰的 schema 与字段约束
 
 ## 当前阻塞
+- FIXME: 当前质量闸门已在仓库中落地，但 GitHub 分支保护和 CodeQL / Dependabot 的仓库级启用仍需在仓库设置里打开。
 - FIXME: 当前 preset 已能看出较明显差异，但 Win11 向的云母/亚克力层次与 Google 向的完整 container / field / action 系统仍是第一版。
 
 ## 当前待办
+- TODO: 在 GitHub 仓库设置中启用 required checks、审查要求与分支保护。
 - TODO: 继续扩展 `f-` 的 mica / acrylic / border / hover / field 细节。
 - TODO: 继续扩展 `m-` 的 container / shape / typography / field / action 层次。
 - TODO: 为 token 数据增加更清晰的 schema 与字段约束。
-- TODO: 决定是否将 `scripts/check-demo-builds.ps1` 接入统一检查入口。
+- TODO: 评估 diff coverage、重复代码检测与架构边界检查。

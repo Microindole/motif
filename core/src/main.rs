@@ -30,7 +30,10 @@ struct RunSummary {
     output_path: PathBuf,
 }
 
-fn run(root: &std::path::Path, output_path: Option<&std::path::Path>) -> Result<RunSummary, String> {
+fn run(
+    root: &std::path::Path,
+    output_path: Option<&std::path::Path>,
+) -> Result<RunSummary, String> {
     let scan_result = scan::scan_root(root).map_err(|error| error.to_string())?;
     let token_registry = token::load_registry().map_err(|error| error.to_string())?;
 

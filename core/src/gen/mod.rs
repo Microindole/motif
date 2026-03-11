@@ -27,9 +27,17 @@ fn render_rule(rule: &RuleMatch) -> String {
         }
     }
 
-    let block = format!("{selector}{pseudo_suffix} {{\n{body}\n}}", selector = selector, pseudo_suffix = pseudo_suffix, body = body);
+    let block = format!(
+        "{selector}{pseudo_suffix} {{\n{body}\n}}",
+        selector = selector,
+        pseudo_suffix = pseudo_suffix,
+        body = body
+    );
     if is_dark {
-        format!("@media (prefers-color-scheme: dark) {{\n{}}}\n", indent(&block, 2).trim_end())
+        format!(
+            "@media (prefers-color-scheme: dark) {{\n{}}}\n",
+            indent(&block, 2).trim_end()
+        )
     } else {
         block
     }

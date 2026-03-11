@@ -5,7 +5,14 @@ use std::io;
 use std::path::{Path, PathBuf};
 
 const SUPPORTED_EXTENSIONS: &[&str] = &["html", "jsx", "ts", "tsx", "vue", "svelte"];
-const SKIP_DIRECTORIES: &[&str] = &[".git", "node_modules", "target", "dist", "build", "coverage"];
+const SKIP_DIRECTORIES: &[&str] = &[
+    ".git",
+    "node_modules",
+    "target",
+    "dist",
+    "build",
+    "coverage",
+];
 
 #[derive(Debug)]
 pub struct ScanResult {
@@ -15,10 +22,7 @@ pub struct ScanResult {
 
 #[derive(Debug)]
 pub enum ScanError {
-    Io {
-        path: PathBuf,
-        source: io::Error,
-    },
+    Io { path: PathBuf, source: io::Error },
 }
 
 impl fmt::Display for ScanError {
