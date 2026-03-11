@@ -2,7 +2,7 @@ use crate::utils::{path_from_repo, read_lines};
 use std::collections::BTreeMap;
 use std::path::Path;
 
-pub fn run_static_checks(
+pub fn run_core_checks(
     root: &Path,
     tracked: &[String],
     failures: &mut Vec<String>,
