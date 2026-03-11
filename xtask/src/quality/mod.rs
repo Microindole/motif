@@ -1,0 +1,68 @@
+mod checks;
+
+use crate::demo_builds;
+use crate::utils::repo_root;
+
+pub fn run() -> Result<(), String> {
+    let root = repo_root();
+    let tracked = crate::utils::tracked_files(&root)?;
+
+    let mut failures = Vec::new();
+    let mut warnings = Vec::new();
+
+    checks::run_static_checks(&root, &tracked, &mut failures, &mut warnings)?;
+
+    if let Err(error) = crate::utils::run_step(
+        "cargo fmt --all --check",
+        "cargo",
+        &["fmt", "--all", "--check"],
+        &root,
+    ) {
+        failures.push(error);
+    }
+    if let Err(error) = crate::utils::run_step(
+        "cargo clippy --workspace --all-targets --all-features -- -D warnings",
+        "cargo",
+        &[
+            "clippy",
+            "--workspace",
+            "--all-targets",
+            "--all-features",
+            "--",
+            "-D",
+            "warnings",
+        ],
+        &root,
+    ) {
+        failures.push(error);
+    }
+    if let Err(error) = crate::utils::run_step(
+        "cargo test -p motif-core",
+        "cargo",
+        &["test", "-p", "motif-core"],
+        &root,
+    ) {
+        failures.push(error);
+    }
+    if let Err(error) = demo_builds::run() {
+        failures.push(error);
+    }
+
+    if !warnings.is_empty() {
+        println!("\nSoft warnings:");
+        for warning in warnings {
+            println!("- {warning}");
+        }
+    }
+
+    if failures.is_empty() {
+        println!("\nquality checks passed");
+        Ok(())
+    } else {
+        println!("\nHard gate failures:");
+        for failure in failures {
+            println!("- {failure}");
+        }
+        Err("quality checks failed".to_string())
+    }
+}

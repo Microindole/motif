@@ -1,76 +1,21 @@
-use crate::demo_builds;
-use crate::utils::{path_from_repo, read_lines, repo_root, run_step, tracked_files};
+use crate::utils::{path_from_repo, read_lines};
 use std::collections::BTreeMap;
 use std::path::Path;
 
-pub fn run() -> Result<(), String> {
-    let root = repo_root();
-    let tracked = tracked_files(&root)?;
-
-    let mut failures = Vec::new();
-    let mut warnings = Vec::new();
-
-    test_generated_artifacts(&tracked, &mut failures);
-    test_file_line_limits(&root, &tracked, &mut failures, &mut warnings)?;
-    test_directory_flatness(&tracked, &mut failures);
-    test_forbidden_patterns(&root, &tracked, &mut failures)?;
-    test_context_docs(&root, &mut failures)?;
-    test_naming_patterns(&tracked, &mut warnings);
-    test_comment_heuristics(&root, &tracked, &mut warnings)?;
-
-    if let Err(error) = run_step(
-        "cargo fmt --all --check",
-        "cargo",
-        &["fmt", "--all", "--check"],
-        &root,
-    ) {
-        failures.push(error);
-    }
-    if let Err(error) = run_step(
-        "cargo clippy --workspace --all-targets --all-features -- -D warnings",
-        "cargo",
-        &[
-            "clippy",
-            "--workspace",
-            "--all-targets",
-            "--all-features",
-            "--",
-            "-D",
-            "warnings",
-        ],
-        &root,
-    ) {
-        failures.push(error);
-    }
-    if let Err(error) = run_step(
-        "cargo test -p motif-core",
-        "cargo",
-        &["test", "-p", "motif-core"],
-        &root,
-    ) {
-        failures.push(error);
-    }
-    if let Err(error) = demo_builds::run() {
-        failures.push(error);
-    }
-
-    if !warnings.is_empty() {
-        println!("\nSoft warnings:");
-        for warning in warnings {
-            println!("- {warning}");
-        }
-    }
-
-    if failures.is_empty() {
-        println!("\nquality checks passed");
-        Ok(())
-    } else {
-        println!("\nHard gate failures:");
-        for failure in failures {
-            println!("- {failure}");
-        }
-        Err("quality checks failed".to_string())
-    }
+pub fn run_static_checks(
+    root: &Path,
+    tracked: &[String],
+    failures: &mut Vec<String>,
+    warnings: &mut Vec<String>,
+) -> Result<(), String> {
+    test_generated_artifacts(tracked, failures);
+    test_file_line_limits(root, tracked, failures, warnings)?;
+    test_directory_flatness(tracked, failures);
+    test_forbidden_patterns(root, tracked, failures)?;
+    test_context_docs(root, failures)?;
+    test_naming_patterns(tracked, warnings);
+    test_comment_heuristics(root, tracked, warnings)?;
+    Ok(())
 }
 
 fn test_generated_artifacts(tracked: &[String], failures: &mut Vec<String>) {
@@ -278,13 +223,17 @@ fn test_comment_heuristics(
     warnings: &mut Vec<String>,
 ) -> Result<(), String> {
     for file in tracked {
+        let path = path_from_repo(root, file);
+        if !path.is_file() {
+            continue;
+        }
         let is_source = [".rs", ".ts", ".tsx", ".vue", ".ps1"]
             .iter()
             .any(|ext| file.ends_with(ext));
         if !is_source {
             continue;
         }
-        let lines = read_lines(&path_from_repo(root, file))?;
+        let lines = read_lines(&path)?;
         if lines.len() < 25 {
             continue;
         }
