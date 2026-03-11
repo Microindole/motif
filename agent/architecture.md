@@ -13,6 +13,7 @@
 - 第二层：场景名，例如 `basic/` `variants/` `theme/`
 - `cases/` 放最小扫描输入；`demo/` 放面向人看的最小可用示例
 - 每个 demo 目录可单独运行 `cargo run -p motif-core -- .` 生成本目录的 `motif.css`
+- `variants/` 用于覆盖 `focus:` `hover:` `active:` `dark:` 这类已支持变体
 
 ## core 结构
 - `src/lib.rs`：库入口，暴露扫描、解析、规则、生成、token、输出模块
@@ -36,6 +37,7 @@
 - `core/tests/e2e_cli.rs` 运行真实 `motif` 二进制
 - `tests/e2e/` 保存 e2e 说明与后续夹具
 - e2e 通过临时输出文件断言 CSS 结果，不污染仓库目录
+- 当前 e2e 覆盖 `cases/` 与四类 `demo/` 的 `basic/` / `variants/` 场景
 
 ## 主链路
 1. 扫描输入文件

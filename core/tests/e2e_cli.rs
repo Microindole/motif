@@ -14,29 +14,46 @@ fn generates_expected_css_for_cases_directory() {
         .output()
         .expect("failed to run motif binary for cases");
 
-    assert!(result.status.success(), "stdout: {}\nstderr: {}", String::from_utf8_lossy(&result.stdout), String::from_utf8_lossy(&result.stderr));
+    assert!(
+        result.status.success(),
+        "stdout: {}\nstderr: {}",
+        String::from_utf8_lossy(&result.stdout),
+        String::from_utf8_lossy(&result.stderr)
+    );
 
     let css = fs::read_to_string(&output).expect("failed to read generated css for cases");
-    assert!(css.contains(".f-stack {"));
-    assert!(css.contains(".focus\\:f-ring:focus {"));
-    assert!(css.contains(".hover\\:f-bg-primary:hover {"));
-    assert!(css.contains(".m-surface {"));
+    assert_case_selectors(&css);
+    assert_variant_selectors(&css);
 
     cleanup_file(&output);
 }
 
 #[test]
-fn generates_expected_css_for_all_demo_variants() {
+fn generates_expected_css_for_all_demo_scenarios() {
     let repo_root = repo_root();
     let demos = [
         repo_root.join("demo").join("native").join("basic"),
+        repo_root.join("demo").join("native").join("variants"),
         repo_root.join("demo").join("ts").join("basic"),
+        repo_root.join("demo").join("ts").join("variants"),
         repo_root.join("demo").join("react").join("basic"),
+        repo_root.join("demo").join("react").join("variants"),
         repo_root.join("demo").join("vue").join("basic"),
+        repo_root.join("demo").join("vue").join("variants"),
     ];
 
     for demo_dir in demos {
-        let output = temp_output_path(demo_dir.file_name().and_then(|v| v.to_str()).unwrap_or("demo"));
+        let label = demo_dir
+            .components()
+            .rev()
+            .take(2)
+            .filter_map(|component| component.as_os_str().to_str())
+            .collect::<Vec<_>>()
+            .into_iter()
+            .rev()
+            .collect::<Vec<_>>()
+            .join("-");
+        let output = temp_output_path(&label);
         let result = Command::new(env!("CARGO_BIN_EXE_motif"))
             .arg(&demo_dir)
             .arg(&output)
@@ -53,14 +70,33 @@ fn generates_expected_css_for_all_demo_variants() {
 
         let css = fs::read_to_string(&output)
             .unwrap_or_else(|error| panic!("failed to read generated css for {}: {}", demo_dir.display(), error));
-        assert!(css.contains(".f-stack {"), "demo={} css={}", demo_dir.display(), css);
-        assert!(css.contains(".f-text-primary {"), "demo={} css={}", demo_dir.display(), css);
-        assert!(css.contains(".focus\\:f-ring:focus {"), "demo={} css={}", demo_dir.display(), css);
-        assert!(css.contains(".hover\\:f-bg-primary:hover {"), "demo={} css={}", demo_dir.display(), css);
-        assert!(css.contains(".m-surface {"), "demo={} css={}", demo_dir.display(), css);
+        assert_demo_selectors(&css);
+        if demo_dir.ends_with("variants") {
+            assert_variant_selectors(&css);
+        }
 
         cleanup_file(&output);
     }
+}
+
+fn assert_case_selectors(css: &str) {
+    assert!(css.contains(".f-stack {"));
+    assert!(css.contains(".focus\\:f-ring:focus {"));
+    assert!(css.contains(".hover\\:f-bg-primary:hover {"));
+    assert!(css.contains(".m-surface {"));
+}
+
+fn assert_demo_selectors(css: &str) {
+    assert_case_selectors(css);
+    assert!(css.contains(".f-text-primary {"));
+}
+
+fn assert_variant_selectors(css: &str) {
+    assert!(css.contains(".active\\:m-shadow-2:active {"));
+    assert!(css.contains("box-shadow: 0 2px 6px rgba(0, 0, 0, 0.24);"));
+    assert!(css.contains("@media (prefers-color-scheme: dark) {"));
+    assert!(css.contains(".dark\\:m-elevation-1 {"));
+    assert!(css.contains("box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);"));
 }
 
 fn repo_root() -> PathBuf {
