@@ -1,4 +1,5 @@
 mod checks;
+mod duplicates;
 
 use crate::demo_builds;
 use crate::utils::repo_root;
@@ -10,7 +11,8 @@ pub fn run() -> Result<(), String> {
     let mut failures = Vec::new();
     let mut warnings = Vec::new();
 
-    checks::run_static_checks(&root, &tracked, &mut failures, &mut warnings)?;
+    checks::run_core_checks(&root, &tracked, &mut failures, &mut warnings)?;
+    duplicates::test_duplicate_blocks(&root, &tracked, &mut warnings)?;
 
     if let Err(error) = crate::utils::run_step(
         "cargo fmt --all --check",

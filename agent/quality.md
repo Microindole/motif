@@ -36,6 +36,10 @@
 - `cargo test -p motif-core`
 - `cargo run -p xtask -- demo-builds`
 
+### 覆盖率
+- 总体行覆盖率不得低于 `70%`
+- PR diff coverage 不得低于 `80%`
+
 ### 结构约束
 - `core/src/**/*.rs` 单文件不得超过 `320` 行
 - `core/tests/**/*.rs` 单文件不得超过 `420` 行
@@ -69,6 +73,11 @@
 - `helper` `util` `manager` `service` `handler` `processor` `temp` `misc` `final` `old` `new` 这类命名出现过多时告警
 - 目的是抓住 AI 横向复制概念而不抽象的趋势
 
+### 重复代码
+- 当前对 `core/` `xtask/` `scripts/` 做精确重复块探测
+- 重复窗口命中时先告警，不立即阻止合并
+- 目的是先发现 AI copy-paste 蔓延，再视噪音情况决定是否升级为 hard gate
+
 ### 单一职责代理指标
 当前暂不做硬卡，但 review 时要特别关注：
 - 一个文件同时做扫描、解析、IO、格式化、规则映射
@@ -101,8 +110,7 @@
 - Block deletions
 
 ## 下一步可升级项
-- diff coverage 下限
-- 重复代码检测
+- 将重复代码检测视噪音情况升级为 hard gate
 - 架构边界检查，例如 `rule` 不做 IO、`scan` 不依赖 `gen`
 - 依赖膨胀检查
 - 变更规模检查
