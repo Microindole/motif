@@ -2,6 +2,7 @@ use crate::parse::{Family, ParsedClass, Variant};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct RuleMatch {
+    pub raw_class_name: String,
     pub family: Family,
     pub variants: Vec<Variant>,
     pub utility: String,
@@ -66,6 +67,7 @@ pub fn resolve_rule(parsed: &ParsedClass) -> Option<RuleMatch> {
     };
 
     Some(RuleMatch {
+        raw_class_name: parsed.raw.clone(),
         family: parsed.family,
         variants: parsed.variants.clone(),
         utility: parsed.utility.clone(),
@@ -88,6 +90,7 @@ mod tests {
         let parsed = parse_class_name("hover:f-bg-primary").unwrap();
         let rule = resolve_rule(&parsed).unwrap();
 
+        assert_eq!(rule.raw_class_name, "hover:f-bg-primary");
         assert_eq!(rule.variants, parsed.variants);
         assert_eq!(rule.utility, "bg");
         assert_eq!(rule.value.as_deref(), Some("primary"));
