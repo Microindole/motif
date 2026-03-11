@@ -3,10 +3,15 @@
 ## 顶层结构
 - `core/`：CLI 与核心生成链路
 - `web/`：前端演示或交互界面
-- `demo/`：原生 / TS / React / Vue 示例
-- `cases/`：原生 / TS / React / Vue 测试输入
+- `demo/`：原生 / TS / React / Vue 示例，按 `framework/scenario` 组织
+- `cases/`：原生 / TS / React / Vue 测试输入，按 `framework/scenario` 组织
 - `tests/`：e2e 与回归断言
 - `tokens/`：Fluent / Material token 文件
+
+## demo / cases 约定
+- 第一层：`native/` `ts/` `react/` `vue/`
+- 第二层：场景名，例如 `basic/` `variants/` `theme/`
+- `cases/` 放最小扫描输入；`demo/` 放面向人看的最小可用示例
 
 ## core 结构
 - `src/main.rs`：CLI 入口
