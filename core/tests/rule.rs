@@ -57,6 +57,19 @@ fn resolves_material_primary_container() {
 }
 
 #[test]
+fn resolves_fluent_field_and_material_action_rules() {
+    let tokens = load_registry().unwrap();
+
+    let fluent_field = resolve_rule(&parse_class_name("f-field").unwrap(), &tokens).unwrap();
+    assert!(fluent_field.declarations.iter().any(|decl| decl.property == "border" && decl.value.contains("rgba(255, 255, 255, 0.9)")));
+    assert!(fluent_field.declarations.iter().any(|decl| decl.property == "background-color" && decl.value == "rgba(255, 255, 255, 0.72)"));
+
+    let material_action = resolve_rule(&parse_class_name("m-action-tonal").unwrap(), &tokens).unwrap();
+    assert!(material_action.declarations.iter().any(|decl| decl.property == "background-color" && decl.value == "#d3e3fd"));
+    assert!(material_action.declarations.iter().any(|decl| decl.property == "color" && decl.value == "#041e49"));
+}
+
+#[test]
 fn leaves_unknown_rule_unresolved() {
     let tokens = load_registry().unwrap();
     let parsed = parse_class_name("f-bg-secondary").unwrap();

@@ -25,6 +25,7 @@ fn generates_expected_css_for_cases_directory() {
     assert_case_selectors(&css);
     assert_variant_selectors(&css);
     assert_theme_selectors(&css);
+    assert_workspace_selectors(&css);
 
     cleanup_file(&output);
 }
@@ -36,15 +37,19 @@ fn generates_expected_css_for_all_demo_scenarios() {
         repo_root.join("demo").join("native").join("basic"),
         repo_root.join("demo").join("native").join("variants"),
         repo_root.join("demo").join("native").join("theme"),
+        repo_root.join("demo").join("native").join("workspace"),
         repo_root.join("demo").join("ts").join("basic"),
         repo_root.join("demo").join("ts").join("variants"),
         repo_root.join("demo").join("ts").join("theme"),
+        repo_root.join("demo").join("ts").join("workspace"),
         repo_root.join("demo").join("react").join("basic"),
         repo_root.join("demo").join("react").join("variants"),
         repo_root.join("demo").join("react").join("theme"),
+        repo_root.join("demo").join("react").join("workspace"),
         repo_root.join("demo").join("vue").join("basic"),
         repo_root.join("demo").join("vue").join("variants"),
         repo_root.join("demo").join("vue").join("theme"),
+        repo_root.join("demo").join("vue").join("workspace"),
     ];
 
     for demo_dir in demos {
@@ -82,6 +87,9 @@ fn generates_expected_css_for_all_demo_scenarios() {
         if demo_dir.ends_with("theme") {
             assert_theme_selectors(&css);
         }
+        if demo_dir.ends_with("workspace") {
+            assert_workspace_selectors(&css);
+        }
 
         cleanup_file(&output);
     }
@@ -117,6 +125,18 @@ fn assert_theme_selectors(css: &str) {
     assert!(css.contains(".m-bg-primary-container {"));
     assert!(css.contains("background-color: #d3e3fd;"));
     assert!(css.contains("color: #041e49;"));
+}
+
+fn assert_workspace_selectors(css: &str) {
+    assert!(css.contains(".f-label {"));
+    assert!(css.contains(".f-divider {"));
+    assert!(css.contains(".f-field {"));
+    assert!(css.contains(".f-action-primary {"));
+    assert!(css.contains(".m-label {"));
+    assert!(css.contains(".m-divider {"));
+    assert!(css.contains(".m-field {"));
+    assert!(css.contains(".m-action-primary {"));
+    assert!(css.contains(".m-action-tonal {"));
 }
 
 fn repo_root() -> PathBuf {

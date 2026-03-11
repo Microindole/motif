@@ -7,7 +7,16 @@
     "surface": "#ffffff",
     "surface-variant": "#eef3fd",
     "on-surface": "#1f1f1f",
-    "muted": "#5f6368"
+    "muted": "#5f6368",
+    "field": "#f8fafd"
+  },
+  "space": {
+    "field-pad": "0.875rem 1rem",
+    "action-pad": "0.85rem 1.2rem"
+  },
+  "border": {
+    "divider": "1px solid #dadce0",
+    "field": "1px solid #c7d2e5"
   },
   "radius": {
     "lg": "16px",
@@ -17,7 +26,9 @@
     "1": "0 1px 2px rgba(60, 64, 67, 0.24)",
     "2": "0 2px 6px rgba(60, 64, 67, 0.30)",
     "surface": "0 1px 3px rgba(60, 64, 67, 0.24)",
-    "container": "0 1px 2px rgba(60, 64, 67, 0.16)"
+    "container": "0 1px 2px rgba(60, 64, 67, 0.16)",
+    "field": "0 1px 2px rgba(60, 64, 67, 0.08)",
+    "action": "0 1px 2px rgba(26, 115, 232, 0.3)"
   },
   "typography": {
     "font-family": "'Google Sans', 'Roboto', sans-serif",
@@ -25,6 +36,8 @@
     "title-weight": "500",
     "body-size": "1rem",
     "body-weight": "400",
+    "label-size": "0.875rem",
+    "label-weight": "500",
     "line-height": "1.5",
     "tracking": "0.01em"
   },

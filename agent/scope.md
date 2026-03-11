@@ -12,8 +12,9 @@
 - 当前固定提供两个 preset：`f-` 为 Win11 向，`m-` 为 Google 向
 - `demo/` 提供原生、TS、React、Vue 四类最小可用示例
 - `cases/` 提供原生、TS、React、Vue 四类最小扫描输入
-- 当前白名单规则至少由 `tokens/fluent.json` 与 `tokens/material.json` 驱动颜色、间距、圆角、阴影等核心值
+- 当前白名单规则至少由 `tokens/fluent.json` 与 `tokens/material.json` 驱动颜色、间距、圆角、阴影、排版、边框等核心值
 - 提供 `theme/` 场景，直观看到两套 preset 的视觉差异
+- 提供 `workspace/` 场景，验证标题、标签、分隔线、输入、主操作等真实页面高频语义
 
 ## v0.1 非目标
 - AST 级复杂表达式求值
