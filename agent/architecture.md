@@ -32,6 +32,11 @@
 - `tokens/material.json`：Material 最小 token 集
 - v0.1 先由 CLI 内嵌加载 JSON，再逐步扩展为更完整的数据驱动规则
 
+## e2e 约定
+- `core/tests/e2e_cli.rs` 运行真实 `motif` 二进制
+- `tests/e2e/` 保存 e2e 说明与后续夹具
+- e2e 通过临时输出文件断言 CSS 结果，不污染仓库目录
+
 ## 主链路
 1. 扫描输入文件
 2. 提取静态类名
