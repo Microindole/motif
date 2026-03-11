@@ -7,13 +7,17 @@
     "muted": "#5f5f5f",
     "border": "rgba(255, 255, 255, 0.65)",
     "border-strong": "rgba(255, 255, 255, 0.9)",
-    "hover-primary": "#115ea3"
+    "hover-primary": "#115ea3",
+    "field": "rgba(255, 255, 255, 0.72)",
+    "action-foreground": "#ffffff"
   },
   "space": {
     "md": "1rem",
     "focus-offset": "2px",
     "surface-pad": "1.25rem",
-    "surface-pad-sm": "0.9rem"
+    "surface-pad-sm": "0.9rem",
+    "field-pad": "0.75rem 0.9rem",
+    "action-pad": "0.8rem 1.05rem"
   },
   "outline": {
     "focus-width": "2px"
@@ -28,15 +32,21 @@
     "title-weight": "600",
     "body-size": "0.95rem",
     "body-weight": "400",
+    "label-size": "0.875rem",
+    "label-weight": "600",
     "line-height": "1.5",
     "tracking": "0"
   },
   "border": {
-    "subtle-width": "1px"
+    "subtle-width": "1px",
+    "divider": "1px solid rgba(255, 255, 255, 0.8)",
+    "field": "1px solid rgba(255, 255, 255, 0.9)"
   },
   "shadow": {
     "surface": "0 8px 24px rgba(0, 0, 0, 0.08)",
-    "surface-alt": "0 12px 32px rgba(0, 0, 0, 0.12)"
+    "surface-alt": "0 12px 32px rgba(0, 0, 0, 0.12)",
+    "field": "inset 0 1px 0 rgba(255, 255, 255, 0.55)",
+    "action": "0 4px 12px rgba(15, 108, 189, 0.28)"
   },
   "motion": {
     "duration": "160ms",
