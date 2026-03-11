@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>motif native variants demo</title>
+    <link rel="stylesheet" href="./motif.css" />
+    <style>
+      body {
+        margin: 0;
+        font-family: "Segoe UI", sans-serif;
+        background: linear-gradient(180deg, #eef3ff 0%, #ffffff 100%);
+        color: #1f1f1f;
+      }
+
+      .shell {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 32px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <section class="m-surface f-stack dark:m-elevation-1">
+        <h1 class="f-text-primary">motif native variants</h1>
+        <p>Focus, hover, active and dark rules are all present in this scenario.</p>
+        <button class="focus:f-ring hover:f-bg-primary active:m-shadow-2">Native variants</button>
+      </section>
+    </main>
+  </body>
+</html>
