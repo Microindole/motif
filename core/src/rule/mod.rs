@@ -70,6 +70,17 @@ pub fn resolve_rule(parsed: &ParsedClass, tokens: &TokenRegistry) -> Option<Rule
             token_declaration("box-shadow", tokens.fluent.shadow.get("surface")?),
             declaration("backdrop-filter", "blur(18px) saturate(1.15)"),
         ],
+        (Family::Fluent, "surface", Some("alt")) => vec![
+            token_declaration("background-color", tokens.fluent.color.get("surface-alt")?),
+            token_declaration("color", tokens.fluent.color.get("text")?),
+            token_declaration("border-radius", tokens.fluent.radius.get("sm")?),
+            token_declaration("padding", tokens.fluent.space.get("surface-pad-sm")?),
+            token_declaration("border-width", tokens.fluent.border.get("subtle-width")?),
+            declaration("border-style", "solid"),
+            token_declaration("border-color", tokens.fluent.color.get("border-strong")?),
+            token_declaration("box-shadow", tokens.fluent.shadow.get("surface-alt")?),
+            declaration("backdrop-filter", "blur(28px) saturate(1.25)"),
+        ],
         (Family::Fluent, "title", None) => vec![
             token_declaration("font-family", tokens.fluent.typography.get("font-family")?),
             token_declaration("font-size", tokens.fluent.typography.get("title-size")?),
@@ -91,12 +102,25 @@ pub fn resolve_rule(parsed: &ParsedClass, tokens: &TokenRegistry) -> Option<Rule
             declaration("padding", "1.25rem"),
             token_declaration("box-shadow", tokens.material.shadow.get("surface")?),
         ],
+        (Family::Material, "surface", Some("variant")) => vec![
+            token_declaration("background-color", tokens.material.color.get("surface-variant")?),
+            token_declaration("color", tokens.material.color.get("on-surface")?),
+            token_declaration("border-radius", tokens.material.radius.get("lg")?),
+            declaration("padding", "1rem"),
+            token_declaration("box-shadow", tokens.material.shadow.get("container")?),
+        ],
         (Family::Material, "bg", Some("primary")) => vec![
             token_declaration("background-color", tokens.material.color.get("primary")?),
             token_declaration("color", tokens.material.color.get("on-primary")?),
             token_declaration("border-radius", tokens.material.radius.get("pill")?),
             token_declaration("transition-duration", tokens.material.motion.get("duration")?),
             token_declaration("transition-timing-function", tokens.material.motion.get("easing")?),
+        ],
+        (Family::Material, "bg", Some("primary-container")) => vec![
+            token_declaration("background-color", tokens.material.color.get("primary-container")?),
+            token_declaration("color", tokens.material.color.get("on-primary-container")?),
+            token_declaration("border-radius", tokens.material.radius.get("lg")?),
+            token_declaration("box-shadow", tokens.material.shadow.get("container")?),
         ],
         (Family::Material, "text", Some("primary")) => {
             vec![token_declaration("color", tokens.material.color.get("primary")?)]

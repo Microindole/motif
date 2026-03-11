@@ -110,14 +110,13 @@ fn assert_variant_selectors(css: &str) {
 fn assert_theme_selectors(css: &str) {
     assert!(css.contains(".f-surface {"));
     assert!(css.contains("backdrop-filter: blur(18px) saturate(1.15);"));
-    assert!(css.contains("border-color: rgba(255, 255, 255, 0.65);"));
-    assert!(css.contains(".f-title {"));
-    assert!(css.contains("font-family: 'Segoe UI', 'Segoe UI Variable', sans-serif;"));
-    assert!(css.contains(".m-bg-primary {"));
-    assert!(css.contains("background-color: #1a73e8;"));
-    assert!(css.contains("border-radius: 999px;"));
-    assert!(css.contains(".m-title {"));
-    assert!(css.contains("font-family: 'Google Sans', 'Roboto', sans-serif;"));
+    assert!(css.contains(".f-surface-alt {"));
+    assert!(css.contains("backdrop-filter: blur(28px) saturate(1.25);"));
+    assert!(css.contains(".m-surface-variant {"));
+    assert!(css.contains("background-color: #eef3fd;"));
+    assert!(css.contains(".m-bg-primary-container {"));
+    assert!(css.contains("background-color: #d3e3fd;"));
+    assert!(css.contains("color: #041e49;"));
 }
 
 fn repo_root() -> PathBuf {
