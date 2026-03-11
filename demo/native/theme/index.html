@@ -8,8 +8,7 @@
     <style>
       body {
         margin: 0;
-        font-family: "Segoe UI", sans-serif;
-        background: linear-gradient(180deg, #e9eef7 0%, #ffffff 100%);
+        background: radial-gradient(circle at top, #eef3fb 0%, #ffffff 60%);
       }
       .shell {
         min-height: 100vh;
@@ -18,19 +17,26 @@
         gap: 24px;
         padding: 32px;
       }
+      .hero-button {
+        border: 0;
+        padding: 0.85rem 1.25rem;
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
     <main class="shell">
       <section class="f-surface f-stack">
-        <h2 class="f-text-primary">Win11 preset</h2>
-        <p>Soft surface, restrained radius, Fluent blue focus treatment.</p>
-        <button class="focus:f-ring hover:f-bg-primary">Fluent button</button>
+        <span class="f-text-muted f-body">Win11 preset</span>
+        <h2 class="f-text-primary f-title">Mica-like surface, restrained corners</h2>
+        <p class="f-text-muted f-body">This preset should feel calmer, lighter, and more desktop-like, with subtle borders and a clear focus ring.</p>
+        <button class="hero-button focus:f-ring hover:f-bg-primary">Fluent button</button>
       </section>
       <section class="m-surface f-stack dark:m-elevation-1">
-        <h2 class="m-text-primary">Google preset</h2>
-        <p>Clear primary color, stronger elevation, Material emphasis button.</p>
-        <button class="m-bg-primary m-text-on-primary active:m-shadow-2">Material button</button>
+        <span class="m-text-muted m-body">Google preset</span>
+        <h2 class="m-text-primary m-title">Bolder color roles, fuller rounded action</h2>
+        <p class="m-text-muted m-body">This preset should feel clearer and more direct, with stronger primary emphasis and fuller rounded shape.</p>
+        <button class="hero-button m-bg-primary m-text-on-primary active:m-shadow-2">Material button</button>
       </section>
     </main>
   </body>

@@ -46,32 +46,81 @@ pub fn resolve_rule(parsed: &ParsedClass, tokens: &TokenRegistry) -> Option<Rule
             declaration("outline-style", "solid"),
             token_declaration("outline-color", tokens.fluent.color.get("primary")?),
             token_declaration("outline-offset", tokens.fluent.space.get("focus-offset")?),
+            token_declaration("transition-duration", tokens.fluent.motion.get("duration")?),
+            token_declaration("transition-timing-function", tokens.fluent.motion.get("easing")?),
         ],
-        (Family::Fluent, "bg", Some("primary")) => {
-            vec![token_declaration("background-color", tokens.fluent.color.get("primary")?)]
-        }
+        (Family::Fluent, "bg", Some("primary")) => vec![
+            token_declaration("background-color", tokens.fluent.color.get("primary")?),
+            declaration("color", "#ffffff"),
+        ],
         (Family::Fluent, "text", Some("primary")) => {
             vec![token_declaration("color", tokens.fluent.color.get("primary")?)]
+        }
+        (Family::Fluent, "text", Some("muted")) => {
+            vec![token_declaration("color", tokens.fluent.color.get("muted")?)]
         }
         (Family::Fluent, "surface", None) => vec![
             token_declaration("background-color", tokens.fluent.color.get("surface")?),
             token_declaration("color", tokens.fluent.color.get("text")?),
             token_declaration("border-radius", tokens.fluent.radius.get("md")?),
+            token_declaration("padding", tokens.fluent.space.get("surface-pad")?),
+            token_declaration("border-width", tokens.fluent.border.get("subtle-width")?),
+            declaration("border-style", "solid"),
+            token_declaration("border-color", tokens.fluent.color.get("border")?),
+            token_declaration("box-shadow", tokens.fluent.shadow.get("surface")?),
+            declaration("backdrop-filter", "blur(18px) saturate(1.15)"),
+        ],
+        (Family::Fluent, "title", None) => vec![
+            token_declaration("font-family", tokens.fluent.typography.get("font-family")?),
+            token_declaration("font-size", tokens.fluent.typography.get("title-size")?),
+            token_declaration("font-weight", tokens.fluent.typography.get("title-weight")?),
+            token_declaration("line-height", tokens.fluent.typography.get("line-height")?),
+            token_declaration("letter-spacing", tokens.fluent.typography.get("tracking")?),
+        ],
+        (Family::Fluent, "body", None) => vec![
+            token_declaration("font-family", tokens.fluent.typography.get("font-family")?),
+            token_declaration("font-size", tokens.fluent.typography.get("body-size")?),
+            token_declaration("font-weight", tokens.fluent.typography.get("body-weight")?),
+            token_declaration("line-height", tokens.fluent.typography.get("line-height")?),
+            token_declaration("letter-spacing", tokens.fluent.typography.get("tracking")?),
         ],
         (Family::Material, "surface", None) => vec![
             token_declaration("background-color", tokens.material.color.get("surface")?),
             token_declaration("color", tokens.material.color.get("on-surface")?),
             token_declaration("border-radius", tokens.material.radius.get("lg")?),
+            declaration("padding", "1.25rem"),
+            token_declaration("box-shadow", tokens.material.shadow.get("surface")?),
         ],
-        (Family::Material, "bg", Some("primary")) => {
-            vec![token_declaration("background-color", tokens.material.color.get("primary")?)]
-        }
+        (Family::Material, "bg", Some("primary")) => vec![
+            token_declaration("background-color", tokens.material.color.get("primary")?),
+            token_declaration("color", tokens.material.color.get("on-primary")?),
+            token_declaration("border-radius", tokens.material.radius.get("pill")?),
+            token_declaration("transition-duration", tokens.material.motion.get("duration")?),
+            token_declaration("transition-timing-function", tokens.material.motion.get("easing")?),
+        ],
         (Family::Material, "text", Some("primary")) => {
             vec![token_declaration("color", tokens.material.color.get("primary")?)]
         }
         (Family::Material, "text", Some("on-primary")) => {
             vec![token_declaration("color", tokens.material.color.get("on-primary")?)]
         }
+        (Family::Material, "text", Some("muted")) => {
+            vec![token_declaration("color", tokens.material.color.get("muted")?)]
+        }
+        (Family::Material, "title", None) => vec![
+            token_declaration("font-family", tokens.material.typography.get("font-family")?),
+            token_declaration("font-size", tokens.material.typography.get("title-size")?),
+            token_declaration("font-weight", tokens.material.typography.get("title-weight")?),
+            token_declaration("line-height", tokens.material.typography.get("line-height")?),
+            token_declaration("letter-spacing", tokens.material.typography.get("tracking")?),
+        ],
+        (Family::Material, "body", None) => vec![
+            token_declaration("font-family", tokens.material.typography.get("font-family")?),
+            token_declaration("font-size", tokens.material.typography.get("body-size")?),
+            token_declaration("font-weight", tokens.material.typography.get("body-weight")?),
+            token_declaration("line-height", tokens.material.typography.get("line-height")?),
+            token_declaration("letter-spacing", tokens.material.typography.get("tracking")?),
+        ],
         (Family::Material, "elevation", Some("1")) => {
             vec![token_declaration("box-shadow", tokens.material.shadow.get("1")?)]
         }
