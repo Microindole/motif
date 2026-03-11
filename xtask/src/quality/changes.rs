@@ -1,4 +1,5 @@
 use crate::utils::command_output;
+use std::env;
 use std::path::Path;
 
 const WARN_CHANGED_FILES: usize = 12;
@@ -9,14 +10,15 @@ const WARN_DELETED_LINES: usize = 200;
 const FAIL_DELETED_LINES: usize = 500;
 
 pub fn test_change_size(root: &Path, failures: &mut Vec<String>, warnings: &mut Vec<String>) {
-    let Some(range) = diff_range(root) else {
-        warnings.push("change-size check skipped: no previous commit available".to_string());
+    let Some(spec) = diff_spec(root) else {
+        warnings.push("change-size check skipped: no usable diff base available".to_string());
         return;
     };
 
-    let Ok(output) = command_output("git", &["diff", "--numstat", &range], root) else {
+    let Ok(output) = command_output("git", &["diff", "--numstat", &spec.range], root) else {
         warnings.push(format!(
-            "change-size check skipped: failed to diff range {range}"
+            "change-size check skipped: failed to diff {}",
+            spec.label
         ));
         return;
     };
@@ -44,42 +46,121 @@ pub fn test_change_size(root: &Path, failures: &mut Vec<String>, warnings: &mut 
         deleted += remove.parse::<usize>().unwrap_or_default();
     }
 
-    if files > FAIL_CHANGED_FILES {
-        failures.push(format!(
-            "change set touches {files} files in {range}; hard limit is {FAIL_CHANGED_FILES}"
-        ));
-    } else if files > WARN_CHANGED_FILES {
-        warnings.push(format!(
-            "change set touches {files} files in {range}; consider splitting the work"
-        ));
-    }
-
-    if added > FAIL_ADDED_LINES {
-        failures.push(format!(
-            "change set adds {added} lines in {range}; hard limit is {FAIL_ADDED_LINES}"
-        ));
-    } else if added > WARN_ADDED_LINES {
-        warnings.push(format!(
-            "change set adds {added} lines in {range}; consider splitting the work"
-        ));
-    }
-
-    if deleted > FAIL_DELETED_LINES {
-        failures.push(format!(
-            "change set deletes {deleted} lines in {range}; hard limit is {FAIL_DELETED_LINES}"
-        ));
-    } else if deleted > WARN_DELETED_LINES {
-        warnings.push(format!(
-            "change set deletes {deleted} lines in {range}; consider splitting the work"
-        ));
-    }
+    report_metric(
+        "files",
+        files,
+        WARN_CHANGED_FILES,
+        FAIL_CHANGED_FILES,
+        &spec,
+        failures,
+        warnings,
+    );
+    report_metric(
+        "adds",
+        added,
+        WARN_ADDED_LINES,
+        FAIL_ADDED_LINES,
+        &spec,
+        failures,
+        warnings,
+    );
+    report_metric(
+        "deletes",
+        deleted,
+        WARN_DELETED_LINES,
+        FAIL_DELETED_LINES,
+        &spec,
+        failures,
+        warnings,
+    );
 }
 
-fn diff_range(root: &Path) -> Option<String> {
+struct DiffSpec {
+    range: String,
+    label: String,
+    hard_gate: bool,
+}
+
+fn diff_spec(root: &Path) -> Option<DiffSpec> {
+    if let Ok(base_ref) = env::var("GITHUB_BASE_REF") {
+        let remote_ref = format!("origin/{base_ref}");
+        if let Some(range) = merge_base_range(root, &remote_ref) {
+            return Some(DiffSpec {
+                range,
+                label: format!("merge-base with {remote_ref}"),
+                hard_gate: true,
+            });
+        }
+    }
+
     if command_output("git", &["rev-parse", "--verify", "HEAD~1"], root).is_ok() {
-        Some("HEAD~1..HEAD".to_string())
-    } else {
-        None
+        return Some(DiffSpec {
+            range: "HEAD~1..HEAD".to_string(),
+            label: "HEAD~1..HEAD".to_string(),
+            hard_gate: true,
+        });
+    }
+
+    let current_branch = command_output("git", &["rev-parse", "--abbrev-ref", "HEAD"], root)
+        .ok()
+        .map(|value| value.trim().to_string())
+        .unwrap_or_default();
+
+    if current_branch != "main" && current_branch != "master" {
+        for remote_ref in ["origin/main", "origin/master"] {
+            if let Some(range) = merge_base_range(root, remote_ref) {
+                return Some(DiffSpec {
+                    range,
+                    label: format!("merge-base with {remote_ref}"),
+                    hard_gate: false,
+                });
+            }
+        }
+    }
+
+    None
+}
+
+fn merge_base_range(root: &Path, target: &str) -> Option<String> {
+    command_output("git", &["rev-parse", "--verify", target], root).ok()?;
+    let base = command_output("git", &["merge-base", "HEAD", target], root)
+        .ok()?
+        .trim()
+        .to_string();
+    Some(format!("{base}..HEAD"))
+}
+
+fn report_metric(
+    label: &str,
+    value: usize,
+    warn_limit: usize,
+    fail_limit: usize,
+    spec: &DiffSpec,
+    failures: &mut Vec<String>,
+    warnings: &mut Vec<String>,
+) {
+    let verb = match label {
+        "files" => "touches",
+        "adds" => "adds",
+        "deletes" => "deletes",
+        _ => "changes",
+    };
+
+    if value > fail_limit {
+        let message = format!(
+            "change set {verb} {value} {label} in {}; hard limit is {fail_limit}",
+            spec.label
+        );
+        if spec.hard_gate {
+            failures.push(message);
+        } else {
+            warnings.push(format!("{message}; local branch signal only"));
+        }
+    } else if value > warn_limit {
+        warnings.push(format!(
+            "change set {verb} {value} {label} in {}; consider splitting the work",
+            spec.label
+        ));
     }
 }
 

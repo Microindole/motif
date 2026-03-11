@@ -3,7 +3,7 @@
 更新时间：2026-03-11
 
 ## 当前阶段
-- P0：最小扫描到 CSS 输出闭环、双 preset、四类 demo、token 驱动、e2e、构建级验证，以及 AI 熵增防护的第一轮质量闸门落地
+- P0：最小扫描到 CSS 输出闭环、双 preset、四类 demo、token 驱动、e2e、构建级验证，以及 AI 熵增防护的多轮质量闸门落地
 
 ## 当前已完成
 - 已建立顶层目录：`agent/` `core/` `web/` `demo/` `cases/` `tests/` `tokens/`
@@ -35,7 +35,11 @@
 - 已将 `scripts/check-quality.ps1` 与 `scripts/check-demo-builds.ps1` 收敛为本地包装
 - 已补 GitHub Actions：`quality`、`coverage`、`CodeQL`
 - 已补 Dependabot 配置与 PR 模板
-- 已完成一次 `cargo run -p xtask -- quality` 本地验证并通过`r`n- 已补质量闸门第三轮：依赖膨胀检查与最近提交变更规模检查
+- 已完成质量闸门第一轮：文件大小、目录扁平度、危险写法、文档入口一致性
+- 已完成质量闸门第二轮：diff coverage、重复代码软告警、架构边界、复杂度代理检查
+- 已完成质量闸门第三轮：依赖膨胀检查与变更规模检查
+- 已完成质量闸门第四轮：提交信息检查与 PR 基线优先的变更规模计算
+- 已完成多次 `cargo run -p xtask -- quality` 本地验证并通过
 
 ## 当前优先级
 1. 把质量闸门在 GitHub 仓库设置中真正接成 required checks
@@ -44,7 +48,7 @@
 4. 为 token 数据增加更清晰的 schema 与字段约束
 
 ## 当前阻塞
-- FIXME: 当前质量闸门已在仓库中落地，并已补上 diff coverage、重复代码软告警、架构边界和复杂度代理检查，但 GitHub 分支保护和 CodeQL / Dependabot 的仓库级启用仍需在仓库设置里打开。
+- FIXME: 当前质量闸门已在仓库中落地，并已补上 diff coverage、重复代码软告警、架构边界、复杂度代理、依赖膨胀、变更规模与提交信息检查，但 GitHub 分支保护和 CodeQL / Dependabot 的仓库级启用仍需在仓库设置里打开。
 - FIXME: 当前 preset 已能看出较明显差异，但 Win11 向的云母/亚克力层次与 Google 向的完整 container / field / action 系统仍是第一版。
 
 ## 当前待办
@@ -52,7 +56,5 @@
 - TODO: 继续扩展 `f-` 的 mica / acrylic / border / hover / field 细节。
 - TODO: 继续扩展 `m-` 的 container / shape / typography / field / action 层次。
 - TODO: 为 token 数据增加更清晰的 schema 与字段约束。
-- TODO: 继续把重复代码检测与复杂度代理检查调到低噪音，再决定哪些升级为 hard gate。
-- TODO: 继续观察依赖膨胀检查与变更规模检查的噪音，再决定哪些升级为 hard gate。`r`n- TODO: 评估提交规范检查与 diff 级依赖新增审查。
-
-
+- TODO: 继续把重复代码检测、复杂度代理检查、依赖膨胀检查与变更规模检查调到低噪音，再决定哪些升级为 hard gate。
+- TODO: 评估 PR 描述检查与 diff 级依赖新增审查。
