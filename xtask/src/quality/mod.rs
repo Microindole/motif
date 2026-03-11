@@ -2,12 +2,12 @@
 mod boundary;
 mod changes;
 mod checks;
-mod commit;
+pub mod commit;
 mod complexity;
 mod dependencies;
-mod dependencies_parse;
+pub mod dependencies_parse;
 mod duplicates;
-mod pr;
+pub mod pr;
 
 use crate::demo_builds;
 use crate::utils::repo_root;

@@ -35,15 +35,21 @@ pub fn test_pr_description(failures: &mut Vec<String>, warnings: &mut Vec<String
         }
     };
 
-    let Some(body) = extract_pr_body(&content) else {
+    let Some(body) = parse_pr_body_from_event(&content) else {
         failures.push("pr-description check failed: pull_request.body not found".to_string());
         return;
     };
 
+    failures.extend(validate_pr_body(&body));
+}
+
+pub fn validate_pr_body(body: &str) -> Vec<String> {
     let body = body.trim();
+    let mut failures = Vec::new();
+
     if body.is_empty() {
         failures.push("PR description must not be empty".to_string());
-        return;
+        return failures;
     }
 
     for section in REQUIRED_SECTIONS {
@@ -63,9 +69,11 @@ pub fn test_pr_description(failures: &mut Vec<String>, warnings: &mut Vec<String
             "PR description still contains {unchecked} unchecked template item(s); complete them or delete them"
         ));
     }
+
+    failures
 }
 
-fn extract_pr_body(content: &str) -> Option<String> {
+pub fn parse_pr_body_from_event(content: &str) -> Option<String> {
     let pr_index = content.find("\"pull_request\"")?;
     let body_key = content[pr_index..].find("\"body\"")? + pr_index;
     let after_key = &content[body_key + "\"body\"".len()..];
