@@ -26,5 +26,5 @@ fn wraps_dark_variant_in_media_query() {
 
     assert!(stylesheet.contains("@media (prefers-color-scheme: dark) {"));
     assert!(stylesheet.contains(".dark\\:m-elevation-1 {"));
-    assert!(stylesheet.contains("box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);"));
+    assert!(stylesheet.contains("box-shadow: 0 1px 2px rgba(60, 64, 67, 0.24);"));
 }

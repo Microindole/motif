@@ -1,17 +1,41 @@
 {
   "color": {
     "primary": "#0f6cbd",
-    "surface": "#f3f3f3",
-    "text": "#1f1f1f"
+    "surface": "rgba(243, 243, 243, 0.78)",
+    "surface-alt": "rgba(255, 255, 255, 0.60)",
+    "text": "#1f1f1f",
+    "muted": "#5f5f5f",
+    "border": "rgba(255, 255, 255, 0.65)",
+    "hover-primary": "#115ea3"
   },
   "space": {
     "md": "1rem",
-    "focus-offset": "2px"
+    "focus-offset": "2px",
+    "surface-pad": "1.25rem"
   },
   "outline": {
     "focus-width": "2px"
   },
   "radius": {
     "md": "8px"
+  },
+  "typography": {
+    "font-family": "'Segoe UI', 'Segoe UI Variable', sans-serif",
+    "title-size": "1.2rem",
+    "title-weight": "600",
+    "body-size": "0.95rem",
+    "body-weight": "400",
+    "line-height": "1.5",
+    "tracking": "0"
+  },
+  "border": {
+    "subtle-width": "1px"
+  },
+  "shadow": {
+    "surface": "0 8px 24px rgba(0, 0, 0, 0.08)"
+  },
+  "motion": {
+    "duration": "160ms",
+    "easing": "cubic-bezier(0.1, 0.9, 0.2, 1)"
   }
 }

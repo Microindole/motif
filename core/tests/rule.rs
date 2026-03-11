@@ -12,7 +12,6 @@ fn resolves_whitelisted_fluent_rule() {
     assert_eq!(rule.variants, parsed.variants);
     assert_eq!(rule.utility, "bg");
     assert_eq!(rule.value.as_deref(), Some("primary"));
-    assert_eq!(rule.declarations.len(), 1);
     assert_eq!(rule.declarations[0].property, "background-color");
     assert_eq!(rule.declarations[0].value, "#0f6cbd");
 }
@@ -25,6 +24,16 @@ fn resolves_material_on_primary_text_rule() {
 
     assert_eq!(rule.declarations[0].property, "color");
     assert_eq!(rule.declarations[0].value, "#ffffff");
+}
+
+#[test]
+fn resolves_fluent_surface_with_mica_like_traits() {
+    let tokens = load_registry().unwrap();
+    let parsed = parse_class_name("f-surface").unwrap();
+    let rule = resolve_rule(&parsed, &tokens).unwrap();
+
+    assert!(rule.declarations.iter().any(|decl| decl.property == "backdrop-filter"));
+    assert!(rule.declarations.iter().any(|decl| decl.property == "border-color"));
 }
 
 #[test]

@@ -4,10 +4,11 @@
 
 1. `agent/context.md`
 2. `agent/motif.md`
-3. `agent/scope.md`
-4. `agent/architecture.md`
-5. `agent/status.md`
-6. `agent/rules.md`
+3. `agent/presets.md`
+4. `agent/scope.md`
+5. `agent/architecture.md`
+6. `agent/status.md`
+7. `agent/rules.md`
 
 ## 当前目录结构
 - `agent/`：agent 入口与约束

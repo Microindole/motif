@@ -14,6 +14,10 @@ pub struct FluentTokens {
     pub space: BTreeMap<String, String>,
     pub outline: BTreeMap<String, String>,
     pub radius: BTreeMap<String, String>,
+    pub typography: BTreeMap<String, String>,
+    pub border: BTreeMap<String, String>,
+    pub shadow: BTreeMap<String, String>,
+    pub motion: BTreeMap<String, String>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Deserialize)]
@@ -21,6 +25,8 @@ pub struct MaterialTokens {
     pub color: BTreeMap<String, String>,
     pub radius: BTreeMap<String, String>,
     pub shadow: BTreeMap<String, String>,
+    pub typography: BTreeMap<String, String>,
+    pub motion: BTreeMap<String, String>,
 }
 
 #[derive(Debug)]

@@ -14,8 +14,9 @@
 - 已实现最小 DSL 解析：拆解变体、风格前缀、utility、value，并限制 `hover:` `focus:` `active:` `dark:`
 - 已明确当前只支持两个内建 preset：`f-` 为 Win11 向，`m-` 为 Google 向
 - 已实现最小 token 数据：`tokens/fluent.json` 与 `tokens/material.json`
-- 已实现最小白名单规则映射，并由 token 驱动颜色、间距、圆角、阴影等值
-- 已补充 preset 差异规则：`f-surface`、`m-bg-primary`、`m-text-primary`、`m-text-on-primary`
+- 已将 token 扩展到 color、surface、radius、shadow、typography、motion 等维度
+- 已实现最小白名单规则映射，并由 token 驱动颜色、间距、圆角、阴影、字体、状态反馈等值
+- 已补充 preset 差异规则：`f-surface`、`f-title`、`f-body`、`f-text-muted`、`m-bg-primary`、`m-text-primary`、`m-text-on-primary`、`m-title`、`m-body`、`m-text-muted`
 - 已实现最小 CSS 生成：支持类名转义、伪类变体、`dark:` 媒体查询包装
 - 已实现最小输出写盘：默认在扫描根目录写出 `motif.css`，也支持显式输出路径
 - 已按 `framework/scenario` 重组 `cases/` 与 `demo/`：覆盖 `native/` `ts/` `react/` `vue/` 的 `basic/`、`variants/`、`theme/` 场景
@@ -35,9 +36,10 @@
 3. 评估是否需要把 demo 构建检查接进固定检查流程
 
 ## 当前阻塞
-- FIXME: 当前 token schema 仍然很薄，只覆盖最小白名单值，距离“明显像 Win11 / Google”还有不少视觉细节。
+- FIXME: 当前 preset 已有基础差异，但离 Win11 的云母 / 亚克力层次和 Google 的完整 Material 层级感还有距离。
 
 ## 当前待办
-- TODO: 扩展 typography、surface、motion、state token，让两套 preset 更有辨识度。
+- TODO: 继续扩展 `f-` 的 mica / acrylic / border / state 细节。
+- TODO: 继续扩展 `m-` 的 container / shape / typography 层次。
 - TODO: 为 token 数据增加更清晰的 schema 与字段约束。
 - TODO: 决定是否将 `scripts/check-demo-builds.ps1` 接入统一检查入口。
