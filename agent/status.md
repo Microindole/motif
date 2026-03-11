@@ -35,7 +35,7 @@
 - 已将 `scripts/check-quality.ps1` 与 `scripts/check-demo-builds.ps1` 收敛为本地包装
 - 已补 GitHub Actions：`quality`、`coverage`、`CodeQL`
 - 已补 Dependabot 配置与 PR 模板
-- 已完成一次 `cargo run -p xtask -- quality` 本地验证并通过
+- 已完成一次 `cargo run -p xtask -- quality` 本地验证并通过`r`n- 已补质量闸门第三轮：依赖膨胀检查与最近提交变更规模检查
 
 ## 当前优先级
 1. 把质量闸门在 GitHub 仓库设置中真正接成 required checks
@@ -53,5 +53,6 @@
 - TODO: 继续扩展 `m-` 的 container / shape / typography / field / action 层次。
 - TODO: 为 token 数据增加更清晰的 schema 与字段约束。
 - TODO: 继续把重复代码检测与复杂度代理检查调到低噪音，再决定哪些升级为 hard gate。
-- TODO: 评估依赖膨胀检查、变更规模检查与提交规范检查。
+- TODO: 继续观察依赖膨胀检查与变更规模检查的噪音，再决定哪些升级为 hard gate。`r`n- TODO: 评估提交规范检查与 diff 级依赖新增审查。
+
 
