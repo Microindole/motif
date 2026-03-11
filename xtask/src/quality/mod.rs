@@ -1,6 +1,8 @@
+// Orchestrate quality gates in a fixed order so the local and CI entrypoints behave the same way.
 mod boundary;
 mod changes;
 mod checks;
+mod commit;
 mod complexity;
 mod dependencies;
 mod duplicates;
@@ -21,6 +23,7 @@ pub fn run() -> Result<(), String> {
     dependencies::test_dependency_hygiene(&root, &tracked, &mut failures, &mut warnings)?;
     duplicates::test_duplicate_blocks(&root, &tracked, &mut warnings)?;
     changes::test_change_size(&root, &mut failures, &mut warnings);
+    commit::test_commit_message(&root, &mut failures, &mut warnings);
 
     if let Err(error) = crate::utils::run_step(
         "cargo fmt --all --check",

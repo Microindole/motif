@@ -1,3 +1,4 @@
+// Keep dependency growth visible before AI changes turn small demos or tooling into dependency sinks.
 use crate::utils::{path_from_repo, read_lines};
 use std::collections::{BTreeMap, BTreeSet};
 use std::path::Path;
