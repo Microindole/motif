@@ -75,13 +75,13 @@ pub fn test_change_size(root: &Path, failures: &mut Vec<String>, warnings: &mut 
     );
 }
 
-struct DiffSpec {
-    range: String,
-    label: String,
-    hard_gate: bool,
+pub(crate) struct DiffSpec {
+    pub range: String,
+    pub label: String,
+    pub hard_gate: bool,
 }
 
-fn diff_spec(root: &Path) -> Option<DiffSpec> {
+pub(crate) fn diff_spec(root: &Path) -> Option<DiffSpec> {
     if let Ok(base_ref) = env::var("GITHUB_BASE_REF") {
         let remote_ref = format!("origin/{base_ref}");
         if let Some(range) = merge_base_range(root, &remote_ref) {

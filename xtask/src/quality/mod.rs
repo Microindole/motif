@@ -5,6 +5,7 @@ mod checks;
 mod commit;
 mod complexity;
 mod dependencies;
+mod dependencies_parse;
 mod duplicates;
 
 use crate::demo_builds;
