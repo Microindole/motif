@@ -18,6 +18,16 @@ fn resolves_whitelisted_fluent_rule() {
 }
 
 #[test]
+fn resolves_material_on_primary_text_rule() {
+    let tokens = load_registry().unwrap();
+    let parsed = parse_class_name("m-text-on-primary").unwrap();
+    let rule = resolve_rule(&parsed, &tokens).unwrap();
+
+    assert_eq!(rule.declarations[0].property, "color");
+    assert_eq!(rule.declarations[0].value, "#ffffff");
+}
+
+#[test]
 fn leaves_unknown_rule_unresolved() {
     let tokens = load_registry().unwrap();
     let parsed = parse_class_name("f-bg-secondary").unwrap();
