@@ -37,6 +37,26 @@ fn resolves_fluent_surface_with_mica_like_traits() {
 }
 
 #[test]
+fn resolves_fluent_surface_alt_as_acrylic_panel() {
+    let tokens = load_registry().unwrap();
+    let parsed = parse_class_name("f-surface-alt").unwrap();
+    let rule = resolve_rule(&parsed, &tokens).unwrap();
+
+    assert!(rule.declarations.iter().any(|decl| decl.property == "backdrop-filter" && decl.value.contains("28px")));
+    assert!(rule.declarations.iter().any(|decl| decl.property == "box-shadow" && decl.value.contains("32px")));
+}
+
+#[test]
+fn resolves_material_primary_container() {
+    let tokens = load_registry().unwrap();
+    let parsed = parse_class_name("m-bg-primary-container").unwrap();
+    let rule = resolve_rule(&parsed, &tokens).unwrap();
+
+    assert!(rule.declarations.iter().any(|decl| decl.property == "background-color" && decl.value == "#d3e3fd"));
+    assert!(rule.declarations.iter().any(|decl| decl.property == "color" && decl.value == "#041e49"));
+}
+
+#[test]
 fn leaves_unknown_rule_unresolved() {
     let tokens = load_registry().unwrap();
     let parsed = parse_class_name("f-bg-secondary").unwrap();

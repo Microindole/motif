@@ -16,7 +16,7 @@
 - 已实现最小 token 数据：`tokens/fluent.json` 与 `tokens/material.json`
 - 已将 token 扩展到 color、surface、radius、shadow、typography、motion、border 等维度
 - 已实现最小白名单规则映射，并由 token 驱动颜色、间距、圆角、阴影、字体、状态反馈等值
-- 已补充 preset 差异规则：`f-surface`、`f-title`、`f-body`、`f-text-muted`、`m-bg-primary`、`m-text-primary`、`m-text-on-primary`、`m-title`、`m-body`、`m-text-muted`
+- 已补充 preset 差异规则：`f-surface`、`f-surface-alt`、`f-title`、`f-body`、`f-text-muted`、`m-surface-variant`、`m-bg-primary-container`、`m-bg-primary`、`m-text-primary`、`m-text-on-primary`、`m-title`、`m-body`、`m-text-muted`
 - 已实现最小 CSS 生成：支持类名转义、伪类变体、`dark:` 媒体查询包装
 - 已实现最小输出写盘：默认在扫描根目录写出 `motif.css`，也支持显式输出路径
 - 已按 `framework/scenario` 重组 `cases/` 与 `demo/`：覆盖 `native/` `ts/` `react/` `vue/` 的 `basic/`、`variants/`、`theme/` 场景
@@ -29,7 +29,7 @@
 - 已补 CLI 端到端测试：覆盖 `cases/` 与四类 `demo/` 的 `basic/` / `variants/` / `theme/` 场景 CSS 生成结果
 - 已补 demo 构建检查脚本：`scripts/check-demo-builds.ps1`
 - 已完成一次 TS / React / Vue demo 全量构建级验证：`basic/`、`variants/`、`theme/` 均可安装依赖并成功 build
-- 已完成第二轮 preset 深化：Win11 向增强 mica-like surface / subtle border / Segoe UI 方向；Google 向增强主色按钮 / fuller shape / Google Sans 方向
+- 已完成第三轮 preset 深化：Win11 向新增类亚克力子层 `f-surface-alt`，Google 向新增 container 层 `m-surface-variant` 与 `m-bg-primary-container`
 
 ## 当前优先级
 1. 继续把两套 preset 做得更像 Win11 与 Google 风格
@@ -37,7 +37,7 @@
 3. 评估是否需要把 demo 构建检查接进固定检查流程
 
 ## 当前阻塞
-- FIXME: 当前 preset 已有更明显的 typography、surface、state 差异，但离完整 Win11 云母 / 亚克力层次和完整 Material 容器体系还有距离。
+- FIXME: 当前 preset 已能看出较明显差异，但 Win11 向的云母/亚克力层次和 Google 向的完整 container 系统还只是第一版。
 
 ## 当前待办
 - TODO: 继续扩展 `f-` 的 mica / acrylic / border / hover 细节。
