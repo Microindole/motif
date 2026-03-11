@@ -1,4 +1,6 @@
+mod boundary;
 mod checks;
+mod complexity;
 mod duplicates;
 
 use crate::demo_builds;
@@ -12,6 +14,8 @@ pub fn run() -> Result<(), String> {
     let mut warnings = Vec::new();
 
     checks::run_core_checks(&root, &tracked, &mut failures, &mut warnings)?;
+    boundary::test_architecture_boundaries(&root, &tracked, &mut failures)?;
+    complexity::test_complexity_heuristics(&root, &tracked, &mut failures, &mut warnings)?;
     duplicates::test_duplicate_blocks(&root, &tracked, &mut warnings)?;
 
     if let Err(error) = crate::utils::run_step(
