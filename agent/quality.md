@@ -16,16 +16,30 @@
 - `soft gate`：自动告警，但先不阻止合并
 - `review checklist`：保留给人工 review 的结构判断
 
+## 当前入口
+跨平台主入口：
+- `cargo run -p xtask -- quality`
+- `cargo run -p xtask -- demo-builds`
+
+本地 Windows 便捷入口：
+- `scripts/check-quality.ps1`
+- `scripts/check-demo-builds.ps1`
+
+原则：
+- `cargo xtask` 是主入口
+- `ps1` 只是本地包装，不再承载独立逻辑
+
 ## 当前 hard gate
 ### 基础构建
 - `cargo fmt --all --check`
 - `cargo clippy --workspace --all-targets --all-features -- -D warnings`
 - `cargo test -p motif-core`
-- `scripts/check-demo-builds.ps1`
+- `cargo run -p xtask -- demo-builds`
 
 ### 结构约束
 - `core/src/**/*.rs` 单文件不得超过 `320` 行
 - `core/tests/**/*.rs` 单文件不得超过 `420` 行
+- `xtask/src/**/*.rs` 单文件不得超过 `320` 行
 - `scripts/**/*.ps1` 单文件不得超过 `320` 行
 - `agent/**/*.md` 单文件不得超过 `400` 行
 - `demo/` `cases/` 下源码 / 配置文件不得超过 `260` 行

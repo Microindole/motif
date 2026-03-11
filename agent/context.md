@@ -15,6 +15,7 @@
 ## 当前目录结构
 - `agent/`：agent 入口与约束
 - `core/`：Rust 核心引擎
+- `xtask/`：跨平台工程任务入口
 - `web/`：前端界面或 playground
 - `demo/`：面向用户的示例
 - `cases/`：面向测试的最小输入
@@ -23,4 +24,4 @@
 - `.github/`：CI、机器人与 PR 模板
 
 ## 一句话定位
-- `motif` 是一个面向 AI 编程的 Rust 原子 CSS 编译器；当前固定提供两个内建 preset：Win11 向的 `f-` 与 Google 向的 `m-`，通过扫描 -> 解析 -> 生成 `motif.css` 来收敛样式输出，并通过质量闸门压制 AI 熵增。
+- `motif` 是一个面向 AI 编程的 Rust 原子 CSS 编译器；当前固定提供两个内建 preset：Win11 向的 `f-` 与 Google 向的 `m-`，通过扫描 -> 解析 -> 生成 `motif.css` 来收敛样式输出，并通过 `xtask` 质量闸门压制 AI 熵增。
