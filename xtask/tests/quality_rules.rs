@@ -38,7 +38,7 @@ fn warns_when_commit_body_is_missing() {
 fn parses_pr_body_from_github_event_payload() {
     let payload = r###"{
   "pull_request": {
-    "body": "## Summary\n- [x] scoped\n\n## Hard checks\n- [x] ok\n\n## Structure review\n- [x] ok\n\n## AI-specific review\n- [x] ok"
+    "body": "## Summary\nA real summary.\n\n## Hard checks\n- [x] ok\n\n## Structure review\n- [x] ok\n\n## AI-specific review\n- [x] ok"
   }
 }"###;
     let body = parse_pr_body_from_event(payload).expect("body should parse");
@@ -57,6 +57,16 @@ fn rejects_incomplete_pr_template() {
     assert!(failures
         .iter()
         .any(|item| item.contains("unchecked template item")));
+}
+
+#[test]
+fn rejects_pr_summary_that_only_keeps_template_checkboxes() {
+    let failures = validate_pr_body(
+        "## Summary\n- [x] scoped\n- [x] docs\n\n## Hard checks\n- [x] ok\n\n## Structure review\n- [x] ok\n\n## AI-specific review\n- [x] ok",
+    );
+    assert!(failures
+        .iter()
+        .any(|item| item.contains("PR Summary must include at least one non-checkbox line")));
 }
 
 #[test]

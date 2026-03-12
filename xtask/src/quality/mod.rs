@@ -23,7 +23,7 @@ pub fn run() -> Result<(), String> {
     boundary::test_architecture_boundaries(&root, &tracked, &mut failures)?;
     complexity::test_complexity_heuristics(&root, &tracked, &mut failures, &mut warnings)?;
     dependencies::test_dependency_hygiene(&root, &tracked, &mut failures, &mut warnings)?;
-    duplicates::test_duplicate_blocks(&root, &tracked, &mut warnings)?;
+    duplicates::test_duplicate_blocks(&root, &tracked, &mut failures, &mut warnings)?;
     changes::test_change_size(&root, &mut failures, &mut warnings);
     commit::test_commit_message(&root, &mut failures, &mut warnings);
     pr::test_pr_description(&mut failures, &mut warnings);
