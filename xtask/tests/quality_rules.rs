@@ -1,4 +1,4 @@
-use xtask::quality::commit::evaluate_commit_message;
+use xtask::quality::commit::{evaluate_commit_message, parse_pr_head_sha_from_event};
 use xtask::quality::dependencies_parse::{
     extract_added_cargo_dependencies, extract_added_json_dependencies,
 };
@@ -32,6 +32,20 @@ fn warns_when_commit_body_is_missing() {
         .warnings
         .iter()
         .any(|item| item.contains("has no body")));
+}
+
+#[test]
+fn parses_pr_head_sha_from_github_event_payload() {
+    let payload = r###"{
+  "pull_request": {
+    "head": {
+      "sha": "abc123def456"
+    },
+    "body": "## Summary\nA real summary.\n\n## Hard checks\n- [x] ok\n\n## Structure review\n- [x] ok\n\n## AI-specific review\n- [x] ok"
+  }
+}"###;
+    let sha = parse_pr_head_sha_from_event(payload).expect("head sha should parse");
+    assert_eq!(sha, "abc123def456");
 }
 
 #[test]
