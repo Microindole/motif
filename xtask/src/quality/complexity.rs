@@ -1,3 +1,4 @@
+use crate::quality::warning::{candidate, warn};
 use crate::utils::{path_from_repo, read_lines};
 use std::path::Path;
 
@@ -27,10 +28,10 @@ pub fn test_complexity_heuristics(
         let functions = extract_functions(&lines);
 
         if functions.len() > FILE_WARN_FUNCTIONS {
-            warnings.push(format!(
+            warnings.push(candidate(format!(
                 "{file} defines {} functions; consider splitting responsibilities",
                 functions.len()
-            ));
+            )));
         }
 
         for function in functions {
@@ -41,24 +42,24 @@ pub fn test_complexity_heuristics(
                     function.line_count, FUNCTION_FAIL_LINES
                 ));
             } else if function.line_count > FUNCTION_WARN_LINES {
-                warnings.push(format!(
+                warnings.push(candidate(format!(
                     "{qualified} is {} lines; consider extracting helpers",
                     function.line_count
-                ));
+                )));
             }
 
             if function.parameter_count > PARAM_WARN_COUNT {
-                warnings.push(format!(
+                warnings.push(warn(format!(
                     "{qualified} has {} parameters; consider bundling state or options",
                     function.parameter_count
-                ));
+                )));
             }
 
             if function.max_nesting > NESTING_WARN_DEPTH {
-                warnings.push(format!(
+                warnings.push(candidate(format!(
                     "{qualified} reaches nesting depth {}; logic may be too tangled",
                     function.max_nesting
-                ));
+                )));
             }
         }
     }

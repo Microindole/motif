@@ -17,6 +17,11 @@
 - `soft gate`：自动告警，但先不阻止合并
 - `review checklist`：保留给人工 review 的结构判断
 
+当前 soft warning 统一带严重级别前缀：
+- `[info]`：记录上下文或轻噪音信号
+- `[warn]`：值得 review，但暂不考虑升级为 hard gate
+- `[candidate]`：高价值风险信号，后续优先评估是否升级为 hard gate
+
 ## 当前入口
 跨平台主入口：
 - `cargo run -p xtask -- quality`
@@ -90,6 +95,7 @@
 - PR 描述必须保留模板中的四个分区：`Summary` `Hard checks` `Structure review` `AI-specific review`
 - PR 描述中不得保留未完成的模板复选框 `- [ ]`
 - PR 的 `Summary` 分区不得只剩模板复选框，必须至少有一行非复选框说明
+- PR 的 `Summary` 不得只写 `update files` `misc changes` `fix issues` 这类空话摘要
 
 ### 文档入口一致性
 - `agent/context.md` 必须包含并链接当前强制入口文档
@@ -122,6 +128,10 @@
 - 一个 demo 页面复制了大量平行结构却没有复用策略
 
 ### 依赖与变更规模预警
+- demo 新增依赖会按风险分级：工具链类包记为 `[info]`，普通新增记为 `[warn]`，疑似重复平台能力或重型依赖记为 `[candidate]`
+- 当前优先关注会放大维护成本的依赖，而不是把所有依赖新增一概视为同等风险
+
+### 告警分级使用方式
 - `core/Cargo.toml` 直接依赖超过 `4` 时告警
 - `xtask/Cargo.toml` 直接依赖超过 `3` 时告警
 - 单个 demo `package.json` 依赖总数超过 `8` 时告警
@@ -131,6 +141,11 @@
 - 最近一个提交新增行数超过 `300` 时告警
 - 最近一个提交删除行数超过 `200` 时告警
 - 非平凡提交没有 body 时告警
+
+### 告警分级使用方式
+- `[info]`：通常先观察，不要求立刻改
+- `[warn]`：PR review 时必须看一眼是否合理
+- `[candidate]`：如果连续多次出现或噪音可控，应优先升级为 hard gate
 
 ## 当前 review checklist
 每个较大改动至少回答下面这些问题：
@@ -165,4 +180,5 @@
 - 将重复代码检测视噪音情况升级为 hard gate
 - 继续收紧架构边界，例如限制跨层调用的方向更细
 - PR 描述进一步校验“Summary”内容不是空话或模板残留
+
 

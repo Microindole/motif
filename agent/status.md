@@ -42,13 +42,14 @@
 - 已完成质量闸门第五轮：diff 级依赖新增审查
 - 已完成质量闸门第六轮：PR 描述模板检查
 - 已完成质量闸门第七轮：PR Summary 实质内容检查，以及“重复块命中当前变更文件”时的 hard gate
+- 已完成质量闸门第八轮：soft warning 严重级别前缀（`[info]` / `[warn]` / `[candidate]`）与 PR Summary 空话检测
 - 已完成多次 `cargo run -p xtask -- quality` 本地验证并通过
 
 ## 当前优先级
-1. 把质量闸门在 GitHub 仓库设置中真正接成 required checks
-2. 继续把两套 preset 做得更像 Win11 与 Google 风格
-3. 把 `field` / `action` / `divider` / `label` 继续做细，让真实页面更稳
-4. 为 token 数据增加更清晰的 schema 与字段约束
+1. 继续把 soft warning 降噪，并决定哪些 `[candidate]` 应升级为 hard gate
+2. 把质量闸门在 GitHub 仓库设置中真正接成 required checks
+3. 继续把两套 preset 做得更像 Win11 与 Google 风格
+4. 把 `field` / `action` / `divider` / `label` 继续做细，让真实页面更稳
 
 ## 当前阻塞
 - FIXME: 当前质量闸门已在仓库中落地，并已补上 diff coverage、重复代码检查、架构边界、复杂度代理、依赖膨胀、变更规模与提交信息检查，但 GitHub 分支保护和 CodeQL / Dependabot 的仓库级启用仍需在仓库设置里打开。
@@ -61,3 +62,4 @@
 - TODO: 为 token 数据增加更清晰的 schema 与字段约束。
 - TODO: 继续把重复代码检测、复杂度代理检查、依赖膨胀检查与变更规模检查调到低噪音，再决定哪些升级为 hard gate。
 - TODO: 评估 PR 描述检查与更细的依赖风险分级。
+

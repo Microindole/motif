@@ -84,6 +84,16 @@ fn rejects_pr_summary_that_only_keeps_template_checkboxes() {
 }
 
 #[test]
+fn rejects_cliche_pr_summary_lines() {
+    let failures = validate_pr_body(
+        "## Summary\nupdate files\n\n## Hard checks\n- [x] ok\n\n## Structure review\n- [x] ok\n\n## AI-specific review\n- [x] ok",
+    );
+    assert!(failures
+        .iter()
+        .any(|item| item.contains("PR Summary is too vague")));
+}
+
+#[test]
 fn extracts_added_cargo_dependencies_from_diff() {
     let diff = vec![
         "@@ -1,2 +1,4 @@".to_string(),

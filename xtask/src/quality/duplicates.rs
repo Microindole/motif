@@ -1,4 +1,5 @@
 use crate::quality::changes::diff_spec;
+use crate::quality::warning::candidate;
 use crate::utils::{command_output, path_from_repo, read_lines};
 use std::collections::HashMap;
 use std::path::Path;
@@ -67,10 +68,10 @@ pub fn test_duplicate_blocks(
     }
 
     for files in reports.into_iter().take(5) {
-        warnings.push(format!(
+        warnings.push(candidate(format!(
             "possible duplicate block across {}",
             files.join(", ")
-        ));
+        )));
     }
 
     Ok(())

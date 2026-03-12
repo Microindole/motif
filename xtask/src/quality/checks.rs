@@ -1,3 +1,4 @@
+use crate::quality::warning::{candidate, info, warn};
 use crate::utils::{path_from_repo, read_lines};
 use std::collections::BTreeMap;
 use std::path::Path;
@@ -79,7 +80,9 @@ fn test_file_line_limits(
             if lines > limit {
                 failures.push(format!("{file} is {lines} lines, exceeds limit {limit}"));
             } else if file.starts_with("core/src/") && lines > 240 {
-                warnings.push(format!("{file} is already large at {lines} lines"));
+                warnings.push(candidate(format!(
+                    "{file} is already large at {lines} lines"
+                )));
             }
         }
     }
@@ -204,14 +207,14 @@ fn test_naming_patterns(tracked: &[String], warnings: &mut Vec<String>) {
         }
         for token in suspicious {
             if prefixes.get(token).copied().unwrap_or_default() >= 4 {
-                warnings.push(format!(
+                warnings.push(warn(format!(
                     "directory {dir} has many files starting with suspicious token `{token}`"
-                ));
+                )));
             }
             if suffixes.get(token).copied().unwrap_or_default() >= 4 {
-                warnings.push(format!(
+                warnings.push(warn(format!(
                     "directory {dir} has many files ending with suspicious token `{token}`"
-                ));
+                )));
             }
         }
     }
@@ -251,10 +254,10 @@ fn test_comment_heuristics(
             .count();
         let ratio = comment_lines as f64 / lines.len() as f64;
         if ratio > 0.28 && lines.len() < 140 {
-            warnings.push(format!(
+            warnings.push(info(format!(
                 "{file} has unusually high comment density ({:.1}%)",
                 ratio * 100.0
-            ));
+            )));
         }
 
         let branch_signals = lines
@@ -266,9 +269,9 @@ fn test_comment_heuristics(
             })
             .count();
         if lines.len() >= 80 && branch_signals >= 8 && comment_lines == 0 {
-            warnings.push(format!(
+            warnings.push(candidate(format!(
                 "{file} is complex and has no comments explaining constraints or tradeoffs"
-            ));
+            )));
         }
     }
     Ok(())

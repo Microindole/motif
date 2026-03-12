@@ -1,5 +1,6 @@
 // Validate the pull request body against the repository template so review context does not degrade.
 use crate::quality::github_event::parse_pull_request_string_field;
+use crate::quality::warning::{candidate, info};
 use std::env;
 use std::fs;
 use std::path::Path;
@@ -9,6 +10,17 @@ const REQUIRED_SECTIONS: &[&str] = &[
     "## Hard checks",
     "## Structure review",
     "## AI-specific review",
+];
+const CLICHE_SUMMARY_LINES: &[&str] = &[
+    "adjust stuff",
+    "fix issues",
+    "misc changes",
+    "minor updates",
+    "small fix",
+    "small fixes",
+    "update files",
+    "update code",
+    "various changes",
 ];
 
 pub fn test_pr_description(failures: &mut Vec<String>, warnings: &mut Vec<String>) {
@@ -42,8 +54,9 @@ pub fn test_pr_description(failures: &mut Vec<String>, warnings: &mut Vec<String
     };
 
     if body.trim().is_empty() {
-        warnings
-            .push("PR description is empty; add one when the change is non-trivial".to_string());
+        warnings.push(info(
+            "PR description is empty; add one when the change is non-trivial".to_string(),
+        ));
         return;
     }
 
@@ -68,16 +81,31 @@ pub fn validate_pr_body(body: &str) -> Vec<String> {
     }
 
     if let Some(summary) = extract_section(body, "## Summary", "## Hard checks") {
-        if summary
+        let summary_lines: Vec<&str> = summary
             .lines()
             .map(str::trim)
             .filter(|line| !line.is_empty())
-            .all(is_template_checkbox)
-        {
+            .collect();
+
+        if summary_lines.iter().copied().all(is_template_checkbox) {
             failures.push(
                 "PR Summary must include at least one non-checkbox line explaining the change"
                     .to_string(),
             );
+        }
+
+        let prose_lines: Vec<&str> = summary_lines
+            .iter()
+            .copied()
+            .filter(|line| !is_template_checkbox(line))
+            .collect();
+        if !prose_lines.is_empty() && prose_lines.iter().all(|line| is_cliche_summary_line(line)) {
+            failures.push(format!(
+                "PR Summary is too vague: {}",
+                candidate(
+                    "replace generic lines like `update files` with concrete scope and intent"
+                )
+            ));
         }
     }
 
@@ -107,4 +135,13 @@ fn extract_section<'a>(body: &'a str, start: &str, end: &str) -> Option<&'a str>
 
 fn is_template_checkbox(line: &str) -> bool {
     line.starts_with("- [ ]") || line.starts_with("- [x]") || line.starts_with("- [X]")
+}
+
+fn is_cliche_summary_line(line: &str) -> bool {
+    let normalized = line
+        .trim_start_matches(['-', '*', ' '])
+        .trim()
+        .trim_end_matches('.')
+        .to_ascii_lowercase();
+    CLICHE_SUMMARY_LINES.contains(&normalized.as_str())
 }

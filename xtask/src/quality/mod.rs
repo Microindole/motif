@@ -9,6 +9,7 @@ pub mod dependencies_parse;
 mod duplicates;
 mod github_event;
 pub mod pr;
+mod warning;
 
 use crate::demo_builds;
 use crate::utils::repo_root;
