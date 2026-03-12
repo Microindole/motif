@@ -1,3 +1,4 @@
+// Validate the pull request body against the repository template so review context does not degrade.
 use std::env;
 use std::fs;
 use std::path::Path;
@@ -11,7 +12,6 @@ const REQUIRED_SECTIONS: &[&str] = &[
 
 pub fn test_pr_description(failures: &mut Vec<String>, warnings: &mut Vec<String>) {
     let Ok(event_name) = env::var("GITHUB_EVENT_NAME") else {
-        warnings.push("pr-description check skipped: not running in GitHub Actions".to_string());
         return;
     };
     if event_name != "pull_request" {
@@ -41,6 +41,7 @@ pub fn test_pr_description(failures: &mut Vec<String>, warnings: &mut Vec<String
     };
 
     failures.extend(validate_pr_body(&body));
+    let _ = warnings;
 }
 
 pub fn validate_pr_body(body: &str) -> Vec<String> {
