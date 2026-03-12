@@ -1,3 +1,4 @@
+// Parse dependency manifests and diffs with a tiny local parser so quality checks stay dependency-light.
 use std::collections::{BTreeMap, BTreeSet};
 
 pub fn count_cargo_dependencies(lines: &[String]) -> usize {
@@ -129,27 +130,24 @@ fn extract_json_object_body<'a>(content: &'a str, key: &str) -> Option<&'a str> 
     let open_offset = after_marker.find('{')?;
     let body_start = start + marker.len() + open_offset + 1;
 
+    find_balanced_object(&content[body_start..]).map(|end| &content[body_start..body_start + end])
+}
+
+fn find_balanced_object(content: &str) -> Option<usize> {
     let mut depth = 1usize;
-    let mut end = body_start;
-    for (index, ch) in content[body_start..].char_indices() {
+    for (index, ch) in content.char_indices() {
         match ch {
             '{' => depth += 1,
             '}' => {
                 depth -= 1;
                 if depth == 0 {
-                    end = body_start + index;
-                    break;
+                    return Some(index);
                 }
             }
             _ => {}
         }
     }
-
-    if end == body_start {
-        None
-    } else {
-        Some(&content[body_start..end])
-    }
+    None
 }
 
 fn diff_body(line: &str) -> Option<(char, &str)> {

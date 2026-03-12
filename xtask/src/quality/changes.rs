@@ -1,3 +1,4 @@
+// Compare the current work against a meaningful base so oversized AI edits are caught before review.
 use crate::utils::command_output;
 use std::env;
 use std::path::Path;
@@ -23,62 +24,56 @@ pub fn test_change_size(root: &Path, failures: &mut Vec<String>, warnings: &mut 
         return;
     };
 
-    let mut files = 0usize;
-    let mut added = 0usize;
-    let mut deleted = 0usize;
-
-    for line in output.lines() {
-        let mut parts = line.split_whitespace();
-        let Some(add) = parts.next() else {
-            continue;
-        };
-        let Some(remove) = parts.next() else {
-            continue;
-        };
-        let Some(path) = parts.next() else {
-            continue;
-        };
-        if is_generated_path(path) {
-            continue;
+    let counts = collect_counts(&output);
+    for (label, value, thresholds) in [
+        (
+            "files",
+            counts.files,
+            Thresholds::new(WARN_CHANGED_FILES, FAIL_CHANGED_FILES),
+        ),
+        (
+            "adds",
+            counts.added,
+            Thresholds::new(WARN_ADDED_LINES, FAIL_ADDED_LINES),
+        ),
+        (
+            "deletes",
+            counts.deleted,
+            Thresholds::new(WARN_DELETED_LINES, FAIL_DELETED_LINES),
+        ),
+    ] {
+        if let Some((is_failure, message)) = evaluate_metric(label, value, thresholds, &spec) {
+            if is_failure {
+                failures.push(message);
+            } else {
+                warnings.push(message);
+            }
         }
-        files += 1;
-        added += add.parse::<usize>().unwrap_or_default();
-        deleted += remove.parse::<usize>().unwrap_or_default();
     }
-
-    report_metric(
-        "files",
-        files,
-        WARN_CHANGED_FILES,
-        FAIL_CHANGED_FILES,
-        &spec,
-        failures,
-        warnings,
-    );
-    report_metric(
-        "adds",
-        added,
-        WARN_ADDED_LINES,
-        FAIL_ADDED_LINES,
-        &spec,
-        failures,
-        warnings,
-    );
-    report_metric(
-        "deletes",
-        deleted,
-        WARN_DELETED_LINES,
-        FAIL_DELETED_LINES,
-        &spec,
-        failures,
-        warnings,
-    );
 }
 
 pub(crate) struct DiffSpec {
     pub range: String,
     pub label: String,
     pub hard_gate: bool,
+}
+
+struct ChangeCounts {
+    files: usize,
+    added: usize,
+    deleted: usize,
+}
+
+#[derive(Clone, Copy)]
+struct Thresholds {
+    warn: usize,
+    fail: usize,
+}
+
+impl Thresholds {
+    const fn new(warn: usize, fail: usize) -> Self {
+        Self { warn, fail }
+    }
 }
 
 pub(crate) fn diff_spec(root: &Path) -> Option<DiffSpec> {
@@ -121,6 +116,35 @@ pub(crate) fn diff_spec(root: &Path) -> Option<DiffSpec> {
     None
 }
 
+fn collect_counts(output: &str) -> ChangeCounts {
+    let mut counts = ChangeCounts {
+        files: 0,
+        added: 0,
+        deleted: 0,
+    };
+
+    for line in output.lines() {
+        let mut parts = line.split_whitespace();
+        let Some(add) = parts.next() else {
+            continue;
+        };
+        let Some(remove) = parts.next() else {
+            continue;
+        };
+        let Some(path) = parts.next() else {
+            continue;
+        };
+        if is_generated_path(path) {
+            continue;
+        }
+        counts.files += 1;
+        counts.added += add.parse::<usize>().unwrap_or_default();
+        counts.deleted += remove.parse::<usize>().unwrap_or_default();
+    }
+
+    counts
+}
+
 fn merge_base_range(root: &Path, target: &str) -> Option<String> {
     command_output("git", &["rev-parse", "--verify", target], root).ok()?;
     let base = command_output("git", &["merge-base", "HEAD", target], root)
@@ -130,15 +154,12 @@ fn merge_base_range(root: &Path, target: &str) -> Option<String> {
     Some(format!("{base}..HEAD"))
 }
 
-fn report_metric(
+fn evaluate_metric(
     label: &str,
     value: usize,
-    warn_limit: usize,
-    fail_limit: usize,
+    thresholds: Thresholds,
     spec: &DiffSpec,
-    failures: &mut Vec<String>,
-    warnings: &mut Vec<String>,
-) {
+) -> Option<(bool, String)> {
     let verb = match label {
         "files" => "touches",
         "adds" => "adds",
@@ -146,21 +167,26 @@ fn report_metric(
         _ => "changes",
     };
 
-    if value > fail_limit {
+    if value > thresholds.fail {
         let message = format!(
-            "change set {verb} {value} {label} in {}; hard limit is {fail_limit}",
-            spec.label
+            "change set {verb} {value} {label} in {}; hard limit is {}",
+            spec.label, thresholds.fail
         );
         if spec.hard_gate {
-            failures.push(message);
+            Some((true, message))
         } else {
-            warnings.push(format!("{message}; local branch signal only"));
+            Some((false, format!("{message}; local branch signal only")))
         }
-    } else if value > warn_limit {
-        warnings.push(format!(
-            "change set {verb} {value} {label} in {}; consider splitting the work",
-            spec.label
-        ));
+    } else if value > thresholds.warn {
+        Some((
+            false,
+            format!(
+                "change set {verb} {value} {label} in {}; consider splitting the work",
+                spec.label
+            ),
+        ))
+    } else {
+        None
     }
 }
 
