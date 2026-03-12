@@ -7,6 +7,7 @@ mod complexity;
 mod dependencies;
 pub mod dependencies_parse;
 mod duplicates;
+mod github_event;
 pub mod pr;
 
 use crate::demo_builds;

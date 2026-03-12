@@ -1,5 +1,8 @@
+use crate::quality::github_event::parse_pull_request_nested_string_field;
 use crate::utils::command_output;
-use std::path::Path;
+use std::env;
+use std::fs;
+use std::path::{Path, PathBuf};
 
 const MAX_SUBJECT_LEN: usize = 72;
 const ALLOWED_TYPES: &[&str] = &[
@@ -13,8 +16,12 @@ pub struct MessageCheckResult {
 }
 
 pub fn test_commit_message(root: &Path, failures: &mut Vec<String>, warnings: &mut Vec<String>) {
-    let Ok(message) = command_output("git", &["log", "-1", "--pretty=%s%n%b"], root) else {
-        warnings.push("commit-message check skipped: unable to read HEAD message".to_string());
+    let revision = pr_head_sha_from_env().unwrap_or_else(|| "HEAD".to_string());
+    let Ok(message) = command_output("git", &["log", "-1", "--pretty=%s%n%b", &revision], root)
+    else {
+        warnings.push(format!(
+            "commit-message check skipped: unable to read commit message for {revision}"
+        ));
         return;
     };
 
@@ -81,6 +88,21 @@ pub fn evaluate_commit_message(message: &str) -> MessageCheckResult {
     }
 
     result
+}
+
+pub fn parse_pr_head_sha_from_event(content: &str) -> Option<String> {
+    parse_pull_request_nested_string_field(content, "head", "sha")
+}
+
+fn pr_head_sha_from_env() -> Option<String> {
+    let event_name = env::var("GITHUB_EVENT_NAME").ok()?;
+    if event_name != "pull_request" {
+        return None;
+    }
+
+    let event_path = PathBuf::from(env::var("GITHUB_EVENT_PATH").ok()?);
+    let content = fs::read_to_string(event_path).ok()?;
+    parse_pr_head_sha_from_event(&content)
 }
 
 fn split_subject(subject: &str) -> Option<(&str, &str)> {

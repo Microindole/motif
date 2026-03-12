@@ -1,4 +1,5 @@
 // Validate the pull request body against the repository template so review context does not degrade.
+use crate::quality::github_event::parse_pull_request_string_field;
 use std::env;
 use std::fs;
 use std::path::Path;
@@ -40,8 +41,13 @@ pub fn test_pr_description(failures: &mut Vec<String>, warnings: &mut Vec<String
         return;
     };
 
+    if body.trim().is_empty() {
+        warnings
+            .push("PR description is empty; add one when the change is non-trivial".to_string());
+        return;
+    }
+
     failures.extend(validate_pr_body(&body));
-    let _ = warnings;
 }
 
 pub fn validate_pr_body(body: &str) -> Vec<String> {
@@ -89,15 +95,7 @@ pub fn validate_pr_body(body: &str) -> Vec<String> {
 }
 
 pub fn parse_pr_body_from_event(content: &str) -> Option<String> {
-    let pr_index = content.find("\"pull_request\"")?;
-    let body_key = content[pr_index..].find("\"body\"")? + pr_index;
-    let after_key = &content[body_key + "\"body\"".len()..];
-    let colon = after_key.find(':')?;
-    let after_colon = after_key[colon + 1..].trim_start();
-    if after_colon.starts_with("null") {
-        return Some(String::new());
-    }
-    parse_json_string(after_colon)
+    parse_pull_request_string_field(content, "body")
 }
 
 fn extract_section<'a>(body: &'a str, start: &str, end: &str) -> Option<&'a str> {
@@ -109,40 +107,4 @@ fn extract_section<'a>(body: &'a str, start: &str, end: &str) -> Option<&'a str>
 
 fn is_template_checkbox(line: &str) -> bool {
     line.starts_with("- [ ]") || line.starts_with("- [x]") || line.starts_with("- [X]")
-}
-
-fn parse_json_string(input: &str) -> Option<String> {
-    let mut chars = input.chars();
-    if chars.next()? != '"' {
-        return None;
-    }
-
-    let mut result = String::new();
-    let mut escaped = false;
-    for ch in chars {
-        if escaped {
-            match ch {
-                '"' => result.push('"'),
-                '\\' => result.push('\\'),
-                '/' => result.push('/'),
-                'b' => result.push('\u{0008}'),
-                'f' => result.push('\u{000C}'),
-                'n' => result.push('\n'),
-                'r' => result.push('\r'),
-                't' => result.push('\t'),
-                'u' => return None,
-                _ => return None,
-            }
-            escaped = false;
-            continue;
-        }
-
-        match ch {
-            '\\' => escaped = true,
-            '"' => return Some(result),
-            _ => result.push(ch),
-        }
-    }
-
-    None
 }
