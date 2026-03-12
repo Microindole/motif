@@ -75,6 +75,49 @@ fn resolves_material_primary_container() {
 }
 
 #[test]
+fn resolves_workspace_preset_utilities() {
+    let tokens = load_registry().unwrap();
+
+    let fluent_panel = resolve_rule(&parse_class_name("f-panel").unwrap(), &tokens).unwrap();
+    assert!(fluent_panel.declarations.iter().any(
+        |decl| decl.property == "background-color" && decl.value == "rgba(255, 255, 255, 0.68)"
+    ));
+    assert!(fluent_panel
+        .declarations
+        .iter()
+        .any(|decl| decl.property == "backdrop-filter" && decl.value.contains("22px")));
+
+    let fluent_action =
+        resolve_rule(&parse_class_name("f-action-subtle").unwrap(), &tokens).unwrap();
+    assert!(fluent_action
+        .declarations
+        .iter()
+        .any(|decl| decl.property == "border" && decl.value.contains("rgba(255, 255, 255, 0.94)")));
+    assert!(fluent_action
+        .declarations
+        .iter()
+        .any(|decl| decl.property == "color" && decl.value == "#0f6cbd"));
+
+    let material_surface =
+        resolve_rule(&parse_class_name("m-surface-container").unwrap(), &tokens).unwrap();
+    assert!(material_surface
+        .declarations
+        .iter()
+        .any(|decl| decl.property == "background-color" && decl.value == "#f3f6fc"));
+
+    let material_action =
+        resolve_rule(&parse_class_name("m-action-outlined").unwrap(), &tokens).unwrap();
+    assert!(material_action
+        .declarations
+        .iter()
+        .any(|decl| decl.property == "border" && decl.value == "1px solid #c2c8d0"));
+    assert!(material_action
+        .declarations
+        .iter()
+        .any(|decl| decl.property == "background-color" && decl.value == "#ffffff"));
+}
+
+#[test]
 fn resolves_fluent_field_and_material_action_rules() {
     let tokens = load_registry().unwrap();
 

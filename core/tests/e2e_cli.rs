@@ -142,12 +142,16 @@ fn assert_workspace_selectors(css: &str) {
     assert!(css.contains(".f-label {"));
     assert!(css.contains(".f-divider {"));
     assert!(css.contains(".f-field {"));
+    assert!(css.contains(".f-panel {"));
     assert!(css.contains(".f-action-primary {"));
+    assert!(css.contains(".f-action-subtle {"));
     assert!(css.contains(".m-label {"));
     assert!(css.contains(".m-divider {"));
     assert!(css.contains(".m-field {"));
+    assert!(css.contains(".m-surface-container {"));
     assert!(css.contains(".m-action-primary {"));
     assert!(css.contains(".m-action-tonal {"));
+    assert!(css.contains(".m-action-outlined {"));
 }
 
 fn repo_root() -> PathBuf {
