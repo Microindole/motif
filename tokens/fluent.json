@@ -3,19 +3,23 @@
     "primary": "#0f6cbd",
     "surface": "rgba(243, 243, 243, 0.78)",
     "surface-alt": "rgba(255, 255, 255, 0.52)",
+    "panel": "rgba(255, 255, 255, 0.68)",
     "text": "#1f1f1f",
     "muted": "#5f5f5f",
     "border": "rgba(255, 255, 255, 0.65)",
     "border-strong": "rgba(255, 255, 255, 0.9)",
     "hover-primary": "#115ea3",
     "field": "rgba(255, 255, 255, 0.72)",
-    "action-foreground": "#ffffff"
+    "action-foreground": "#ffffff",
+    "action-subtle": "rgba(255, 255, 255, 0.58)",
+    "action-subtle-border": "rgba(255, 255, 255, 0.94)"
   },
   "space": {
     "md": "1rem",
     "focus-offset": "2px",
     "surface-pad": "1.25rem",
     "surface-pad-sm": "0.9rem",
+    "panel-pad": "1rem",
     "field-pad": "0.75rem 0.9rem",
     "action-pad": "0.8rem 1.05rem"
   },
@@ -24,7 +28,8 @@
   },
   "radius": {
     "md": "8px",
-    "sm": "6px"
+    "sm": "6px",
+    "lg": "12px"
   },
   "typography": {
     "font-family": "'Segoe UI', 'Segoe UI Variable', sans-serif",
@@ -40,11 +45,14 @@
   "border": {
     "subtle-width": "1px",
     "divider": "1px solid rgba(255, 255, 255, 0.8)",
-    "field": "1px solid rgba(255, 255, 255, 0.9)"
+    "field": "1px solid rgba(255, 255, 255, 0.9)",
+    "panel": "1px solid rgba(255, 255, 255, 0.92)",
+    "action-subtle": "1px solid rgba(255, 255, 255, 0.94)"
   },
   "shadow": {
     "surface": "0 8px 24px rgba(0, 0, 0, 0.08)",
     "surface-alt": "0 12px 32px rgba(0, 0, 0, 0.12)",
+    "panel": "0 18px 36px rgba(0, 0, 0, 0.10)",
     "field": "inset 0 1px 0 rgba(255, 255, 255, 0.55)",
     "action": "0 4px 12px rgba(15, 108, 189, 0.28)"
   },
@@ -53,3 +61,4 @@
     "easing": "cubic-bezier(0.1, 0.9, 0.2, 1)"
   }
 }
+

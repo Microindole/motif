@@ -5,6 +5,7 @@ use crate::token::TokenRegistry;
 pub(super) fn resolve(parsed: &ParsedClass, tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     match (parsed.utility.as_str(), parsed.value.as_deref()) {
         ("surface", None) => surface(tokens),
+        ("surface", Some("container")) => surface_container(tokens),
         ("surface", Some("variant")) => surface_variant(tokens),
         ("bg", Some("primary")) => bg_primary(tokens),
         ("bg", Some("primary-container")) => bg_primary_container(tokens),
@@ -18,6 +19,7 @@ pub(super) fn resolve(parsed: &ParsedClass, tokens: &TokenRegistry) -> Option<Ve
         ("field", None) => field(tokens),
         ("action", Some("primary")) => action_primary(tokens),
         ("action", Some("tonal")) => action_tonal(tokens),
+        ("action", Some("outlined")) => action_outlined(tokens),
         ("elevation", Some("1")) => elevation_1(tokens),
         ("shadow", Some("2")) => shadow_2(tokens),
         _ => None,
@@ -31,6 +33,19 @@ fn surface(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         token_declaration("border-radius", tokens.material.radius.get("lg")?),
         declaration("padding", "1.25rem"),
         token_declaration("box-shadow", tokens.material.shadow.get("surface")?),
+    ])
+}
+
+fn surface_container(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
+    Some(vec![
+        token_declaration(
+            "background-color",
+            tokens.material.color.get("surface-container")?,
+        ),
+        token_declaration("color", tokens.material.color.get("on-surface")?),
+        token_declaration("border-radius", tokens.material.radius.get("lg")?),
+        declaration("padding", "1rem"),
+        token_declaration("box-shadow", tokens.material.shadow.get("container-high")?),
     ])
 }
 
@@ -186,6 +201,28 @@ fn action_tonal(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         token_declaration("border-radius", tokens.material.radius.get("lg")?),
         token_declaration("padding", tokens.material.space.get("action-pad")?),
         token_declaration("box-shadow", tokens.material.shadow.get("container")?),
+        token_declaration(
+            "transition-duration",
+            tokens.material.motion.get("duration")?,
+        ),
+        token_declaration(
+            "transition-timing-function",
+            tokens.material.motion.get("easing")?,
+        ),
+    ]);
+    Some(declarations)
+}
+
+fn action_outlined(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
+    let mut declarations = typography(tokens, "label-size", "label-weight", None)?;
+    declarations.extend([
+        declaration("line-height", "1"),
+        token_declaration("color", tokens.material.color.get("primary")?),
+        token_declaration("background-color", tokens.material.color.get("surface")?),
+        token_declaration("border", tokens.material.border.get("outlined-action")?),
+        token_declaration("border-radius", tokens.material.radius.get("pill")?),
+        token_declaration("padding", tokens.material.space.get("action-pad")?),
+        token_declaration("box-shadow", tokens.material.shadow.get("outlined-action")?),
         token_declaration(
             "transition-duration",
             tokens.material.motion.get("duration")?,
