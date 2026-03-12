@@ -61,6 +61,20 @@ pub fn validate_pr_body(body: &str) -> Vec<String> {
         }
     }
 
+    if let Some(summary) = extract_section(body, "## Summary", "## Hard checks") {
+        if summary
+            .lines()
+            .map(str::trim)
+            .filter(|line| !line.is_empty())
+            .all(is_template_checkbox)
+        {
+            failures.push(
+                "PR Summary must include at least one non-checkbox line explaining the change"
+                    .to_string(),
+            );
+        }
+    }
+
     let unchecked = body
         .lines()
         .filter(|line| line.trim_start().starts_with("- [ ]"))
@@ -84,6 +98,17 @@ pub fn parse_pr_body_from_event(content: &str) -> Option<String> {
         return Some(String::new());
     }
     parse_json_string(after_colon)
+}
+
+fn extract_section<'a>(body: &'a str, start: &str, end: &str) -> Option<&'a str> {
+    let start_index = body.find(start)? + start.len();
+    let tail = &body[start_index..];
+    let end_index = tail.find(end)?;
+    Some(&tail[..end_index])
+}
+
+fn is_template_checkbox(line: &str) -> bool {
+    line.starts_with("- [ ]") || line.starts_with("- [x]") || line.starts_with("- [X]")
 }
 
 fn parse_json_string(input: &str) -> Option<String> {

@@ -1,6 +1,6 @@
 # motif Status
 
-更新时间：2026-03-11
+更新时间：2026-03-12
 
 ## 当前阶段
 - P0：最小扫描到 CSS 输出闭环、双 preset、四类 demo、token 驱动、e2e、构建级验证，以及 AI 熵增防护的多轮质量闸门落地
@@ -30,7 +30,7 @@
 - 已补四类 `workspace/` 场景：验证标签、输入、分隔线、主操作、容器层次等真实页面高频语义
 - 已将 Rust 测试迁移到 `core/tests/`，不在源文件内内联
 - 已补 token 载入测试并验证通过：`cargo test -p motif-core`
-- 已补 CLI 端到端测试：覆盖 `cases/` 与四类 `demo/` 的 `basic/` / `variants/` / `theme/` / `workspace/` 场景 CSS 生成结果
+- 已补 CLI 端到端测试：覆盖 `cases/` 与四类 `demo/` 的 `basic/` / `variants/` / `theme` / `workspace` 场景 CSS 生成结果
 - 已补跨平台工程任务：`cargo run -p xtask -- quality` 与 `cargo run -p xtask -- demo-builds`
 - 已将 `scripts/check-quality.ps1` 与 `scripts/check-demo-builds.ps1` 收敛为本地包装
 - 已补 GitHub Actions：`quality`、`coverage`、`CodeQL`
@@ -38,7 +38,10 @@
 - 已完成质量闸门第一轮：文件大小、目录扁平度、危险写法、文档入口一致性
 - 已完成质量闸门第二轮：diff coverage、重复代码软告警、架构边界、复杂度代理检查
 - 已完成质量闸门第三轮：依赖膨胀检查与变更规模检查
-- 已完成质量闸门第四轮：提交信息检查与 PR 基线优先的变更规模计算`r`n- 已完成质量闸门第五轮：diff 级依赖新增审查`r`n- 已完成质量闸门第六轮：PR 描述模板检查
+- 已完成质量闸门第四轮：提交信息检查与 PR 基线优先的变更规模计算
+- 已完成质量闸门第五轮：diff 级依赖新增审查
+- 已完成质量闸门第六轮：PR 描述模板检查
+- 已完成质量闸门第七轮：PR Summary 实质内容检查，以及“重复块命中当前变更文件”时的 hard gate
 - 已完成多次 `cargo run -p xtask -- quality` 本地验证并通过
 
 ## 当前优先级
@@ -48,7 +51,7 @@
 4. 为 token 数据增加更清晰的 schema 与字段约束
 
 ## 当前阻塞
-- FIXME: 当前质量闸门已在仓库中落地，并已补上 diff coverage、重复代码软告警、架构边界、复杂度代理、依赖膨胀、变更规模与提交信息检查，但 GitHub 分支保护和 CodeQL / Dependabot 的仓库级启用仍需在仓库设置里打开。
+- FIXME: 当前质量闸门已在仓库中落地，并已补上 diff coverage、重复代码检查、架构边界、复杂度代理、依赖膨胀、变更规模与提交信息检查，但 GitHub 分支保护和 CodeQL / Dependabot 的仓库级启用仍需在仓库设置里打开。
 - FIXME: 当前 preset 已能看出较明显差异，但 Win11 向的云母/亚克力层次与 Google 向的完整 container / field / action 系统仍是第一版。
 
 ## 当前待办
@@ -58,5 +61,3 @@
 - TODO: 为 token 数据增加更清晰的 schema 与字段约束。
 - TODO: 继续把重复代码检测、复杂度代理检查、依赖膨胀检查与变更规模检查调到低噪音，再决定哪些升级为 hard gate。
 - TODO: 评估 PR 描述检查与更细的依赖风险分级。
-
-

@@ -1,15 +1,21 @@
-use crate::utils::{path_from_repo, read_lines};
+use crate::quality::changes::diff_spec;
+use crate::utils::{command_output, path_from_repo, read_lines};
 use std::collections::HashMap;
 use std::path::Path;
 
 const DUPLICATE_WINDOW: usize = 12;
+const HARD_FAIL_DUPLICATE_GROUPS: usize = 1;
 
+// Duplicate detection stays exact and local: only repeated normalized windows count, and
+// hard failures only trigger when the repeated block touches files changed in the current diff.
 pub fn test_duplicate_blocks(
     root: &Path,
     tracked: &[String],
+    failures: &mut Vec<String>,
     warnings: &mut Vec<String>,
 ) -> Result<(), String> {
     let mut windows: HashMap<String, Vec<String>> = HashMap::new();
+    let changed_files = changed_files(root);
 
     for file in tracked {
         let path = path_from_repo(root, file);
@@ -46,6 +52,20 @@ pub fn test_duplicate_blocks(
     reports.sort();
     reports.dedup();
 
+    let changed_reports = reports
+        .iter()
+        .filter(|files| {
+            files
+                .iter()
+                .any(|file| changed_files.iter().any(|changed| changed == file))
+        })
+        .count();
+    if changed_reports >= HARD_FAIL_DUPLICATE_GROUPS {
+        failures.push(format!(
+            "change set introduces {changed_reports} duplicate block group(s) touching changed files"
+        ));
+    }
+
     for files in reports.into_iter().take(5) {
         warnings.push(format!(
             "possible duplicate block across {}",
@@ -54,6 +74,20 @@ pub fn test_duplicate_blocks(
     }
 
     Ok(())
+}
+
+fn changed_files(root: &Path) -> Vec<String> {
+    let Some(spec) = diff_spec(root) else {
+        return Vec::new();
+    };
+    let Ok(output) = command_output("git", &["diff", "--name-only", &spec.range], root) else {
+        return Vec::new();
+    };
+    output
+        .lines()
+        .map(|line| line.trim().replace('\\', "/"))
+        .filter(|line| !line.is_empty() && is_duplicate_scan_target(line))
+        .collect()
 }
 
 fn is_duplicate_scan_target(file: &str) -> bool {
