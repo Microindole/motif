@@ -40,6 +40,11 @@ fn resolves_fluent_surface_with_mica_like_traits() {
         .declarations
         .iter()
         .any(|decl| decl.property == "border-color"));
+    assert!(rule.declarations.iter().any(|decl| {
+        decl.property == "background-image"
+            && decl.value
+                == "linear-gradient(135deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.08))"
+    }));
 }
 
 #[test]
@@ -56,6 +61,10 @@ fn resolves_fluent_surface_alt_as_acrylic_panel() {
         .declarations
         .iter()
         .any(|decl| decl.property == "box-shadow" && decl.value.contains("34px")));
+    assert!(rule.declarations.iter().any(|decl| {
+        decl.property == "transition-property"
+            && decl.value == "background-color, border-color, box-shadow, backdrop-filter"
+    }));
 }
 
 #[test]
@@ -85,6 +94,10 @@ fn resolves_workspace_preset_utilities() {
     assert!(fluent_panel
         .declarations
         .iter()
+        .any(|decl| decl.property == "background-image" && decl.value.contains("0.44")));
+    assert!(fluent_panel
+        .declarations
+        .iter()
         .any(|decl| decl.property == "backdrop-filter" && decl.value.contains("24px")));
 
     let fluent_action =
@@ -97,6 +110,10 @@ fn resolves_workspace_preset_utilities() {
         .declarations
         .iter()
         .any(|decl| decl.property == "box-shadow" && decl.value.contains("20px")));
+    assert!(fluent_action.declarations.iter().any(|decl| {
+        decl.property == "transition-property"
+            && decl.value == "background-color, border-color, box-shadow, transform"
+    }));
 
     let fluent_press = resolve_rule(&parse_class_name("f-shadow-press").unwrap(), &tokens).unwrap();
     assert!(fluent_press
@@ -145,6 +162,10 @@ fn resolves_workspace_preset_utilities() {
         .declarations
         .iter()
         .any(|decl| decl.property == "box-shadow" && decl.value.contains("0 0 0 4px")));
+    assert!(material_ring.declarations.iter().any(|decl| {
+        decl.property == "transition-property"
+            && decl.value == "background-color, color, box-shadow, border-color"
+    }));
 
     let material_surface =
         resolve_rule(&parse_class_name("m-surface-container").unwrap(), &tokens).unwrap();
@@ -152,6 +173,10 @@ fn resolves_workspace_preset_utilities() {
         .declarations
         .iter()
         .any(|decl| decl.property == "background-color" && decl.value == "#f5f7fb"));
+    assert!(material_surface
+        .declarations
+        .iter()
+        .any(|decl| decl.property == "background-image" && decl.value.contains("0.72")));
     assert!(material_surface
         .declarations
         .iter()
@@ -184,7 +209,15 @@ fn resolves_fluent_field_and_material_action_rules() {
     assert!(fluent_field
         .declarations
         .iter()
+        .any(|decl| decl.property == "background-image" && decl.value.contains("0.38")));
+    assert!(fluent_field
+        .declarations
+        .iter()
         .any(|decl| decl.property == "backdrop-filter" && decl.value.contains("14px")));
+    assert!(fluent_field
+        .declarations
+        .iter()
+        .any(|decl| decl.property == "caret-color" && decl.value == "#0f6cbd"));
 
     let material_action =
         resolve_rule(&parse_class_name("m-action-tonal").unwrap(), &tokens).unwrap();
@@ -195,6 +228,16 @@ fn resolves_fluent_field_and_material_action_rules() {
     assert!(material_action.declarations.iter().any(
         |decl| decl.property == "box-shadow" && decl.value.contains("rgba(26, 115, 232, 0.16)")
     ));
+
+    let material_field = resolve_rule(&parse_class_name("m-field").unwrap(), &tokens).unwrap();
+    assert!(material_field
+        .declarations
+        .iter()
+        .any(|decl| decl.property == "background-image" && decl.value.contains("0.86")));
+    assert!(material_field
+        .declarations
+        .iter()
+        .any(|decl| decl.property == "caret-color" && decl.value == "#1a73e8"));
 }
 
 #[test]

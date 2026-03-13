@@ -1,3 +1,4 @@
+use super::shared::{append_inline_action_layout, append_transition, typography};
 use super::{declaration, token_declaration, Declaration};
 use crate::parse::ParsedClass;
 use crate::token::TokenRegistry;
@@ -16,9 +17,24 @@ pub(super) fn resolve(parsed: &ParsedClass, tokens: &TokenRegistry) -> Option<Ve
         ("text", Some("on-primary")) => text_color(tokens, "on-primary"),
         ("text", Some("muted")) => text_color(tokens, "muted"),
         ("ring", None) => ring(tokens),
-        ("title", None) => title(tokens),
-        ("body", None) => body(tokens),
-        ("label", None) => label(tokens),
+        ("title", None) => typography_from_tokens(
+            tokens,
+            "title-size",
+            "title-weight",
+            Some(tokens.material.color.get("on-surface")?),
+        ),
+        ("body", None) => typography_from_tokens(
+            tokens,
+            "body-size",
+            "body-weight",
+            Some(tokens.material.color.get("on-surface")?),
+        ),
+        ("label", None) => typography_from_tokens(
+            tokens,
+            "label-size",
+            "label-weight",
+            Some(tokens.material.color.get("muted")?),
+        ),
         ("divider", None) => divider(tokens),
         ("border", Some("focus")) => border_focus(tokens),
         ("field", None) => field(tokens),
@@ -31,69 +47,95 @@ pub(super) fn resolve(parsed: &ParsedClass, tokens: &TokenRegistry) -> Option<Ve
         _ => None,
     }
 }
-
 fn surface(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    Some(vec![
+    let mut declarations = vec![
         token_declaration("background-color", tokens.material.color.get("surface")?),
+        token_declaration(
+            "background-image",
+            tokens.material.effect.get("surface-tint")?,
+        ),
         token_declaration("color", tokens.material.color.get("on-surface")?),
         token_declaration("border-radius", tokens.material.radius.get("lg")?),
         declaration("padding", "1.25rem"),
         token_declaration("box-shadow", tokens.material.shadow.get("surface")?),
-    ])
+    ];
+    append_transition(
+        &mut declarations,
+        tokens.material.effect.get("transition")?,
+        tokens.material.motion.get("duration")?,
+        tokens.material.motion.get("easing")?,
+    );
+    Some(declarations)
 }
-
 fn surface_container(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    Some(vec![
+    let mut declarations = vec![
         token_declaration(
             "background-color",
             tokens.material.color.get("surface-container")?,
+        ),
+        token_declaration(
+            "background-image",
+            tokens.material.effect.get("container-tint")?,
         ),
         token_declaration("color", tokens.material.color.get("on-surface")?),
         token_declaration("border", tokens.material.border.get("surface-container")?),
         token_declaration("border-radius", tokens.material.radius.get("lg")?),
         declaration("padding", "1rem"),
         token_declaration("box-shadow", tokens.material.shadow.get("container-high")?),
-    ])
+    ];
+    append_transition(
+        &mut declarations,
+        tokens.material.effect.get("state-transition")?,
+        tokens.material.motion.get("duration")?,
+        tokens.material.motion.get("easing")?,
+    );
+    Some(declarations)
 }
-
 fn surface_variant(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    Some(vec![
+    let mut declarations = vec![
         token_declaration(
             "background-color",
             tokens.material.color.get("surface-variant")?,
+        ),
+        token_declaration(
+            "background-image",
+            tokens.material.effect.get("variant-tint")?,
         ),
         token_declaration("color", tokens.material.color.get("on-surface")?),
         token_declaration("border-radius", tokens.material.radius.get("lg")?),
         declaration("padding", "1rem"),
         token_declaration("box-shadow", tokens.material.shadow.get("container")?),
-    ])
+    ];
+    append_transition(
+        &mut declarations,
+        tokens.material.effect.get("transition")?,
+        tokens.material.motion.get("duration")?,
+        tokens.material.motion.get("easing")?,
+    );
+    Some(declarations)
 }
-
 fn bg_primary(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    Some(vec![
+    let mut declarations = vec![
         token_declaration("background-color", tokens.material.color.get("primary")?),
         token_declaration("color", tokens.material.color.get("on-primary")?),
         token_declaration("border-radius", tokens.material.radius.get("pill")?),
-        token_declaration(
-            "transition-duration",
-            tokens.material.motion.get("duration")?,
-        ),
-        token_declaration(
-            "transition-timing-function",
-            tokens.material.motion.get("easing")?,
-        ),
-    ])
+    ];
+    append_transition(
+        &mut declarations,
+        tokens.material.effect.get("state-transition")?,
+        tokens.material.motion.get("duration")?,
+        tokens.material.motion.get("easing")?,
+    );
+    Some(declarations)
 }
-
 fn bg_color(tokens: &TokenRegistry, key: &str) -> Option<Vec<Declaration>> {
     Some(vec![token_declaration(
         "background-color",
         tokens.material.color.get(key)?,
     )])
 }
-
 fn bg_primary_container(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    Some(vec![
+    let mut declarations = vec![
         token_declaration(
             "background-color",
             tokens.material.color.get("primary-container")?,
@@ -101,131 +143,96 @@ fn bg_primary_container(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         token_declaration("color", tokens.material.color.get("on-primary-container")?),
         token_declaration("border-radius", tokens.material.radius.get("lg")?),
         token_declaration("box-shadow", tokens.material.shadow.get("container")?),
-    ])
+    ];
+    append_transition(
+        &mut declarations,
+        tokens.material.effect.get("state-transition")?,
+        tokens.material.motion.get("duration")?,
+        tokens.material.motion.get("easing")?,
+    );
+    Some(declarations)
 }
-
 fn text_color(tokens: &TokenRegistry, key: &str) -> Option<Vec<Declaration>> {
     Some(vec![token_declaration(
         "color",
         tokens.material.color.get(key)?,
     )])
 }
-
 fn ring(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    Some(vec![
+    let mut declarations = vec![
         declaration("outline-width", "2px"),
         declaration("outline-style", "solid"),
         token_declaration("outline-color", tokens.material.color.get("primary")?),
         declaration("outline-offset", "2px"),
         declaration("box-shadow", "0 0 0 4px rgba(26, 115, 232, 0.16)"),
-        token_declaration(
-            "transition-duration",
-            tokens.material.motion.get("duration")?,
-        ),
-        token_declaration(
-            "transition-timing-function",
-            tokens.material.motion.get("easing")?,
-        ),
-    ])
+    ];
+    append_transition(
+        &mut declarations,
+        tokens.material.effect.get("state-transition")?,
+        tokens.material.motion.get("duration")?,
+        tokens.material.motion.get("easing")?,
+    );
+    Some(declarations)
 }
-
-fn title(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    typography(
-        tokens,
-        "title-size",
-        "title-weight",
-        Some(tokens.material.color.get("on-surface")?),
-    )
-}
-
-fn body(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    typography(
-        tokens,
-        "body-size",
-        "body-weight",
-        Some(tokens.material.color.get("on-surface")?),
-    )
-}
-
-fn label(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    typography(
-        tokens,
-        "label-size",
-        "label-weight",
-        Some(tokens.material.color.get("muted")?),
-    )
-}
-
 fn divider(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     Some(vec![
         declaration("display", "block"),
         token_declaration("border-bottom", tokens.material.border.get("divider")?),
     ])
 }
-
 fn border_focus(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     Some(vec![token_declaration(
         "border",
         tokens.material.border.get("focus")?,
     )])
 }
-
 fn field(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    let mut declarations = typography(tokens, "body-size", "body-weight", None)?;
+    let mut declarations = typography_from_tokens(tokens, "body-size", "body-weight", None)?;
     declarations.extend([
         declaration("min-height", "2.75rem"),
         token_declaration("color", tokens.material.color.get("on-surface")?),
+        token_declaration("caret-color", tokens.material.color.get("primary")?),
         token_declaration("background-color", tokens.material.color.get("field")?),
+        token_declaration(
+            "background-image",
+            tokens.material.effect.get("field-tint")?,
+        ),
         token_declaration("border", tokens.material.border.get("field")?),
         token_declaration("border-radius", tokens.material.radius.get("lg")?),
         token_declaration("padding", tokens.material.space.get("field-pad")?),
         token_declaration("box-shadow", tokens.material.shadow.get("field")?),
-        token_declaration(
-            "transition-duration",
-            tokens.material.motion.get("duration")?,
-        ),
-        token_declaration(
-            "transition-timing-function",
-            tokens.material.motion.get("easing")?,
-        ),
     ]);
+    append_transition(
+        &mut declarations,
+        tokens.material.effect.get("state-transition")?,
+        tokens.material.motion.get("duration")?,
+        tokens.material.motion.get("easing")?,
+    );
     Some(declarations)
 }
-
 fn action_primary(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    let mut declarations = typography(tokens, "label-size", "label-weight", None)?;
+    let mut declarations = typography_from_tokens(tokens, "label-size", "label-weight", None)?;
+    append_inline_action_layout(&mut declarations);
     declarations.extend([
-        declaration("display", "inline-flex"),
-        declaration("align-items", "center"),
-        declaration("justify-content", "center"),
-        declaration("min-height", "2.5rem"),
-        declaration("line-height", "1"),
         token_declaration("color", tokens.material.color.get("on-primary")?),
         token_declaration("background-color", tokens.material.color.get("primary")?),
         declaration("border", "0"),
         token_declaration("border-radius", tokens.material.radius.get("pill")?),
         token_declaration("padding", tokens.material.space.get("action-pad")?),
         token_declaration("box-shadow", tokens.material.shadow.get("action")?),
-        token_declaration(
-            "transition-duration",
-            tokens.material.motion.get("duration")?,
-        ),
-        token_declaration(
-            "transition-timing-function",
-            tokens.material.motion.get("easing")?,
-        ),
     ]);
+    append_transition(
+        &mut declarations,
+        tokens.material.effect.get("state-transition")?,
+        tokens.material.motion.get("duration")?,
+        tokens.material.motion.get("easing")?,
+    );
     Some(declarations)
 }
-
 fn action_tonal(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    let mut declarations = typography(tokens, "label-size", "label-weight", None)?;
+    let mut declarations = typography_from_tokens(tokens, "label-size", "label-weight", None)?;
+    append_inline_action_layout(&mut declarations);
     declarations.extend([
-        declaration("display", "inline-flex"),
-        declaration("align-items", "center"),
-        declaration("justify-content", "center"),
-        declaration("min-height", "2.5rem"),
-        declaration("line-height", "1"),
         token_declaration("color", tokens.material.color.get("on-primary-container")?),
         token_declaration(
             "background-color",
@@ -235,75 +242,52 @@ fn action_tonal(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         token_declaration("border-radius", tokens.material.radius.get("lg")?),
         token_declaration("padding", tokens.material.space.get("action-pad")?),
         token_declaration("box-shadow", tokens.material.shadow.get("tonal-action")?),
-        token_declaration(
-            "transition-duration",
-            tokens.material.motion.get("duration")?,
-        ),
-        token_declaration(
-            "transition-timing-function",
-            tokens.material.motion.get("easing")?,
-        ),
     ]);
+    append_transition(
+        &mut declarations,
+        tokens.material.effect.get("state-transition")?,
+        tokens.material.motion.get("duration")?,
+        tokens.material.motion.get("easing")?,
+    );
     Some(declarations)
 }
-
 fn action_outlined(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    let mut declarations = typography(tokens, "label-size", "label-weight", None)?;
+    let mut declarations = typography_from_tokens(tokens, "label-size", "label-weight", None)?;
+    append_inline_action_layout(&mut declarations);
     declarations.extend([
-        declaration("display", "inline-flex"),
-        declaration("align-items", "center"),
-        declaration("justify-content", "center"),
-        declaration("min-height", "2.5rem"),
-        declaration("line-height", "1"),
         token_declaration("color", tokens.material.color.get("primary")?),
         token_declaration("background-color", tokens.material.color.get("surface")?),
         token_declaration("border", tokens.material.border.get("outlined-action")?),
         token_declaration("border-radius", tokens.material.radius.get("pill")?),
         token_declaration("padding", tokens.material.space.get("action-pad")?),
         token_declaration("box-shadow", tokens.material.shadow.get("outlined-action")?),
-        token_declaration(
-            "transition-duration",
-            tokens.material.motion.get("duration")?,
-        ),
-        token_declaration(
-            "transition-timing-function",
-            tokens.material.motion.get("easing")?,
-        ),
     ]);
+    append_transition(
+        &mut declarations,
+        tokens.material.effect.get("state-transition")?,
+        tokens.material.motion.get("duration")?,
+        tokens.material.motion.get("easing")?,
+    );
     Some(declarations)
 }
-
 fn shadow(tokens: &TokenRegistry, key: &str) -> Option<Vec<Declaration>> {
     Some(vec![token_declaration(
         "box-shadow",
         tokens.material.shadow.get(key)?,
     )])
 }
-
-fn typography(
+fn typography_from_tokens(
     tokens: &TokenRegistry,
     size_key: &str,
     weight_key: &str,
     color: Option<&str>,
 ) -> Option<Vec<Declaration>> {
-    let mut declarations = vec![
-        token_declaration(
-            "font-family",
-            tokens.material.typography.get("font-family")?,
-        ),
-        token_declaration("font-size", tokens.material.typography.get(size_key)?),
-        token_declaration("font-weight", tokens.material.typography.get(weight_key)?),
-        token_declaration(
-            "line-height",
-            tokens.material.typography.get("line-height")?,
-        ),
-        token_declaration(
-            "letter-spacing",
-            tokens.material.typography.get("tracking")?,
-        ),
-    ];
-    if let Some(color) = color {
-        declarations.push(token_declaration("color", color));
-    }
-    Some(declarations)
+    Some(typography(
+        tokens.material.typography.get("font-family")?,
+        tokens.material.typography.get(size_key)?,
+        tokens.material.typography.get(weight_key)?,
+        tokens.material.typography.get("line-height")?,
+        tokens.material.typography.get("tracking")?,
+        color,
+    ))
 }

@@ -1,5 +1,6 @@
 mod fluent;
 mod material;
+mod shared;
 
 use crate::parse::{Family, ParsedClass, Variant};
 use crate::token::TokenRegistry;

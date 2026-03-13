@@ -57,8 +57,13 @@
   "motion": {
     "duration": "180ms",
     "easing": "cubic-bezier(0.2, 0, 0, 1)"
+  },
+  "effect": {
+    "surface-tint": "linear-gradient(180deg, rgba(232, 240, 254, 0.48), rgba(255, 255, 255, 0))",
+    "container-tint": "linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(232, 240, 254, 0.24))",
+    "variant-tint": "linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(211, 227, 253, 0.24))",
+    "field-tint": "linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(232, 240, 254, 0.22))",
+    "transition": "background-color, box-shadow, border-color",
+    "state-transition": "background-color, color, box-shadow, border-color"
   }
 }
-
-
-

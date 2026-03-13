@@ -1,4 +1,4 @@
-use motif_core::token::load_registry;
+use motif_core::token::{load_registry, parse_registry, TokenError};
 
 #[test]
 fn loads_embedded_token_registry() {
@@ -9,11 +9,171 @@ fn loads_embedded_token_registry() {
         Some("rgba(255, 255, 255, 0.58)")
     );
     assert_eq!(
+        registry
+            .fluent
+            .effect
+            .get("surface-tint")
+            .map(String::as_str),
+        Some("linear-gradient(135deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.08))")
+    );
+    assert_eq!(
         registry.material.color.get("primary").map(String::as_str),
         Some("#1a73e8")
+    );
+    assert_eq!(
+        registry
+            .material
+            .effect
+            .get("container-tint")
+            .map(String::as_str),
+        Some("linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(232, 240, 254, 0.24))")
     );
     assert_eq!(
         registry.material.space.get("field-pad").map(String::as_str),
         Some("0.9rem 1rem")
     );
+}
+
+#[test]
+fn rejects_registry_with_missing_required_token_key() {
+    let fluent = r##"{
+      "color": {
+        "primary": "#0f6cbd",
+        "surface": "rgba(243, 243, 243, 0.78)",
+        "surface-alt": "rgba(255, 255, 255, 0.58)",
+        "panel": "rgba(255, 255, 255, 0.74)",
+        "text": "#1f1f1f",
+        "muted": "#5f5f5f",
+        "border": "rgba(255, 255, 255, 0.68)",
+        "border-strong": "rgba(255, 255, 255, 0.94)",
+        "hover-primary": "#115ea3",
+        "hover-subtle": "rgba(255, 255, 255, 0.82)",
+        "border-focus": "rgba(15, 108, 189, 0.72)",
+        "field": "rgba(255, 255, 255, 0.82)",
+        "action-foreground": "#ffffff",
+        "action-subtle": "rgba(255, 255, 255, 0.7)"
+      },
+      "space": {
+        "md": "1rem",
+        "focus-offset": "2px",
+        "surface-pad": "1.25rem",
+        "surface-pad-sm": "0.9rem",
+        "panel-pad": "1rem",
+        "field-pad": "0.78rem 0.95rem",
+        "action-pad": "0.8rem 1.08rem"
+      },
+      "outline": { "focus-width": "2px" },
+      "radius": { "md": "8px", "sm": "6px", "lg": "12px" },
+      "typography": {
+        "font-family": "'Segoe UI', sans-serif",
+        "title-size": "1.2rem",
+        "title-weight": "600",
+        "body-size": "0.95rem",
+        "body-weight": "400",
+        "label-size": "0.875rem",
+        "label-weight": "600",
+        "line-height": "1.5",
+        "tracking": "0"
+      },
+      "border": {
+        "subtle-width": "1px",
+        "divider": "1px solid rgba(255, 255, 255, 0.82)",
+        "field": "1px solid rgba(255, 255, 255, 0.96)",
+        "panel": "1px solid rgba(255, 255, 255, 0.96)",
+        "action-subtle": "1px solid rgba(255, 255, 255, 0.98)",
+        "action-primary": "1px solid rgba(255, 255, 255, 0.22)"
+      },
+      "shadow": {
+        "surface": "0 8px 24px rgba(0, 0, 0, 0.08)",
+        "surface-alt": "0 14px 34px rgba(0, 0, 0, 0.12)",
+        "panel": "0 22px 44px rgba(0, 0, 0, 0.12)",
+        "field": "inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.1)",
+        "action": "0 8px 18px rgba(15, 108, 189, 0.34)",
+        "action-subtle": "0 8px 20px rgba(0, 0, 0, 0.08)",
+        "press": "inset 0 1px 1px rgba(255, 255, 255, 0.14), 0 2px 6px rgba(0, 0, 0, 0.14)"
+      },
+      "motion": {
+        "duration": "160ms",
+        "easing": "cubic-bezier(0.1, 0.9, 0.2, 1)"
+      },
+      "effect": {
+        "surface-tint": "linear-gradient(135deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.08))",
+        "surface-alt-tint": "linear-gradient(135deg, rgba(255, 255, 255, 0.48), rgba(255, 255, 255, 0.12))",
+        "panel-tint": "linear-gradient(180deg, rgba(255, 255, 255, 0.44), rgba(255, 255, 255, 0.16))",
+        "transition": "background-color, border-color, box-shadow, backdrop-filter",
+        "interactive-transition": "background-color, border-color, box-shadow, transform"
+      }
+    }"##;
+
+    let material = r##"{
+      "color": {
+        "primary": "#1a73e8",
+        "on-primary": "#ffffff",
+        "primary-container": "#d3e3fd",
+        "hover-primary": "#1765cc",
+        "hover-container": "#c6dafc",
+        "hover-surface": "#f8fafd",
+        "on-primary-container": "#041e49",
+        "surface": "#ffffff",
+        "surface-container": "#f5f7fb",
+        "surface-variant": "#e8eef9",
+        "on-surface": "#1f1f1f",
+        "muted": "#5f6368",
+        "field": "#ffffff"
+      },
+      "space": { "field-pad": "0.9rem 1rem", "action-pad": "0.85rem 1.2rem" },
+      "border": {
+        "divider": "1px solid #dadce0",
+        "field": "1px solid #bcc8db",
+        "focus": "1px solid #1a73e8",
+        "outlined-action": "1px solid #b6c3d6",
+        "surface-container": "1px solid #dbe3f0"
+      },
+      "radius": { "md": "12px", "lg": "16px", "pill": "999px" },
+      "shadow": {
+        "1": "0 1px 2px rgba(60, 64, 67, 0.24)",
+        "2": "0 2px 6px rgba(60, 64, 67, 0.30)",
+        "surface": "0 1px 3px rgba(60, 64, 67, 0.24)",
+        "container": "0 1px 2px rgba(60, 64, 67, 0.16)",
+        "container-high": "0 4px 12px rgba(60, 64, 67, 0.12)",
+        "field": "0 1px 2px rgba(60, 64, 67, 0.08)",
+        "action": "0 2px 6px rgba(26, 115, 232, 0.28)",
+        "outlined-action": "0 1px 2px rgba(60, 64, 67, 0.12)",
+        "tonal-action": "0 1px 3px rgba(26, 115, 232, 0.16)",
+        "press": "0 1px 2px rgba(60, 64, 67, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.18)"
+      },
+      "typography": {
+        "font-family": "'Google Sans', 'Roboto', sans-serif",
+        "title-size": "1.25rem",
+        "title-weight": "500",
+        "body-size": "1rem",
+        "body-weight": "400",
+        "label-size": "0.875rem",
+        "label-weight": "500",
+        "line-height": "1.5",
+        "tracking": "0.01em"
+      },
+      "motion": {
+        "duration": "180ms",
+        "easing": "cubic-bezier(0.2, 0, 0, 1)"
+      },
+      "effect": {
+        "surface-tint": "linear-gradient(180deg, rgba(232, 240, 254, 0.48), rgba(255, 255, 255, 0))",
+        "container-tint": "linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(232, 240, 254, 0.24))",
+        "variant-tint": "linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(211, 227, 253, 0.24))",
+        "field-tint": "linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(232, 240, 254, 0.22))",
+        "transition": "background-color, box-shadow, border-color",
+        "state-transition": "background-color, color, box-shadow, border-color"
+      }
+    }"##;
+
+    let error = parse_registry(fluent, material).expect_err("missing effect key should fail");
+    assert!(matches!(
+        error,
+        TokenError::MissingKey {
+            preset: "fluent",
+            group: "effect",
+            key: "field-tint"
+        }
+    ));
 }
