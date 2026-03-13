@@ -136,10 +136,12 @@ fn assert_variant_selectors(css: &str) {
 
 fn assert_theme_selectors(css: &str) {
     assert!(css.contains(".f-surface {"));
+    assert!(css.contains("background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.08));"));
     assert!(css.contains("backdrop-filter: blur(18px) saturate(1.15);"));
     assert!(css.contains(".f-surface-alt {"));
     assert!(css.contains("backdrop-filter: blur(28px) saturate(1.25);"));
     assert!(css.contains(".m-surface-variant {"));
+    assert!(css.contains("background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(211, 227, 253, 0.24));"));
     assert!(css.contains("background-color: #e8eef9;"));
     assert!(css.contains(".m-bg-primary-container {"));
     assert!(css.contains("background-color: #d3e3fd;"));
@@ -150,15 +152,21 @@ fn assert_workspace_selectors(css: &str) {
     assert!(css.contains(".f-label {"));
     assert!(css.contains(".f-divider {"));
     assert!(css.contains(".f-field {"));
+    assert!(css.contains("caret-color: #0f6cbd;"));
     assert!(css.contains(".f-panel {"));
     assert!(css.contains(".f-action-primary {"));
+    assert!(
+        css.contains("transition-property: background-color, border-color, box-shadow, transform;")
+    );
     assert!(css.contains(".f-action-subtle {"));
     assert!(css.contains(".hover\\:f-bg-hover-subtle:hover {"));
     assert!(css.contains(".focus\\:f-border-focus:focus {"));
     assert!(css.contains(".m-label {"));
     assert!(css.contains(".m-divider {"));
     assert!(css.contains(".m-field {"));
+    assert!(css.contains("caret-color: #1a73e8;"));
     assert!(css.contains(".m-surface-container {"));
+    assert!(css.contains("background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(232, 240, 254, 0.24));"));
     assert!(css.contains(".m-action-primary {"));
     assert!(css.contains(".m-action-tonal {"));
     assert!(css.contains(".m-action-outlined {"));

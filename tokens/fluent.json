@@ -64,6 +64,13 @@
   "motion": {
     "duration": "160ms",
     "easing": "cubic-bezier(0.1, 0.9, 0.2, 1)"
+  },
+  "effect": {
+    "surface-tint": "linear-gradient(135deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.08))",
+    "surface-alt-tint": "linear-gradient(135deg, rgba(255, 255, 255, 0.48), rgba(255, 255, 255, 0.12))",
+    "panel-tint": "linear-gradient(180deg, rgba(255, 255, 255, 0.44), rgba(255, 255, 255, 0.16))",
+    "field-tint": "linear-gradient(180deg, rgba(255, 255, 255, 0.38), rgba(255, 255, 255, 0.14))",
+    "transition": "background-color, border-color, box-shadow, backdrop-filter",
+    "interactive-transition": "background-color, border-color, box-shadow, transform"
   }
 }
-
