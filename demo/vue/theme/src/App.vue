@@ -6,7 +6,7 @@
       <p class="f-text-muted f-body">The outer surface stays soft and quiet, while the inner layer feels more like a lifted acrylic pane.</p>
       <div class="f-surface-alt f-stack">
         <p class="f-text-muted f-body">Acrylic-like panel</p>
-        <button class="hero-button focus:f-ring hover:f-bg-hover-primary">Fluent button</button>
+        <button class="hero-button focus:f-ring hover:f-bg-hover-primary active:f-shadow-press">Fluent button</button>
       </div>
     </section>
     <section class="m-surface f-stack dark:m-elevation-1">
@@ -16,7 +16,7 @@
       <div class="m-surface-variant f-stack">
         <p class="m-text-muted m-body">Surface container</p>
         <button class="hero-button m-bg-primary-container">Primary container</button>
-        <button class="hero-button m-bg-primary m-text-on-primary focus:m-ring active:m-shadow-2">Material button</button>
+        <button class="hero-button m-action-primary focus:m-ring hover:m-bg-hover-primary active:m-shadow-press">Material button</button>
       </div>
     </section>
   </main>
@@ -38,4 +38,6 @@
   cursor: pointer;
 }
 </style>
+
+
 

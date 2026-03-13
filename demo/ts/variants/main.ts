@@ -8,7 +8,8 @@ app.innerHTML = `
   <section class="m-surface f-stack dark:m-elevation-1">
     <h1 class="f-text-primary">motif TypeScript variants</h1>
     <p>Compile <code>main.ts</code> to <code>dist/main.js</code>, then open <code>index.html</code>.</p>
-    <button class="focus:m-ring hover:f-bg-hover-primary active:m-shadow-2">TS variants</button>
+    <button class="focus:m-ring hover:m-bg-hover-primary active:m-shadow-press">TS variants</button>
   </section>
 `;
+
 

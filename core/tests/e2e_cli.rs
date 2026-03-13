@@ -78,7 +78,7 @@ fn generates_expected_css_for_all_demo_scenarios() {
 
         assert!(
             result.status.success(),
-            "demo={} stdout={} stderr={}",
+            "demo={} stdout={} stderr= {}",
             demo_dir.display(),
             String::from_utf8_lossy(&result.stdout),
             String::from_utf8_lossy(&result.stderr)
@@ -109,7 +109,10 @@ fn generates_expected_css_for_all_demo_scenarios() {
 fn assert_case_selectors(css: &str) {
     assert!(css.contains(".f-stack {"));
     assert!(css.contains(".focus\\:f-ring:focus {") || css.contains(".focus\\:m-ring:focus {"));
-    assert!(css.contains(".hover\\:f-bg-hover-primary:hover {"));
+    assert!(
+        css.contains(".hover\\:f-bg-hover-primary:hover {")
+            || css.contains(".hover\\:m-bg-hover-primary:hover {")
+    );
     assert!(css.contains(".m-surface {"));
 }
 
@@ -119,8 +122,12 @@ fn assert_demo_selectors(css: &str) {
 }
 
 fn assert_variant_selectors(css: &str) {
-    assert!(css.contains(".active\\:m-shadow-2:active {"));
-    assert!(css.contains("box-shadow: 0 2px 6px rgba(60, 64, 67, 0.30);"));
+    assert!(css.contains(".hover\\:m-bg-hover-primary:hover {"));
+    assert!(css.contains("background-color: #1765cc;"));
+    assert!(css.contains(".active\\:m-shadow-press:active {"));
+    assert!(css.contains(
+        "box-shadow: 0 1px 2px rgba(60, 64, 67, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.18);"
+    ));
     assert!(css.contains("@media (prefers-color-scheme: dark) {"));
     assert!(css.contains(".dark\\:m-elevation-1 {"));
     assert!(css.contains("box-shadow: 0 1px 2px rgba(60, 64, 67, 0.24);"));
@@ -153,6 +160,11 @@ fn assert_workspace_selectors(css: &str) {
     assert!(css.contains(".m-action-primary {"));
     assert!(css.contains(".m-action-tonal {"));
     assert!(css.contains(".m-action-outlined {"));
+    assert!(css.contains(".hover\\:m-bg-hover-primary:hover {"));
+    assert!(css.contains(".hover\\:m-bg-hover-container:hover {"));
+    assert!(css.contains(".hover\\:m-bg-hover-surface:hover {"));
+    assert!(css.contains(".active\\:m-shadow-press:active {"));
+    assert!(css.contains(".focus\\:m-border-focus:focus {"));
     assert!(css.contains(".focus\\:m-ring:focus {"));
 }
 

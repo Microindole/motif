@@ -8,21 +8,26 @@ pub(super) fn resolve(parsed: &ParsedClass, tokens: &TokenRegistry) -> Option<Ve
         ("surface", Some("container")) => surface_container(tokens),
         ("surface", Some("variant")) => surface_variant(tokens),
         ("bg", Some("primary")) => bg_primary(tokens),
+        ("bg", Some("hover-primary")) => bg_color(tokens, "hover-primary"),
+        ("bg", Some("hover-container")) => bg_color(tokens, "hover-container"),
+        ("bg", Some("hover-surface")) => bg_color(tokens, "hover-surface"),
         ("bg", Some("primary-container")) => bg_primary_container(tokens),
-        ("text", Some("primary")) => text_primary(tokens),
-        ("text", Some("on-primary")) => text_on_primary(tokens),
-        ("text", Some("muted")) => text_muted(tokens),
+        ("text", Some("primary")) => text_color(tokens, "primary"),
+        ("text", Some("on-primary")) => text_color(tokens, "on-primary"),
+        ("text", Some("muted")) => text_color(tokens, "muted"),
         ("ring", None) => ring(tokens),
         ("title", None) => title(tokens),
         ("body", None) => body(tokens),
         ("label", None) => label(tokens),
         ("divider", None) => divider(tokens),
+        ("border", Some("focus")) => border_focus(tokens),
         ("field", None) => field(tokens),
         ("action", Some("primary")) => action_primary(tokens),
         ("action", Some("tonal")) => action_tonal(tokens),
         ("action", Some("outlined")) => action_outlined(tokens),
-        ("elevation", Some("1")) => elevation_1(tokens),
-        ("shadow", Some("2")) => shadow_2(tokens),
+        ("elevation", Some("1")) => shadow(tokens, "1"),
+        ("shadow", Some("2")) => shadow(tokens, "2"),
+        ("shadow", Some("press")) => shadow(tokens, "press"),
         _ => None,
     }
 }
@@ -80,6 +85,13 @@ fn bg_primary(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     ])
 }
 
+fn bg_color(tokens: &TokenRegistry, key: &str) -> Option<Vec<Declaration>> {
+    Some(vec![token_declaration(
+        "background-color",
+        tokens.material.color.get(key)?,
+    )])
+}
+
 fn bg_primary_container(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     Some(vec![
         token_declaration(
@@ -92,24 +104,10 @@ fn bg_primary_container(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     ])
 }
 
-fn text_primary(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
+fn text_color(tokens: &TokenRegistry, key: &str) -> Option<Vec<Declaration>> {
     Some(vec![token_declaration(
         "color",
-        tokens.material.color.get("primary")?,
-    )])
-}
-
-fn text_on_primary(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    Some(vec![token_declaration(
-        "color",
-        tokens.material.color.get("on-primary")?,
-    )])
-}
-
-fn text_muted(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    Some(vec![token_declaration(
-        "color",
-        tokens.material.color.get("muted")?,
+        tokens.material.color.get(key)?,
     )])
 }
 
@@ -163,6 +161,13 @@ fn divider(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         declaration("display", "block"),
         token_declaration("border-bottom", tokens.material.border.get("divider")?),
     ])
+}
+
+fn border_focus(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
+    Some(vec![token_declaration(
+        "border",
+        tokens.material.border.get("focus")?,
+    )])
 }
 
 fn field(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
@@ -268,17 +273,10 @@ fn action_outlined(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     Some(declarations)
 }
 
-fn elevation_1(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
+fn shadow(tokens: &TokenRegistry, key: &str) -> Option<Vec<Declaration>> {
     Some(vec![token_declaration(
         "box-shadow",
-        tokens.material.shadow.get("1")?,
-    )])
-}
-
-fn shadow_2(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    Some(vec![token_declaration(
-        "box-shadow",
-        tokens.material.shadow.get("2")?,
+        tokens.material.shadow.get(key)?,
     )])
 }
 
