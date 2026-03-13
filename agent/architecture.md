@@ -40,8 +40,10 @@
 ## 质量闸门结构
 - `cargo run -p xtask -- quality`：跨平台硬闸门入口
 - `cargo run -p xtask -- demo-builds`：跨平台 demo 构建验证入口
-- `scripts/check-quality.ps1`：Windows 本地便捷包装
-- `scripts/check-demo-builds.ps1`：Windows 本地便捷包装
+- `scripts/unix/check-quality.sh`：Linux/macOS/POSIX shell 本地便捷包装
+- `scripts/unix/check-demo-builds.sh`：Linux/macOS/POSIX shell 本地便捷包装
+- `scripts/win/check-quality.ps1`：Windows PowerShell 本地便捷包装
+- `scripts/win/check-demo-builds.ps1`：Windows PowerShell 本地便捷包装
 - `.github/workflows/quality.yml`：运行格式化、lint、测试、结构检查、demo 构建
 - `.github/workflows/coverage.yml`：运行 Rust 覆盖率阈值检查
 - `.github/workflows/codeql.yml`：运行 GitHub CodeQL 扫描
@@ -61,3 +63,6 @@
 4. 查 token 与规则
 5. 生成并写出 `motif.css`
 6. 通过 `xtask` 质量闸门压制 AI 生成代码的熵增
+
+
+

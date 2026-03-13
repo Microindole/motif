@@ -32,7 +32,7 @@
 - 已补 token 载入测试并验证通过：`cargo test -p motif-core`
 - 已补 CLI 端到端测试：覆盖 `cases/` 与四类 `demo/` 的 `basic/` / `variants/` / `theme` / `workspace` 场景 CSS 生成结果
 - 已补跨平台工程任务：`cargo run -p xtask -- quality` 与 `cargo run -p xtask -- demo-builds`
-- 已将 `scripts/check-quality.ps1` 与 `scripts/check-demo-builds.ps1` 收敛为本地包装
+- 已将 `scripts/unix/check-quality.sh` / `scripts/win/check-quality.ps1` 与 `scripts/unix/check-demo-builds.sh` / `scripts/win/check-demo-builds.ps1` 收敛为本地包装
 - 已补 GitHub Actions：`quality`、`coverage`、`CodeQL`
 - 已补 Dependabot 配置与 PR 模板
 - 已完成质量闸门第一轮：文件大小、目录扁平度、危险写法、文档入口一致性
@@ -62,3 +62,5 @@
 - TODO: 为 token 数据增加更清晰的 schema 与字段约束。
 - TODO: 继续把重复代码检测、复杂度代理检查、依赖膨胀检查与变更规模检查调到低噪音，再决定哪些升级为 hard gate。
 - TODO: 评估 PR 描述检查与更细的依赖风险分级。
+
+

@@ -6,4 +6,8 @@ The current e2e matrix covers `basic/`, `variants/`, `theme/`, and `workspace/` 
 
 Build-level demo verification lives in `cargo run -p xtask -- demo-builds`.
 
-Repository-wide hard gates live in `cargo run -p xtask -- quality`, with `scripts/check-quality.ps1` kept only as a Windows-local wrapper.
+Repository-wide hard gates live in `cargo run -p xtask -- quality`, with `scripts/unix/check-quality.sh` as a POSIX-local wrapper and `scripts/win/check-quality.ps1` for Windows users.
+
+
+
+

@@ -6,7 +6,7 @@
 Write 2-4 lines explaining what changed and why.
 
 ## Hard checks
-- [ ] `./scripts/check-quality.ps1`
+- [ ] Local quality check passed (`cargo run -p xtask -- quality`, `./scripts/unix/check-quality.sh`, or `./scripts/win/check-quality.ps1`)
 - [ ] CI should pass `quality`, `coverage`, and `CodeQL`
 
 ## Structure review
@@ -24,3 +24,4 @@ Write 2-4 lines explaining what changed and why.
 - [ ] This PR intentionally exceeds the change-size gate and requires explicit human review.
 
 Explain why the change cannot be split safely, and what reviewers should focus on.
+
