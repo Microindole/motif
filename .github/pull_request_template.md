@@ -3,6 +3,8 @@
 - [ ] I updated docs in `agent/` if product direction, architecture, or workflow changed.
 - [ ] I updated `cases/`, `demo/`, or tests if behavior changed.
 
+Write 2-4 lines explaining what changed and why.
+
 ## Hard checks
 - [ ] `./scripts/check-quality.ps1`
 - [ ] CI should pass `quality`, `coverage`, and `CodeQL`
@@ -17,3 +19,8 @@
 - [ ] Names are semantic and not placeholders like `helper`, `util`, `temp`, `final`, or `new`.
 - [ ] Comments explain constraints or tradeoffs, not obvious code steps.
 - [ ] No black-magic or unsafe shortcut was introduced.
+
+## Large change override
+- [ ] This PR intentionally exceeds the change-size gate and requires explicit human review.
+
+Explain why the change cannot be split safely, and what reviewers should focus on.

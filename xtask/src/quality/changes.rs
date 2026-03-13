@@ -1,4 +1,5 @@
 // Compare the current work against a meaningful base so oversized AI edits are caught before review.
+use crate::quality::pr::active_large_change_override_from_env;
 use crate::utils::command_output;
 use std::env;
 use std::path::Path;
@@ -24,6 +25,7 @@ pub fn test_change_size(root: &Path, failures: &mut Vec<String>, warnings: &mut 
         return;
     };
 
+    let override_rationale = active_large_change_override_from_env();
     let counts = collect_counts(&output);
     for (label, value, thresholds) in [
         (
@@ -42,7 +44,13 @@ pub fn test_change_size(root: &Path, failures: &mut Vec<String>, warnings: &mut 
             Thresholds::new(WARN_DELETED_LINES, FAIL_DELETED_LINES),
         ),
     ] {
-        if let Some((is_failure, message)) = evaluate_metric(label, value, thresholds, &spec) {
+        if let Some((is_failure, message)) = evaluate_metric(
+            label,
+            value,
+            thresholds,
+            &spec,
+            override_rationale.as_deref(),
+        ) {
             if is_failure {
                 failures.push(message);
             } else {
@@ -159,6 +167,7 @@ fn evaluate_metric(
     value: usize,
     thresholds: Thresholds,
     spec: &DiffSpec,
+    override_rationale: Option<&str>,
 ) -> Option<(bool, String)> {
     let verb = match label {
         "files" => "touches",
@@ -172,6 +181,14 @@ fn evaluate_metric(
             "change set {verb} {value} {label} in {}; hard limit is {}",
             spec.label, thresholds.fail
         );
+        if let Some(rationale) = override_rationale {
+            return Some((
+                false,
+                format!(
+                    "{message}; large-change override is active and still requires explicit review: {rationale}"
+                ),
+            ));
+        }
         if spec.hard_gate {
             Some((true, message))
         } else {

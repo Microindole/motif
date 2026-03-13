@@ -4,7 +4,9 @@ use xtask::quality::commit::{
 use xtask::quality::dependencies_parse::{
     extract_added_cargo_dependencies, extract_added_json_dependencies,
 };
-use xtask::quality::pr::{parse_pr_body_from_event, validate_pr_body};
+use xtask::quality::pr::{
+    large_change_override_rationale, parse_pr_body_from_event, validate_pr_body,
+};
 
 #[test]
 fn accepts_well_formed_commit_message() {
@@ -50,7 +52,7 @@ fn parses_pr_head_sha_from_github_event_payload() {
     "head": {
       "sha": "abc123def456"
     },
-    "body": "## Summary\nA real summary.\n\n## Hard checks\n- [x] ok\n\n## Structure review\n- [x] ok\n\n## AI-specific review\n- [x] ok"
+    "body": "## Summary\nA real summary.\n\n## Hard checks\n- [x] ok\n\n## Structure review\n- [x] ok\n\n## AI-specific review\n- [x] ok\n\n## Large change override\n- [ ] This PR intentionally exceeds the change-size gate and requires explicit human review.\n\nExplain why the change cannot be split safely, and what reviewers should focus on."
   }
 }"###;
     let sha = parse_pr_head_sha_from_event(payload).expect("head sha should parse");
@@ -61,7 +63,7 @@ fn parses_pr_head_sha_from_github_event_payload() {
 fn parses_pr_body_from_github_event_payload() {
     let payload = r###"{
   "pull_request": {
-    "body": "## Summary\nA real summary.\n\n## Hard checks\n- [x] ok\n\n## Structure review\n- [x] ok\n\n## AI-specific review\n- [x] ok"
+    "body": "## Summary\nA real summary.\n\n## Hard checks\n- [x] ok\n\n## Structure review\n- [x] ok\n\n## AI-specific review\n- [x] ok\n\n## Large change override\n- [ ] This PR intentionally exceeds the change-size gate and requires explicit human review.\n\nExplain why the change cannot be split safely, and what reviewers should focus on."
   }
 }"###;
     let body = parse_pr_body_from_event(payload).expect("body should parse");
@@ -85,11 +87,36 @@ fn rejects_incomplete_pr_template() {
 #[test]
 fn rejects_pr_summary_that_only_keeps_template_checkboxes() {
     let failures = validate_pr_body(
-        "## Summary\n- [x] scoped\n- [x] docs\n\n## Hard checks\n- [x] ok\n\n## Structure review\n- [x] ok\n\n## AI-specific review\n- [x] ok",
+        "## Summary\n- [x] scoped\n- [x] docs\n\n## Hard checks\n- [x] ok\n\n## Structure review\n- [x] ok\n\n## AI-specific review\n- [x] ok\n\n## Large change override\n- [ ] This PR intentionally exceeds the change-size gate and requires explicit human review.\n\nExplain why the change cannot be split safely, and what reviewers should focus on.",
     );
     assert!(failures
         .iter()
         .any(|item| item.contains("PR Summary must include at least one non-checkbox line")));
+}
+
+#[test]
+fn allows_unchecked_large_change_override_checkbox() {
+    let failures = validate_pr_body(
+        "## Summary\nScoped preset refinement for workspace controls.\n\n## Hard checks\n- [x] ok\n\n## Structure review\n- [x] ok\n\n## AI-specific review\n- [x] ok\n\n## Large change override\n- [ ] This PR intentionally exceeds the change-size gate and requires explicit human review.\n\nExplain why the change cannot be split safely, and what reviewers should focus on.",
+    );
+    assert!(failures.is_empty());
+}
+
+#[test]
+fn requires_rationale_when_large_change_override_is_checked() {
+    let failures = validate_pr_body(
+        "## Summary\nScoped preset refinement for workspace controls.\n\n## Hard checks\n- [x] ok\n\n## Structure review\n- [x] ok\n\n## AI-specific review\n- [x] ok\n\n## Large change override\n- [x] This PR intentionally exceeds the change-size gate and requires explicit human review.",
+    );
+    assert!(failures
+        .iter()
+        .any(|item| item.contains("missing rationale")));
+}
+
+#[test]
+fn extracts_large_change_override_rationale() {
+    let body = "## Summary\nScoped preset refinement for workspace controls.\n\n## Hard checks\n- [x] ok\n\n## Structure review\n- [x] ok\n\n## AI-specific review\n- [x] ok\n\n## Large change override\n- [x] This PR intentionally exceeds the change-size gate and requires explicit human review.\n\nThis touches tokens, rules, demos, and tests together and should be reviewed as one vertical slice.";
+    let rationale = large_change_override_rationale(body).expect("override should parse");
+    assert!(rationale.contains("vertical slice"));
 }
 
 #[test]
