@@ -1,4 +1,6 @@
-use xtask::quality::commit::{evaluate_commit_message, parse_pr_head_sha_from_event};
+use xtask::quality::commit::{
+    evaluate_commit_message, evaluate_commit_message_for_commit, parse_pr_head_sha_from_event,
+};
 use xtask::quality::dependencies_parse::{
     extract_added_cargo_dependencies, extract_added_json_dependencies,
 };
@@ -25,13 +27,20 @@ fn rejects_bad_commit_subject_shape() {
 }
 
 #[test]
-fn warns_when_commit_body_is_missing() {
-    let result = evaluate_commit_message("ci: add message checks");
+fn warns_when_commit_body_is_missing_for_non_trivial_change() {
+    let result = evaluate_commit_message_for_commit("ci: add message checks", true);
     assert!(result.failures.is_empty());
     assert!(result
         .warnings
         .iter()
         .any(|item| item.contains("has no body")));
+}
+
+#[test]
+fn skips_commit_body_warning_for_trivial_change() {
+    let result = evaluate_commit_message_for_commit("docs: tweak wording", false);
+    assert!(result.failures.is_empty());
+    assert!(result.warnings.is_empty());
 }
 
 #[test]

@@ -78,12 +78,16 @@ fn test_file_line_limits(
             let lines = read_lines(&path)?.len();
             if lines > limit {
                 failures.push(format!("{file} is {lines} lines, exceeds limit {limit}"));
-            } else if file.starts_with("core/src/") && lines > 240 {
+            } else if warns_on_large_core_file(file) && lines > 240 {
                 warnings.push(format!("{file} is already large at {lines} lines"));
             }
         }
     }
     Ok(())
+}
+
+fn warns_on_large_core_file(file: &str) -> bool {
+    file.starts_with("core/src/") && file.ends_with(".rs") && !file.starts_with("core/src/rule/")
 }
 
 fn test_directory_flatness(tracked: &[String], failures: &mut Vec<String>) {

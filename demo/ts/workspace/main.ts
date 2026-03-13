@@ -22,7 +22,7 @@ app.innerHTML = `
         </label>
         <div style="display:flex;gap:12px;flex-wrap:wrap;">
           <button style="cursor:pointer;" class="f-action-subtle focus:f-ring">Preview panel</button>
-          <button style="cursor:pointer;" class="f-action-primary hover:f-bg-primary">Send update</button>
+          <button style="cursor:pointer;" class="f-action-primary hover:f-bg-hover-primary">Send update</button>
         </div>
       </div>
     </section>
@@ -34,18 +34,19 @@ app.innerHTML = `
       <div class="m-surface-container f-stack">
         <label class="m-label" style="display:grid;gap:10px;">
           Search
-          <input class="m-field" value="Ship the preset charter and workspace demo" />
+          <input class="m-field focus:m-ring" value="Ship the preset charter and workspace demo" />
         </label>
         <label class="m-label" style="display:grid;gap:10px;">
           Highlight
-          <input class="m-field" value="Surface container carries secondary actions" />
+          <input class="m-field focus:m-ring" value="Surface container carries secondary actions" />
         </label>
         <div style="display:flex;gap:12px;flex-wrap:wrap;">
           <button style="cursor:pointer;" class="m-action-outlined">Open filter</button>
           <button style="cursor:pointer;" class="m-action-tonal">Save draft</button>
-          <button style="cursor:pointer;" class="m-action-primary active:m-shadow-2">Create task</button>
+          <button style="cursor:pointer;" class="m-action-primary focus:m-ring active:m-shadow-2">Create task</button>
         </div>
       </div>
     </section>
   </main>
 `;
+

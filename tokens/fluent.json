@@ -2,17 +2,17 @@
   "color": {
     "primary": "#0f6cbd",
     "surface": "rgba(243, 243, 243, 0.78)",
-    "surface-alt": "rgba(255, 255, 255, 0.52)",
-    "panel": "rgba(255, 255, 255, 0.68)",
+    "surface-alt": "rgba(255, 255, 255, 0.58)",
+    "panel": "rgba(255, 255, 255, 0.74)",
     "text": "#1f1f1f",
     "muted": "#5f5f5f",
-    "border": "rgba(255, 255, 255, 0.65)",
-    "border-strong": "rgba(255, 255, 255, 0.9)",
+    "border": "rgba(255, 255, 255, 0.68)",
+    "border-strong": "rgba(255, 255, 255, 0.94)",
     "hover-primary": "#115ea3",
-    "field": "rgba(255, 255, 255, 0.72)",
+    "field": "rgba(255, 255, 255, 0.82)",
     "action-foreground": "#ffffff",
-    "action-subtle": "rgba(255, 255, 255, 0.58)",
-    "action-subtle-border": "rgba(255, 255, 255, 0.94)"
+    "action-subtle": "rgba(255, 255, 255, 0.7)",
+    "action-subtle-border": "rgba(255, 255, 255, 0.98)"
   },
   "space": {
     "md": "1rem",
@@ -20,8 +20,8 @@
     "surface-pad": "1.25rem",
     "surface-pad-sm": "0.9rem",
     "panel-pad": "1rem",
-    "field-pad": "0.75rem 0.9rem",
-    "action-pad": "0.8rem 1.05rem"
+    "field-pad": "0.78rem 0.95rem",
+    "action-pad": "0.8rem 1.08rem"
   },
   "outline": {
     "focus-width": "2px"
@@ -44,21 +44,22 @@
   },
   "border": {
     "subtle-width": "1px",
-    "divider": "1px solid rgba(255, 255, 255, 0.8)",
-    "field": "1px solid rgba(255, 255, 255, 0.9)",
-    "panel": "1px solid rgba(255, 255, 255, 0.92)",
-    "action-subtle": "1px solid rgba(255, 255, 255, 0.94)"
+    "divider": "1px solid rgba(255, 255, 255, 0.82)",
+    "field": "1px solid rgba(255, 255, 255, 0.96)",
+    "panel": "1px solid rgba(255, 255, 255, 0.96)",
+    "action-subtle": "1px solid rgba(255, 255, 255, 0.98)",
+    "action-primary": "1px solid rgba(255, 255, 255, 0.22)"
   },
   "shadow": {
     "surface": "0 8px 24px rgba(0, 0, 0, 0.08)",
-    "surface-alt": "0 12px 32px rgba(0, 0, 0, 0.12)",
-    "panel": "0 18px 36px rgba(0, 0, 0, 0.10)",
-    "field": "inset 0 1px 0 rgba(255, 255, 255, 0.55)",
-    "action": "0 4px 12px rgba(15, 108, 189, 0.28)"
+    "surface-alt": "0 14px 34px rgba(0, 0, 0, 0.12)",
+    "panel": "0 22px 44px rgba(0, 0, 0, 0.12)",
+    "field": "inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.1)",
+    "action": "0 8px 18px rgba(15, 108, 189, 0.34)",
+    "action-subtle": "0 8px 20px rgba(0, 0, 0, 0.08)"
   },
   "motion": {
     "duration": "160ms",
     "easing": "cubic-bezier(0.1, 0.9, 0.2, 1)"
   }
 }
-

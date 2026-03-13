@@ -7,7 +7,7 @@ export function App() {
         <p className="f-text-muted f-body">The outer surface stays soft and quiet, while the inner layer feels more like a lifted acrylic pane.</p>
         <div className="f-surface-alt f-stack">
           <p className="f-text-muted f-body">Acrylic-like panel</p>
-          <button className="focus:f-ring hover:f-bg-primary">Fluent button</button>
+          <button className="focus:f-ring hover:f-bg-hover-primary">Fluent button</button>
         </div>
       </section>
       <section className="m-surface f-stack dark:m-elevation-1">
@@ -17,9 +17,10 @@ export function App() {
         <div className="m-surface-variant f-stack">
           <p className="m-text-muted m-body">Surface container</p>
           <button className="m-bg-primary-container">Primary container</button>
-          <button className="m-bg-primary m-text-on-primary active:m-shadow-2">Material button</button>
+          <button className="m-bg-primary m-text-on-primary focus:m-ring active:m-shadow-2">Material button</button>
         </div>
       </section>
     </>
   );
 }
+

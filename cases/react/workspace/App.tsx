@@ -12,7 +12,7 @@ export function WorkspaceCase() {
             <input className="f-field focus:f-ring" defaultValue="Quarterly sync notes" />
           </label>
           <button className="f-action-subtle focus:f-ring">Preview panel</button>
-          <button className="f-action-primary hover:f-bg-primary">Send update</button>
+          <button className="f-action-primary hover:f-bg-hover-primary">Send update</button>
         </div>
       </div>
       <div className="m-surface f-stack dark:m-elevation-1">
@@ -23,13 +23,14 @@ export function WorkspaceCase() {
         <div className="m-surface-container f-stack">
           <label className="m-label">
             Search
-            <input className="m-field" defaultValue="Ship the preset charter and workspace demo" />
+            <input className="m-field focus:m-ring" defaultValue="Ship the preset charter and workspace demo" />
           </label>
           <button className="m-action-outlined">Open filter</button>
           <button className="m-action-tonal">Save draft</button>
-          <button className="m-action-primary active:m-shadow-2">Create task</button>
+          <button className="m-action-primary focus:m-ring active:m-shadow-2">Create task</button>
         </div>
       </div>
     </>
   );
 }
+

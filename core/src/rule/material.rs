@@ -12,6 +12,7 @@ pub(super) fn resolve(parsed: &ParsedClass, tokens: &TokenRegistry) -> Option<Ve
         ("text", Some("primary")) => text_primary(tokens),
         ("text", Some("on-primary")) => text_on_primary(tokens),
         ("text", Some("muted")) => text_muted(tokens),
+        ("ring", None) => ring(tokens),
         ("title", None) => title(tokens),
         ("body", None) => body(tokens),
         ("label", None) => label(tokens),
@@ -43,6 +44,7 @@ fn surface_container(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
             tokens.material.color.get("surface-container")?,
         ),
         token_declaration("color", tokens.material.color.get("on-surface")?),
+        token_declaration("border", tokens.material.border.get("surface-container")?),
         token_declaration("border-radius", tokens.material.radius.get("lg")?),
         declaration("padding", "1rem"),
         token_declaration("box-shadow", tokens.material.shadow.get("container-high")?),
@@ -111,6 +113,24 @@ fn text_muted(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     )])
 }
 
+fn ring(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
+    Some(vec![
+        declaration("outline-width", "2px"),
+        declaration("outline-style", "solid"),
+        token_declaration("outline-color", tokens.material.color.get("primary")?),
+        declaration("outline-offset", "2px"),
+        declaration("box-shadow", "0 0 0 4px rgba(26, 115, 232, 0.16)"),
+        token_declaration(
+            "transition-duration",
+            tokens.material.motion.get("duration")?,
+        ),
+        token_declaration(
+            "transition-timing-function",
+            tokens.material.motion.get("easing")?,
+        ),
+    ])
+}
+
 fn title(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     typography(
         tokens,
@@ -148,6 +168,7 @@ fn divider(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
 fn field(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = typography(tokens, "body-size", "body-weight", None)?;
     declarations.extend([
+        declaration("min-height", "2.75rem"),
         token_declaration("color", tokens.material.color.get("on-surface")?),
         token_declaration("background-color", tokens.material.color.get("field")?),
         token_declaration("border", tokens.material.border.get("field")?),
@@ -169,6 +190,10 @@ fn field(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
 fn action_primary(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = typography(tokens, "label-size", "label-weight", None)?;
     declarations.extend([
+        declaration("display", "inline-flex"),
+        declaration("align-items", "center"),
+        declaration("justify-content", "center"),
+        declaration("min-height", "2.5rem"),
         declaration("line-height", "1"),
         token_declaration("color", tokens.material.color.get("on-primary")?),
         token_declaration("background-color", tokens.material.color.get("primary")?),
@@ -191,6 +216,10 @@ fn action_primary(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
 fn action_tonal(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = typography(tokens, "label-size", "label-weight", None)?;
     declarations.extend([
+        declaration("display", "inline-flex"),
+        declaration("align-items", "center"),
+        declaration("justify-content", "center"),
+        declaration("min-height", "2.5rem"),
         declaration("line-height", "1"),
         token_declaration("color", tokens.material.color.get("on-primary-container")?),
         token_declaration(
@@ -200,7 +229,7 @@ fn action_tonal(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         declaration("border", "0"),
         token_declaration("border-radius", tokens.material.radius.get("lg")?),
         token_declaration("padding", tokens.material.space.get("action-pad")?),
-        token_declaration("box-shadow", tokens.material.shadow.get("container")?),
+        token_declaration("box-shadow", tokens.material.shadow.get("tonal-action")?),
         token_declaration(
             "transition-duration",
             tokens.material.motion.get("duration")?,
@@ -216,6 +245,10 @@ fn action_tonal(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
 fn action_outlined(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = typography(tokens, "label-size", "label-weight", None)?;
     declarations.extend([
+        declaration("display", "inline-flex"),
+        declaration("align-items", "center"),
+        declaration("justify-content", "center"),
+        declaration("min-height", "2.5rem"),
         declaration("line-height", "1"),
         token_declaration("color", tokens.material.color.get("primary")?),
         token_declaration("background-color", tokens.material.color.get("surface")?),

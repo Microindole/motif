@@ -108,8 +108,8 @@ fn generates_expected_css_for_all_demo_scenarios() {
 
 fn assert_case_selectors(css: &str) {
     assert!(css.contains(".f-stack {"));
-    assert!(css.contains(".focus\\:f-ring:focus {"));
-    assert!(css.contains(".hover\\:f-bg-primary:hover {"));
+    assert!(css.contains(".focus\\:f-ring:focus {") || css.contains(".focus\\:m-ring:focus {"));
+    assert!(css.contains(".hover\\:f-bg-hover-primary:hover {"));
     assert!(css.contains(".m-surface {"));
 }
 
@@ -124,6 +124,7 @@ fn assert_variant_selectors(css: &str) {
     assert!(css.contains("@media (prefers-color-scheme: dark) {"));
     assert!(css.contains(".dark\\:m-elevation-1 {"));
     assert!(css.contains("box-shadow: 0 1px 2px rgba(60, 64, 67, 0.24);"));
+    assert!(css.contains(".focus\\:m-ring:focus {"));
 }
 
 fn assert_theme_selectors(css: &str) {
@@ -132,7 +133,7 @@ fn assert_theme_selectors(css: &str) {
     assert!(css.contains(".f-surface-alt {"));
     assert!(css.contains("backdrop-filter: blur(28px) saturate(1.25);"));
     assert!(css.contains(".m-surface-variant {"));
-    assert!(css.contains("background-color: #eef3fd;"));
+    assert!(css.contains("background-color: #e8eef9;"));
     assert!(css.contains(".m-bg-primary-container {"));
     assert!(css.contains("background-color: #d3e3fd;"));
     assert!(css.contains("color: #041e49;"));
@@ -152,6 +153,7 @@ fn assert_workspace_selectors(css: &str) {
     assert!(css.contains(".m-action-primary {"));
     assert!(css.contains(".m-action-tonal {"));
     assert!(css.contains(".m-action-outlined {"));
+    assert!(css.contains(".focus\\:m-ring:focus {"));
 }
 
 fn repo_root() -> PathBuf {

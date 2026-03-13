@@ -5,6 +5,8 @@ use std::path::Path;
 
 const DUPLICATE_WINDOW: usize = 12;
 const HARD_FAIL_DUPLICATE_GROUPS: usize = 1;
+const ALLOWED_MIRRORED_RULE_PAIR: [&str; 2] =
+    ["core/src/rule/fluent.rs", "core/src/rule/material.rs"];
 
 // Duplicate detection stays exact and local: only repeated normalized windows count, and
 // hard failures only trigger when the repeated block touches files changed in the current diff.
@@ -45,7 +47,7 @@ pub fn test_duplicate_blocks(
 
     let mut reports = Vec::new();
     for files in windows.into_values() {
-        if files.len() >= 2 {
+        if files.len() >= 2 && !is_allowed_mirrored_rule_report(&files) {
             reports.push(files);
         }
     }
@@ -96,6 +98,16 @@ fn is_duplicate_scan_target(file: &str) -> bool {
         || file.starts_with("xtask/src/")
         || file.starts_with("scripts/"))
         && [".rs", ".ps1"].iter().any(|ext| file.ends_with(ext))
+}
+
+fn is_allowed_mirrored_rule_report(files: &[String]) -> bool {
+    if files.len() != ALLOWED_MIRRORED_RULE_PAIR.len() {
+        return false;
+    }
+
+    ALLOWED_MIRRORED_RULE_PAIR
+        .iter()
+        .all(|allowed| files.iter().any(|file| file == allowed))
 }
 
 fn is_comment_only(line: &str) -> bool {

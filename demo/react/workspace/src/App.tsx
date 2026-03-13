@@ -17,7 +17,7 @@ export function App() {
           </label>
           <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
             <button style={{ cursor: "pointer" }} className="f-action-subtle focus:f-ring">Preview panel</button>
-            <button style={{ cursor: "pointer" }} className="f-action-primary hover:f-bg-primary">Send update</button>
+            <button style={{ cursor: "pointer" }} className="f-action-primary hover:f-bg-hover-primary">Send update</button>
           </div>
         </div>
       </section>
@@ -29,19 +29,20 @@ export function App() {
         <div className="m-surface-container f-stack">
           <label className="m-label" style={{ display: "grid", gap: "10px" }}>
             Search
-            <input className="m-field" defaultValue="Ship the preset charter and workspace demo" />
+            <input className="m-field focus:m-ring" defaultValue="Ship the preset charter and workspace demo" />
           </label>
           <label className="m-label" style={{ display: "grid", gap: "10px" }}>
             Highlight
-            <input className="m-field" defaultValue="Surface container carries secondary actions" />
+            <input className="m-field focus:m-ring" defaultValue="Surface container carries secondary actions" />
           </label>
           <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
             <button style={{ cursor: "pointer" }} className="m-action-outlined">Open filter</button>
             <button style={{ cursor: "pointer" }} className="m-action-tonal">Save draft</button>
-            <button style={{ cursor: "pointer" }} className="m-action-primary active:m-shadow-2">Create task</button>
+            <button style={{ cursor: "pointer" }} className="m-action-primary focus:m-ring active:m-shadow-2">Create task</button>
           </div>
         </div>
       </section>
     </main>
   );
 }
+

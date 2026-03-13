@@ -7,6 +7,7 @@ pub(super) fn resolve(parsed: &ParsedClass, tokens: &TokenRegistry) -> Option<Ve
         ("stack", None) => stack(tokens),
         ("ring", None) => ring(tokens),
         ("bg", Some("primary")) => bg_primary(tokens),
+        ("bg", Some("hover-primary")) => bg_hover_primary(tokens),
         ("text", Some("primary")) => text_primary(tokens),
         ("text", Some("muted")) => text_muted(tokens),
         ("surface", None) => surface(tokens),
@@ -48,6 +49,16 @@ fn ring(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
 fn bg_primary(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     Some(vec![
         token_declaration("background-color", tokens.fluent.color.get("primary")?),
+        token_declaration("color", tokens.fluent.color.get("action-foreground")?),
+    ])
+}
+
+fn bg_hover_primary(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
+    Some(vec![
+        token_declaration(
+            "background-color",
+            tokens.fluent.color.get("hover-primary")?,
+        ),
         token_declaration("color", tokens.fluent.color.get("action-foreground")?),
     ])
 }
@@ -102,7 +113,7 @@ fn panel(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         token_declaration("border-radius", tokens.fluent.radius.get("lg")?),
         token_declaration("padding", tokens.fluent.space.get("panel-pad")?),
         token_declaration("box-shadow", tokens.fluent.shadow.get("panel")?),
-        declaration("backdrop-filter", "blur(22px) saturate(1.18)"),
+        declaration("backdrop-filter", "blur(24px) saturate(1.2)"),
     ])
 }
 
@@ -143,12 +154,14 @@ fn divider(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
 fn field(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = typography(tokens, "body-size", "body-weight", None)?;
     declarations.extend([
+        declaration("min-height", "2.75rem"),
         token_declaration("color", tokens.fluent.color.get("text")?),
         token_declaration("background-color", tokens.fluent.color.get("field")?),
         token_declaration("border", tokens.fluent.border.get("field")?),
         token_declaration("border-radius", tokens.fluent.radius.get("sm")?),
         token_declaration("padding", tokens.fluent.space.get("field-pad")?),
         token_declaration("box-shadow", tokens.fluent.shadow.get("field")?),
+        declaration("backdrop-filter", "blur(14px) saturate(1.05)"),
         token_declaration("transition-duration", tokens.fluent.motion.get("duration")?),
         token_declaration(
             "transition-timing-function",
@@ -161,10 +174,14 @@ fn field(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
 fn action_primary(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = typography(tokens, "label-size", "label-weight", None)?;
     declarations.extend([
+        declaration("display", "inline-flex"),
+        declaration("align-items", "center"),
+        declaration("justify-content", "center"),
+        declaration("min-height", "2.5rem"),
         declaration("line-height", "1"),
         token_declaration("color", tokens.fluent.color.get("action-foreground")?),
         token_declaration("background-color", tokens.fluent.color.get("primary")?),
-        declaration("border", "0"),
+        token_declaration("border", tokens.fluent.border.get("action-primary")?),
         token_declaration("border-radius", tokens.fluent.radius.get("md")?),
         token_declaration("padding", tokens.fluent.space.get("action-pad")?),
         token_declaration("box-shadow", tokens.fluent.shadow.get("action")?),
@@ -180,6 +197,10 @@ fn action_primary(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
 fn action_subtle(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = typography(tokens, "label-size", "label-weight", None)?;
     declarations.extend([
+        declaration("display", "inline-flex"),
+        declaration("align-items", "center"),
+        declaration("justify-content", "center"),
+        declaration("min-height", "2.5rem"),
         declaration("line-height", "1"),
         token_declaration("color", tokens.fluent.color.get("primary")?),
         token_declaration(
@@ -189,6 +210,7 @@ fn action_subtle(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         token_declaration("border", tokens.fluent.border.get("action-subtle")?),
         token_declaration("border-radius", tokens.fluent.radius.get("md")?),
         token_declaration("padding", tokens.fluent.space.get("action-pad")?),
+        token_declaration("box-shadow", tokens.fluent.shadow.get("action-subtle")?),
         declaration("backdrop-filter", "blur(18px) saturate(1.08)"),
         token_declaration("transition-duration", tokens.fluent.motion.get("duration")?),
         token_declaration(
