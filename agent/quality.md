@@ -23,8 +23,8 @@
 - `cargo run -p xtask -- demo-builds`
 
 本地 Windows 便捷入口：
-- `scripts/check-quality.ps1`
-- `scripts/check-demo-builds.ps1`
+- `scripts/unix/check-quality.sh` / `scripts/win/check-quality.ps1`
+- `scripts/unix/check-demo-builds.sh` / `scripts/win/check-demo-builds.ps1`
 
 原则：
 - `cargo xtask` 是主入口
@@ -176,3 +176,5 @@
 - 继续收紧架构边界，例如限制跨层调用的方向更细
 - PR 描述进一步校验“Summary”内容不是空话或模板残留
 - 随真实内容开发继续评估哪些 `[candidate]` 应升级为 hard gate，避免 gate 与内容开发脱节
+
+
