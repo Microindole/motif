@@ -13,6 +13,7 @@ pub(super) fn resolve(parsed: &ParsedClass, tokens: &TokenRegistry) -> Option<Ve
         ("surface", None) => surface(tokens),
         ("surface", Some("alt")) => surface_alt(tokens),
         ("panel", None) => panel(tokens),
+        ("shadow", Some("press")) => shadow_press(tokens),
         ("title", None) => title(tokens),
         ("body", None) => body(tokens),
         ("label", None) => label(tokens),
@@ -115,6 +116,13 @@ fn panel(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         token_declaration("box-shadow", tokens.fluent.shadow.get("panel")?),
         declaration("backdrop-filter", "blur(24px) saturate(1.2)"),
     ])
+}
+
+fn shadow_press(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
+    Some(vec![token_declaration(
+        "box-shadow",
+        tokens.fluent.shadow.get("press")?,
+    )])
 }
 
 fn title(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {

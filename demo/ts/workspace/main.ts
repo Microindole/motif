@@ -21,8 +21,8 @@ app.innerHTML = `
           <textarea class="f-field focus:f-ring" rows="4">Tighten the new preset rules and review the AI output guardrails.</textarea>
         </label>
         <div style="display:flex;gap:12px;flex-wrap:wrap;">
-          <button style="cursor:pointer;" class="f-action-subtle focus:f-ring">Preview panel</button>
-          <button style="cursor:pointer;" class="f-action-primary hover:f-bg-hover-primary">Send update</button>
+          <button style="cursor:pointer;" class="f-action-subtle focus:f-ring active:f-shadow-press">Preview panel</button>
+          <button style="cursor:pointer;" class="f-action-primary hover:f-bg-hover-primary active:f-shadow-press">Send update</button>
         </div>
       </div>
     </section>
@@ -34,19 +34,22 @@ app.innerHTML = `
       <div class="m-surface-container f-stack">
         <label class="m-label" style="display:grid;gap:10px;">
           Search
-          <input class="m-field focus:m-ring" value="Ship the preset charter and workspace demo" />
+          <input class="m-field focus:m-border-focus focus:m-ring" value="Ship the preset charter and workspace demo" />
         </label>
         <label class="m-label" style="display:grid;gap:10px;">
           Highlight
-          <input class="m-field focus:m-ring" value="Surface container carries secondary actions" />
+          <input class="m-field focus:m-border-focus focus:m-ring" value="Surface container carries secondary actions" />
         </label>
         <div style="display:flex;gap:12px;flex-wrap:wrap;">
-          <button style="cursor:pointer;" class="m-action-outlined">Open filter</button>
-          <button style="cursor:pointer;" class="m-action-tonal">Save draft</button>
-          <button style="cursor:pointer;" class="m-action-primary focus:m-ring active:m-shadow-2">Create task</button>
+          <button style="cursor:pointer;" class="m-action-outlined hover:m-bg-hover-surface active:m-shadow-press">Open filter</button>
+          <button style="cursor:pointer;" class="m-action-tonal hover:m-bg-hover-container active:m-shadow-press">Save draft</button>
+          <button style="cursor:pointer;" class="m-action-primary focus:m-ring hover:m-bg-hover-primary active:m-shadow-press">Create task</button>
         </div>
       </div>
     </section>
   </main>
 `;
+
+
+
 

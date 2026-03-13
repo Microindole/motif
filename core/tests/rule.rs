@@ -98,6 +98,29 @@ fn resolves_workspace_preset_utilities() {
         .iter()
         .any(|decl| decl.property == "box-shadow" && decl.value.contains("20px")));
 
+    let fluent_press = resolve_rule(&parse_class_name("f-shadow-press").unwrap(), &tokens).unwrap();
+    assert!(fluent_press
+        .declarations
+        .iter()
+        .any(|decl| decl.property == "box-shadow" && decl.value.contains("inset 0 1px 1px")));
+
+    let material_hover = resolve_rule(
+        &parse_class_name("hover:m-bg-hover-primary").unwrap(),
+        &tokens,
+    )
+    .unwrap();
+    assert!(material_hover
+        .declarations
+        .iter()
+        .any(|decl| decl.property == "background-color" && decl.value == "#1765cc"));
+
+    let material_press =
+        resolve_rule(&parse_class_name("m-shadow-press").unwrap(), &tokens).unwrap();
+    assert!(material_press
+        .declarations
+        .iter()
+        .any(|decl| decl.property == "box-shadow" && decl.value.contains("inset 0 1px 0")));
+
     let material_ring = resolve_rule(&parse_class_name("m-ring").unwrap(), &tokens).unwrap();
     assert!(material_ring
         .declarations
