@@ -7,9 +7,9 @@ const workspace = `
     <div class="f-panel f-stack">
       <label class="f-label">
         Subject
-        <input class="f-field focus:f-ring" value="Quarterly sync notes" />
+        <input class="f-field focus:f-border-focus focus:f-ring" value="Quarterly sync notes" />
       </label>
-      <button class="f-action-subtle focus:f-ring active:f-shadow-press">Preview panel</button>
+      <button class="f-action-subtle focus:f-ring hover:f-bg-hover-subtle active:f-shadow-press">Preview panel</button>
       <button class="f-action-primary hover:f-bg-hover-primary active:f-shadow-press">Send update</button>
     </div>
   </div>
@@ -31,6 +31,7 @@ const workspace = `
 `;
 
 document.body.innerHTML = workspace;
+
 
 
 

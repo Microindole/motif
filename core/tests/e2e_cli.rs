@@ -153,6 +153,8 @@ fn assert_workspace_selectors(css: &str) {
     assert!(css.contains(".f-panel {"));
     assert!(css.contains(".f-action-primary {"));
     assert!(css.contains(".f-action-subtle {"));
+    assert!(css.contains(".hover\\:f-bg-hover-subtle:hover {"));
+    assert!(css.contains(".focus\\:f-border-focus:focus {"));
     assert!(css.contains(".m-label {"));
     assert!(css.contains(".m-divider {"));
     assert!(css.contains(".m-field {"));

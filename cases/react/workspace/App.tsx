@@ -9,9 +9,9 @@ export function WorkspaceCase() {
         <div className="f-panel f-stack">
           <label className="f-label">
             Subject
-            <input className="f-field focus:f-ring" defaultValue="Quarterly sync notes" />
+            <input className="f-field focus:f-border-focus focus:f-ring" defaultValue="Quarterly sync notes" />
           </label>
-          <button className="f-action-subtle focus:f-ring active:f-shadow-press">Preview panel</button>
+          <button className="f-action-subtle focus:f-ring hover:f-bg-hover-subtle active:f-shadow-press">Preview panel</button>
           <button className="f-action-primary hover:f-bg-hover-primary active:f-shadow-press">Send update</button>
         </div>
       </div>
@@ -33,6 +33,7 @@ export function WorkspaceCase() {
     </>
   );
 }
+
 
 
 

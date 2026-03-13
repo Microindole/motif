@@ -14,14 +14,14 @@ app.innerHTML = `
       <div class="f-panel f-stack">
         <label class="f-label" style="display:grid;gap:10px;">
           Subject
-          <input class="f-field focus:f-ring" value="Quarterly sync notes" />
+          <input class="f-field focus:f-border-focus focus:f-ring" value="Quarterly sync notes" />
         </label>
         <label class="f-label" style="display:grid;gap:10px;">
           Summary
-          <textarea class="f-field focus:f-ring" rows="4">Tighten the new preset rules and review the AI output guardrails.</textarea>
+          <textarea class="f-field focus:f-border-focus focus:f-ring" rows="4">Tighten the new preset rules and review the AI output guardrails.</textarea>
         </label>
         <div style="display:flex;gap:12px;flex-wrap:wrap;">
-          <button style="cursor:pointer;" class="f-action-subtle focus:f-ring active:f-shadow-press">Preview panel</button>
+          <button style="cursor:pointer;" class="f-action-subtle focus:f-ring hover:f-bg-hover-subtle active:f-shadow-press">Preview panel</button>
           <button style="cursor:pointer;" class="f-action-primary hover:f-bg-hover-primary active:f-shadow-press">Send update</button>
         </div>
       </div>
@@ -49,6 +49,7 @@ app.innerHTML = `
     </section>
   </main>
 `;
+
 
 
 
