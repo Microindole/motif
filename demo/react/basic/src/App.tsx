@@ -4,8 +4,9 @@ export function App() {
       <section className="m-surface f-stack">
         <h1 className="f-text-primary">motif React demo</h1>
         <p>Generate <code>motif.css</code>, then run <code>npm install</code> and <code>npm run dev</code>.</p>
-        <button className="focus:f-ring hover:f-bg-primary">React basic</button>
+        <button className="f-action-primary focus:f-ring hover:f-bg-hover-primary">React basic</button>
       </section>
     </main>
   );
 }
+

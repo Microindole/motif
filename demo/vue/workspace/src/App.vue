@@ -16,7 +16,7 @@
         </label>
         <div class="cluster">
           <button class="button-reset f-action-subtle focus:f-ring">Preview panel</button>
-          <button class="button-reset f-action-primary hover:f-bg-primary">Send update</button>
+          <button class="button-reset f-action-primary hover:f-bg-hover-primary">Send update</button>
         </div>
       </div>
     </section>
@@ -28,16 +28,16 @@
       <div class="m-surface-container f-stack">
         <label class="m-label row">
           Search
-          <input class="entry m-field" value="Ship the preset charter and workspace demo" />
+          <input class="entry m-field focus:m-ring" value="Ship the preset charter and workspace demo" />
         </label>
         <label class="m-label row">
           Highlight
-          <input class="entry m-field" value="Surface container carries secondary actions" />
+          <input class="entry m-field focus:m-ring" value="Surface container carries secondary actions" />
         </label>
         <div class="cluster">
           <button class="button-reset m-action-outlined">Open filter</button>
           <button class="button-reset m-action-tonal">Save draft</button>
-          <button class="button-reset m-action-primary active:m-shadow-2">Create task</button>
+          <button class="button-reset m-action-primary focus:m-ring active:m-shadow-2">Create task</button>
         </div>
       </div>
     </section>
@@ -74,3 +74,4 @@
   cursor: pointer;
 }
 </style>
+

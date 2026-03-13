@@ -10,7 +10,7 @@ const workspace = `
         <input class="f-field focus:f-ring" value="Quarterly sync notes" />
       </label>
       <button class="f-action-subtle focus:f-ring">Preview panel</button>
-      <button class="f-action-primary hover:f-bg-primary">Send update</button>
+      <button class="f-action-primary hover:f-bg-hover-primary">Send update</button>
     </div>
   </div>
   <div class="m-surface f-stack dark:m-elevation-1">
@@ -21,13 +21,14 @@ const workspace = `
     <div class="m-surface-container f-stack">
       <label class="m-label">
         Search
-        <input class="m-field" value="Ship the preset charter and workspace demo" />
+        <input class="m-field focus:m-ring" value="Ship the preset charter and workspace demo" />
       </label>
       <button class="m-action-outlined">Open filter</button>
       <button class="m-action-tonal">Save draft</button>
-      <button class="m-action-primary active:m-shadow-2">Create task</button>
+      <button class="m-action-primary focus:m-ring active:m-shadow-2">Create task</button>
     </div>
   </div>
 `;
 
 document.body.innerHTML = workspace;
+

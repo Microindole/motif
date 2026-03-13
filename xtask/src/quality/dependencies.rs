@@ -55,7 +55,7 @@ fn test_cargo_manifest(
         ));
     } else if count > limits.warn {
         warnings.push(format!(
-            "{manifest} declares {count} direct dependencies; review whether they all pay for themselves"
+            "[warn] {manifest} declares {count} direct dependencies; review whether they all pay for themselves"
         ));
     }
     Ok(())
@@ -87,7 +87,7 @@ fn test_package_manifests(
             ));
         } else if dependency_count > DEMO_LIMITS.warn {
             warnings.push(format!(
-                "{manifest} declares {dependency_count} npm dependencies; review whether the demo is pulling too much"
+                "[warn] {manifest} declares {dependency_count} npm dependencies; review whether the demo is pulling too much"
             ));
         }
 
@@ -101,7 +101,7 @@ fn test_package_manifests(
     for (name, version_set) in versions {
         if version_set.len() >= 2 {
             warnings.push(format!(
-                "npm dependency `{name}` uses multiple versions across demos: {}",
+                "[warn] npm dependency `{name}` uses multiple versions across demos: {}",
                 version_set.into_iter().collect::<Vec<_>>().join(", ")
             ));
         }
@@ -116,7 +116,9 @@ fn test_added_dependencies(
     warnings: &mut Vec<String>,
 ) -> Result<(), String> {
     let Some(spec) = changes::diff_spec(root) else {
-        warnings.push("dependency-diff check skipped: no usable diff base available".to_string());
+        warnings.push(
+            "[info] dependency-diff check skipped: no usable diff base available".to_string(),
+        );
         return Ok(());
     };
 
@@ -135,7 +137,7 @@ fn test_added_dependencies(
         if spec.hard_gate {
             failures.push(message);
         } else {
-            warnings.push(format!("{message}; local branch signal only"));
+            warnings.push(format!("[warn] {message}; local branch signal only"));
         }
     }
 
@@ -146,6 +148,7 @@ fn test_added_dependencies(
             continue;
         }
 
+        let severity = classify_demo_dependency_risk(&names);
         let message = format!(
             "{manifest} adds npm dependencies in {}: {}",
             spec.label,
@@ -156,11 +159,53 @@ fn test_added_dependencies(
                 "{message}; demo dependency additions are too broad for one change"
             ));
         } else {
-            warnings.push(message);
+            warnings.push(format!("[{severity}] {message}"));
         }
     }
 
     Ok(())
+}
+
+fn classify_demo_dependency_risk(names: &[String]) -> &'static str {
+    let mut has_warn = false;
+    for name in names {
+        if is_candidate_dependency(name) {
+            return "candidate";
+        }
+        if !is_toolchain_dependency(name) {
+            has_warn = true;
+        }
+    }
+
+    if has_warn {
+        "warn"
+    } else {
+        "info"
+    }
+}
+
+fn is_toolchain_dependency(name: &str) -> bool {
+    name == "vite"
+        || name == "typescript"
+        || name.starts_with("@types/")
+        || name.starts_with("@vitejs/")
+        || name == "tslib"
+}
+
+fn is_candidate_dependency(name: &str) -> bool {
+    matches!(
+        name,
+        "next"
+            | "nuxt"
+            | "gatsby"
+            | "tailwindcss"
+            | "bootstrap"
+            | "antd"
+            | "@mui/material"
+            | "@chakra-ui/react"
+            | "lodash"
+            | "moment"
+    )
 }
 
 fn tracked_demo_manifests(root: &Path) -> Result<Vec<String>, String> {
@@ -179,4 +224,27 @@ fn manifest_diff(root: &Path, range: &str, manifest: &str) -> Result<Vec<String>
         root,
     )?;
     Ok(output.lines().map(|line| line.to_string()).collect())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::classify_demo_dependency_risk;
+
+    #[test]
+    fn marks_toolchain_only_demo_additions_as_info() {
+        let names = vec!["vite".to_string(), "typescript".to_string()];
+        assert_eq!(classify_demo_dependency_risk(&names), "info");
+    }
+
+    #[test]
+    fn marks_regular_demo_additions_as_warn() {
+        let names = vec!["react".to_string(), "zustand".to_string()];
+        assert_eq!(classify_demo_dependency_risk(&names), "warn");
+    }
+
+    #[test]
+    fn marks_heavy_or_overlapping_demo_additions_as_candidate() {
+        let names = vec!["tailwindcss".to_string()];
+        assert_eq!(classify_demo_dependency_risk(&names), "candidate");
+    }
 }

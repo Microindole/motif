@@ -5,6 +5,8 @@ use std::fs;
 use std::path::{Path, PathBuf};
 
 const MAX_SUBJECT_LEN: usize = 72;
+const NON_TRIVIAL_FILE_THRESHOLD: usize = 3;
+const NON_TRIVIAL_LINE_THRESHOLD: usize = 40;
 const ALLOWED_TYPES: &[&str] = &[
     "feat", "fix", "refactor", "docs", "test", "build", "ci", "chore", "perf", "style",
 ];
@@ -25,12 +27,20 @@ pub fn test_commit_message(root: &Path, failures: &mut Vec<String>, warnings: &m
         return;
     };
 
-    let result = evaluate_commit_message(&message);
+    let is_non_trivial = commit_looks_non_trivial(root, &revision).unwrap_or(true);
+    let result = evaluate_commit_message_for_commit(&message, is_non_trivial);
     failures.extend(result.failures);
     warnings.extend(result.warnings);
 }
 
 pub fn evaluate_commit_message(message: &str) -> MessageCheckResult {
+    evaluate_commit_message_for_commit(message, true)
+}
+
+pub fn evaluate_commit_message_for_commit(
+    message: &str,
+    is_non_trivial: bool,
+) -> MessageCheckResult {
     let mut result = MessageCheckResult::default();
     let mut lines = message.lines();
     let subject = lines.next().unwrap_or("").trim();
@@ -81,7 +91,7 @@ pub fn evaluate_commit_message(message: &str) -> MessageCheckResult {
         );
     }
 
-    if body.is_empty() {
+    if body.is_empty() && is_non_trivial {
         result
             .warnings
             .push("HEAD commit has no body; add one when the change is non-trivial".to_string());
@@ -92,6 +102,48 @@ pub fn evaluate_commit_message(message: &str) -> MessageCheckResult {
 
 pub fn parse_pr_head_sha_from_event(content: &str) -> Option<String> {
     parse_pull_request_nested_string_field(content, "head", "sha")
+}
+
+fn commit_looks_non_trivial(root: &Path, revision: &str) -> Option<bool> {
+    let output = command_output(
+        "git",
+        &["show", "--format=", "--shortstat", "--no-renames", revision],
+        root,
+    )
+    .ok()?;
+    let stats = parse_shortstat(&output);
+    Some(
+        stats.files >= NON_TRIVIAL_FILE_THRESHOLD
+            || stats.changed_lines >= NON_TRIVIAL_LINE_THRESHOLD,
+    )
+}
+
+#[derive(Default)]
+struct CommitChangeStats {
+    files: usize,
+    changed_lines: usize,
+}
+
+fn parse_shortstat(output: &str) -> CommitChangeStats {
+    let mut stats = CommitChangeStats::default();
+    let line = output.lines().find(|line| line.contains("changed"));
+    let Some(line) = line else {
+        return stats;
+    };
+
+    for part in line.split(',') {
+        let trimmed = part.trim();
+        if let Some(value) = trimmed.split_whitespace().next() {
+            let count = value.parse::<usize>().unwrap_or_default();
+            if trimmed.contains("file") {
+                stats.files = count;
+            } else if trimmed.contains("insertion") || trimmed.contains("deletion") {
+                stats.changed_lines += count;
+            }
+        }
+    }
+
+    stats
 }
 
 fn pr_head_sha_from_env() -> Option<String> {

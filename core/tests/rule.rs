@@ -5,15 +5,15 @@ use motif_core::token::load_registry;
 #[test]
 fn resolves_whitelisted_fluent_rule() {
     let tokens = load_registry().unwrap();
-    let parsed = parse_class_name("hover:f-bg-primary").unwrap();
+    let parsed = parse_class_name("hover:f-bg-hover-primary").unwrap();
     let rule = resolve_rule(&parsed, &tokens).unwrap();
 
-    assert_eq!(rule.raw_class_name, "hover:f-bg-primary");
+    assert_eq!(rule.raw_class_name, "hover:f-bg-hover-primary");
     assert_eq!(rule.variants, parsed.variants);
     assert_eq!(rule.utility, "bg");
-    assert_eq!(rule.value.as_deref(), Some("primary"));
+    assert_eq!(rule.value.as_deref(), Some("hover-primary"));
     assert_eq!(rule.declarations[0].property, "background-color");
-    assert_eq!(rule.declarations[0].value, "#0f6cbd");
+    assert_eq!(rule.declarations[0].value, "#115ea3");
 }
 
 #[test]
@@ -55,7 +55,7 @@ fn resolves_fluent_surface_alt_as_acrylic_panel() {
     assert!(rule
         .declarations
         .iter()
-        .any(|decl| decl.property == "box-shadow" && decl.value.contains("32px")));
+        .any(|decl| decl.property == "box-shadow" && decl.value.contains("34px")));
 }
 
 #[test]
@@ -80,41 +80,51 @@ fn resolves_workspace_preset_utilities() {
 
     let fluent_panel = resolve_rule(&parse_class_name("f-panel").unwrap(), &tokens).unwrap();
     assert!(fluent_panel.declarations.iter().any(
-        |decl| decl.property == "background-color" && decl.value == "rgba(255, 255, 255, 0.68)"
+        |decl| decl.property == "background-color" && decl.value == "rgba(255, 255, 255, 0.74)"
     ));
     assert!(fluent_panel
         .declarations
         .iter()
-        .any(|decl| decl.property == "backdrop-filter" && decl.value.contains("22px")));
+        .any(|decl| decl.property == "backdrop-filter" && decl.value.contains("24px")));
 
     let fluent_action =
         resolve_rule(&parse_class_name("f-action-subtle").unwrap(), &tokens).unwrap();
     assert!(fluent_action
         .declarations
         .iter()
-        .any(|decl| decl.property == "border" && decl.value.contains("rgba(255, 255, 255, 0.94)")));
+        .any(|decl| decl.property == "border" && decl.value.contains("rgba(255, 255, 255, 0.98)")));
     assert!(fluent_action
         .declarations
         .iter()
-        .any(|decl| decl.property == "color" && decl.value == "#0f6cbd"));
+        .any(|decl| decl.property == "box-shadow" && decl.value.contains("20px")));
+
+    let material_ring = resolve_rule(&parse_class_name("m-ring").unwrap(), &tokens).unwrap();
+    assert!(material_ring
+        .declarations
+        .iter()
+        .any(|decl| decl.property == "box-shadow" && decl.value.contains("0 0 0 4px")));
 
     let material_surface =
         resolve_rule(&parse_class_name("m-surface-container").unwrap(), &tokens).unwrap();
     assert!(material_surface
         .declarations
         .iter()
-        .any(|decl| decl.property == "background-color" && decl.value == "#f3f6fc"));
+        .any(|decl| decl.property == "background-color" && decl.value == "#f5f7fb"));
+    assert!(material_surface
+        .declarations
+        .iter()
+        .any(|decl| decl.property == "border" && decl.value == "1px solid #dbe3f0"));
 
     let material_action =
         resolve_rule(&parse_class_name("m-action-outlined").unwrap(), &tokens).unwrap();
     assert!(material_action
         .declarations
         .iter()
-        .any(|decl| decl.property == "border" && decl.value == "1px solid #c2c8d0"));
+        .any(|decl| decl.property == "border" && decl.value == "1px solid #b6c3d6"));
     assert!(material_action
         .declarations
         .iter()
-        .any(|decl| decl.property == "background-color" && decl.value == "#ffffff"));
+        .any(|decl| decl.property == "min-height" && decl.value == "2.5rem"));
 }
 
 #[test]
@@ -125,10 +135,14 @@ fn resolves_fluent_field_and_material_action_rules() {
     assert!(fluent_field
         .declarations
         .iter()
-        .any(|decl| decl.property == "border" && decl.value.contains("rgba(255, 255, 255, 0.9)")));
+        .any(|decl| decl.property == "border" && decl.value.contains("rgba(255, 255, 255, 0.96)")));
     assert!(fluent_field.declarations.iter().any(
-        |decl| decl.property == "background-color" && decl.value == "rgba(255, 255, 255, 0.72)"
+        |decl| decl.property == "background-color" && decl.value == "rgba(255, 255, 255, 0.82)"
     ));
+    assert!(fluent_field
+        .declarations
+        .iter()
+        .any(|decl| decl.property == "backdrop-filter" && decl.value.contains("14px")));
 
     let material_action =
         resolve_rule(&parse_class_name("m-action-tonal").unwrap(), &tokens).unwrap();
@@ -136,10 +150,9 @@ fn resolves_fluent_field_and_material_action_rules() {
         .declarations
         .iter()
         .any(|decl| decl.property == "background-color" && decl.value == "#d3e3fd"));
-    assert!(material_action
-        .declarations
-        .iter()
-        .any(|decl| decl.property == "color" && decl.value == "#041e49"));
+    assert!(material_action.declarations.iter().any(
+        |decl| decl.property == "box-shadow" && decl.value.contains("rgba(26, 115, 232, 0.16)")
+    ));
 }
 
 #[test]

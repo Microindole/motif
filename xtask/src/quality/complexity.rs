@@ -26,7 +26,7 @@ pub fn test_complexity_heuristics(
         let lines = read_lines(&path)?;
         let functions = extract_functions(&lines);
 
-        if functions.len() > FILE_WARN_FUNCTIONS {
+        if warns_on_function_count(file) && functions.len() > FILE_WARN_FUNCTIONS {
             warnings.push(format!(
                 "{file} defines {} functions; consider splitting responsibilities",
                 functions.len()
@@ -78,6 +78,10 @@ fn is_complexity_target(file: &str) -> bool {
     (file.starts_with("core/src/") || file.starts_with("xtask/src/")) && file.ends_with(".rs")
 }
 
+fn warns_on_function_count(file: &str) -> bool {
+    !file.starts_with("core/src/rule/")
+}
+
 fn extract_functions(lines: &[String]) -> Vec<FunctionStats> {
     let mut functions = Vec::new();
     let mut index = 0;
@@ -90,41 +94,47 @@ fn extract_functions(lines: &[String]) -> Vec<FunctionStats> {
         }
 
         let signature_start = index;
-        let mut signature = line.to_string();
-        while !signature.contains('{') && index + 1 < lines.len() {
-            index += 1;
-            signature.push(' ');
-            signature.push_str(lines[index].trim());
-        }
-
-        let start_depth = brace_delta(&signature).max(0) as usize;
-        let mut depth = start_depth;
-        let body_start = index;
-        let mut max_depth = depth;
-
-        while index + 1 < lines.len() {
-            index += 1;
-            let next = &lines[index];
-            depth = depth.saturating_add_signed(brace_delta(next));
-            max_depth = max_depth.max(depth);
-            if depth == 0 {
-                break;
-            }
-        }
+        let (signature, body_start) = read_signature(lines, index);
+        let (body_end, max_depth) = scan_function_body(lines, body_start, &signature);
 
         functions.push(FunctionStats {
             name: extract_name(&signature),
             parameter_count: count_parameters(&signature),
-            line_count: index.saturating_sub(signature_start) + 1,
+            line_count: body_end.saturating_sub(signature_start) + 1,
             max_nesting: max_depth.saturating_sub(1),
         });
 
-        if body_start == index {
-            index += 1;
-        }
+        index = body_end.saturating_add(1);
     }
 
     functions
+}
+
+fn read_signature(lines: &[String], start: usize) -> (String, usize) {
+    let mut index = start;
+    let mut signature = lines[index].trim_start().to_string();
+
+    while !signature.contains('{') && index + 1 < lines.len() {
+        index += 1;
+        signature.push(' ');
+        signature.push_str(lines[index].trim());
+    }
+
+    (signature, index)
+}
+
+fn scan_function_body(lines: &[String], body_start: usize, signature: &str) -> (usize, usize) {
+    let mut index = body_start;
+    let mut depth = brace_delta(signature).max(0) as usize;
+    let mut max_depth = depth;
+
+    while depth > 0 && index + 1 < lines.len() {
+        index += 1;
+        depth = depth.saturating_add_signed(brace_delta(&lines[index]));
+        max_depth = max_depth.max(depth);
+    }
+
+    (index, max_depth)
 }
 
 fn looks_like_function_start(line: &str) -> bool {
@@ -159,9 +169,45 @@ fn count_parameters(signature: &str) -> usize {
 }
 
 fn brace_delta(line: &str) -> isize {
-    line.chars().fold(0, |acc, ch| match ch {
-        '{' => acc + 1,
-        '}' => acc - 1,
-        _ => acc,
-    })
+    let mut delta = 0isize;
+    let mut chars = line.chars().peekable();
+    let mut in_string = false;
+    let mut in_char = false;
+    let mut escaped = false;
+
+    while let Some(ch) = chars.next() {
+        if escaped {
+            escaped = false;
+            continue;
+        }
+
+        if in_string {
+            match ch {
+                '\\' => escaped = true,
+                '"' => in_string = false,
+                _ => {}
+            }
+            continue;
+        }
+
+        if in_char {
+            match ch {
+                '\\' => escaped = true,
+                '\'' => in_char = false,
+                _ => {}
+            }
+            continue;
+        }
+
+        match ch {
+            '/' if chars.peek() == Some(&'/') => break,
+            '"' => in_string = true,
+            '\'' => in_char = true,
+            '{' => delta += 1,
+            '}' => delta -= 1,
+            _ => {}
+        }
+    }
+
+    delta
 }

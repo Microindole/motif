@@ -5,21 +5,22 @@
     "primary-container": "#d3e3fd",
     "on-primary-container": "#041e49",
     "surface": "#ffffff",
-    "surface-container": "#f3f6fc",
-    "surface-variant": "#eef3fd",
+    "surface-container": "#f5f7fb",
+    "surface-variant": "#e8eef9",
     "on-surface": "#1f1f1f",
     "muted": "#5f6368",
-    "field": "#f8fafd",
+    "field": "#ffffff",
     "outline": "#c2c8d0"
   },
   "space": {
-    "field-pad": "0.875rem 1rem",
+    "field-pad": "0.9rem 1rem",
     "action-pad": "0.85rem 1.2rem"
   },
   "border": {
     "divider": "1px solid #dadce0",
-    "field": "1px solid #c7d2e5",
-    "outlined-action": "1px solid #c2c8d0"
+    "field": "1px solid #bcc8db",
+    "outlined-action": "1px solid #b6c3d6",
+    "surface-container": "1px solid #dbe3f0"
   },
   "radius": {
     "md": "12px",
@@ -31,10 +32,11 @@
     "2": "0 2px 6px rgba(60, 64, 67, 0.30)",
     "surface": "0 1px 3px rgba(60, 64, 67, 0.24)",
     "container": "0 1px 2px rgba(60, 64, 67, 0.16)",
-    "container-high": "0 2px 5px rgba(60, 64, 67, 0.18)",
+    "container-high": "0 4px 12px rgba(60, 64, 67, 0.12)",
     "field": "0 1px 2px rgba(60, 64, 67, 0.08)",
-    "action": "0 1px 2px rgba(26, 115, 232, 0.3)",
-    "outlined-action": "0 1px 2px rgba(60, 64, 67, 0.12)"
+    "action": "0 2px 6px rgba(26, 115, 232, 0.28)",
+    "outlined-action": "0 1px 2px rgba(60, 64, 67, 0.12)",
+    "tonal-action": "0 1px 3px rgba(26, 115, 232, 0.16)"
   },
   "typography": {
     "font-family": "'Google Sans', 'Roboto', sans-serif",
