@@ -8,6 +8,7 @@ pub(super) fn resolve(parsed: &ParsedClass, tokens: &TokenRegistry) -> Option<Ve
         ("ring", None) => ring(tokens),
         ("bg", Some("primary")) => bg_primary(tokens),
         ("bg", Some("hover-primary")) => bg_hover_primary(tokens),
+        ("bg", Some("hover-subtle")) => bg_hover_subtle(tokens),
         ("text", Some("primary")) => text_primary(tokens),
         ("text", Some("muted")) => text_muted(tokens),
         ("surface", None) => surface(tokens),
@@ -17,6 +18,7 @@ pub(super) fn resolve(parsed: &ParsedClass, tokens: &TokenRegistry) -> Option<Ve
         ("title", None) => title(tokens),
         ("body", None) => body(tokens),
         ("label", None) => label(tokens),
+        ("border", Some("focus")) => border_focus(tokens),
         ("divider", None) => divider(tokens),
         ("field", None) => field(tokens),
         ("action", Some("primary")) => action_primary(tokens),
@@ -62,6 +64,13 @@ fn bg_hover_primary(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         ),
         token_declaration("color", tokens.fluent.color.get("action-foreground")?),
     ])
+}
+
+fn bg_hover_subtle(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
+    Some(vec![token_declaration(
+        "background-color",
+        tokens.fluent.color.get("hover-subtle")?,
+    )])
 }
 
 fn text_primary(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
@@ -150,6 +159,13 @@ fn label(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         "label-weight",
         Some(tokens.fluent.color.get("muted")?),
     )
+}
+
+fn border_focus(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
+    Some(vec![token_declaration(
+        "border",
+        tokens.fluent.color.get("border-focus")?,
+    )])
 }
 
 fn divider(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {

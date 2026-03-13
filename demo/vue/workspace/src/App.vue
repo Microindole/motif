@@ -8,14 +8,14 @@
       <div class="f-panel f-stack">
         <label class="f-label row">
           Subject
-          <input class="entry f-field focus:f-ring" value="Quarterly sync notes" />
+          <input class="entry f-field focus:f-border-focus focus:f-ring" value="Quarterly sync notes" />
         </label>
         <label class="f-label row">
           Summary
-          <textarea class="entry f-field focus:f-ring" rows="4">Tighten the new preset rules and review the AI output guardrails.</textarea>
+          <textarea class="entry f-field focus:f-border-focus focus:f-ring" rows="4">Tighten the new preset rules and review the AI output guardrails.</textarea>
         </label>
         <div class="cluster">
-          <button class="button-reset f-action-subtle focus:f-ring active:f-shadow-press">Preview panel</button>
+          <button class="button-reset f-action-subtle focus:f-ring hover:f-bg-hover-subtle active:f-shadow-press">Preview panel</button>
           <button class="button-reset f-action-primary hover:f-bg-hover-primary active:f-shadow-press">Send update</button>
         </div>
       </div>
@@ -74,6 +74,7 @@
   cursor: pointer;
 }
 </style>
+
 
 
 

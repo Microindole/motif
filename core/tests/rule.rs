@@ -104,6 +104,25 @@ fn resolves_workspace_preset_utilities() {
         .iter()
         .any(|decl| decl.property == "box-shadow" && decl.value.contains("inset 0 1px 1px")));
 
+    let fluent_hover_subtle = resolve_rule(
+        &parse_class_name("hover:f-bg-hover-subtle").unwrap(),
+        &tokens,
+    )
+    .unwrap();
+    assert!(fluent_hover_subtle
+        .declarations
+        .iter()
+        .any(
+            |decl| decl.property == "background-color" && decl.value == "rgba(255, 255, 255, 0.82)"
+        ));
+
+    let fluent_border_focus =
+        resolve_rule(&parse_class_name("focus:f-border-focus").unwrap(), &tokens).unwrap();
+    assert!(fluent_border_focus
+        .declarations
+        .iter()
+        .any(|decl| decl.property == "border" && decl.value == "rgba(15, 108, 189, 0.72)"));
+
     let material_hover = resolve_rule(
         &parse_class_name("hover:m-bg-hover-primary").unwrap(),
         &tokens,
