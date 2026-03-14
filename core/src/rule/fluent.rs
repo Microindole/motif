@@ -1,69 +1,60 @@
+#[path = "fluent/data.rs"]
+mod data;
+
 use super::shared::{append_inline_action_layout, append_transition, typography};
 use super::{declaration, token_declaration, Declaration};
 use crate::parse::ParsedClass;
 use crate::token::TokenRegistry;
 
 pub(super) fn resolve(parsed: &ParsedClass, tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    match (parsed.utility.as_str(), parsed.value.as_deref()) {
-        ("stack", None) => stack(tokens),
-        ("ring", None) => ring(tokens),
-        ("bg", Some("primary")) => bg_primary(tokens),
-        ("bg", Some("hover-primary")) => bg_hover_primary(tokens),
-        ("bg", Some("hover-subtle")) => bg_hover_subtle(tokens),
-        ("text", Some("primary")) => text_primary(tokens),
-        ("text", Some("muted")) => text_muted(tokens),
-        ("surface", None) => surface(tokens),
-        ("surface", Some("alt")) => surface_alt(tokens),
-        ("panel", None) => panel(tokens),
-        ("shadow", Some("press")) => shadow_press(tokens),
-        ("title", None) => title(tokens),
-        ("body", None) => body(tokens),
-        ("label", None) => label(tokens),
-        ("border", Some("focus")) => border_focus(tokens),
-        ("divider", None) => divider(tokens),
-        ("field", None) => field(tokens),
-        ("checkbox", None) => checkbox(tokens),
-        ("radio", None) => radio(tokens),
-        ("switch", None) => switch(tokens),
-        ("textarea", None) => textarea(tokens),
-        ("select", None) => select(tokens),
-        ("tab", None) => tab(tokens),
-        ("dialog", None) => dialog(tokens),
-        ("list", Some("item")) => list_item(tokens),
-        ("menu", Some("item")) => menu_item(tokens),
-        ("icon", Some("button")) => icon_button(tokens),
-        ("nav", Some("item")) => nav_item(tokens),
-        ("badge", None) => badge(tokens),
-        ("chip", None) => chip(tokens),
-        ("tag", None) => tag(tokens),
-        ("tooltip", None) => tooltip(tokens),
-        ("banner", None) => banner(tokens),
-        ("drawer", None) => drawer(tokens),
-        ("toast", None) => toast(tokens),
-        ("segmented", Some("button")) => segmented_button(tokens),
-        ("search", Some("field")) => search_field(tokens),
-        ("breadcrumb", None) => breadcrumb(tokens),
-        ("breadcrumb", Some("item")) => breadcrumb_item(tokens),
-        ("avatar", None) => avatar(tokens),
-        ("persona", None) => persona(tokens),
-        ("progress", None) => progress(tokens),
-        ("spinner", None) => spinner(tokens),
-        ("skeleton", None) => skeleton(tokens),
-        ("empty", Some("state")) => empty_state(tokens),
-        ("sheet", None) => sheet(tokens),
-        ("sheet", Some("side")) => sheet_side(tokens),
-        ("sheet", Some("bottom")) => sheet_bottom(tokens),
-        ("table", None) => table(tokens),
-        ("table", Some("header")) => table_header(tokens),
-        ("accordion", Some("item")) => accordion_item(tokens),
-        ("accordion", Some("header")) => accordion_header(tokens),
-        ("accordion", Some("item-open")) => accordion_item_open(tokens),
-        ("table", Some("row")) => table_row(tokens),
-        ("table", Some("row-selected")) => table_row_selected(tokens),
-        ("action", Some("primary")) => action_primary(tokens),
-        ("action", Some("subtle")) => action_subtle(tokens),
-        _ => None,
-    }
+    data::resolve(parsed, tokens).or_else(|| {
+        match (parsed.utility.as_str(), parsed.value.as_deref()) {
+            ("stack", None) => stack(tokens),
+            ("ring", None) => ring(tokens),
+            ("bg", Some("primary")) => bg_primary(tokens),
+            ("bg", Some("hover-primary")) => bg_hover_primary(tokens),
+            ("bg", Some("hover-subtle")) => bg_hover_subtle(tokens),
+            ("text", Some("primary")) => text_primary(tokens),
+            ("text", Some("muted")) => text_muted(tokens),
+            ("surface", None) => surface(tokens),
+            ("surface", Some("alt")) => surface_alt(tokens),
+            ("panel", None) => panel(tokens),
+            ("shadow", Some("press")) => shadow_press(tokens),
+            ("title", None) => title(tokens),
+            ("body", None) => body(tokens),
+            ("label", None) => label(tokens),
+            ("border", Some("focus")) => border_focus(tokens),
+            ("divider", None) => divider(tokens),
+            ("field", None) => field(tokens),
+            ("checkbox", None) => checkbox(tokens),
+            ("radio", None) => radio(tokens),
+            ("switch", None) => switch(tokens),
+            ("textarea", None) => textarea(tokens),
+            ("select", None) => select(tokens),
+            ("tab", None) => tab(tokens),
+            ("dialog", None) => dialog(tokens),
+            ("list", Some("item")) => list_item(tokens),
+            ("menu", Some("item")) => menu_item(tokens),
+            ("icon", Some("button")) => icon_button(tokens),
+            ("nav", Some("item")) => nav_item(tokens),
+            ("tooltip", None) => tooltip(tokens),
+            ("banner", None) => banner(tokens),
+            ("drawer", None) => drawer(tokens),
+            ("toast", None) => toast(tokens),
+            ("segmented", Some("button")) => segmented_button(tokens),
+            ("search", Some("field")) => search_field(tokens),
+            ("breadcrumb", None) => breadcrumb(tokens),
+            ("breadcrumb", Some("item")) => breadcrumb_item(tokens),
+            ("avatar", None) => avatar(tokens),
+            ("persona", None) => persona(tokens),
+            ("sheet", None) => sheet(tokens),
+            ("sheet", Some("side")) => sheet_side(tokens),
+            ("sheet", Some("bottom")) => sheet_bottom(tokens),
+            ("action", Some("primary")) => action_primary(tokens),
+            ("action", Some("subtle")) => action_subtle(tokens),
+            _ => None,
+        }
+    })
 }
 
 fn stack(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
@@ -437,64 +428,6 @@ fn nav_item(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     Some(declarations)
 }
 
-fn badge(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    let mut declarations = typography_from_tokens(tokens, "label-size", "label-weight", None)?;
-    declarations.extend([
-        declaration("display", "inline-flex"),
-        declaration("align-items", "center"),
-        declaration("min-height", "1.75rem"),
-        token_declaration("color", tokens.fluent.color.get("primary")?),
-        token_declaration("background-color", tokens.fluent.color.get("surface-alt")?),
-        token_declaration("border", tokens.fluent.border.get("action-subtle")?),
-        declaration("border-radius", "999px"),
-        token_declaration("padding", tokens.fluent.space.get("surface-pad-sm")?),
-    ]);
-    Some(declarations)
-}
-
-fn chip(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    let mut declarations = typography_from_tokens(tokens, "label-size", "label-weight", None)?;
-    declarations.extend([
-        declaration("display", "inline-flex"),
-        declaration("align-items", "center"),
-        declaration("gap", "0.5rem"),
-        declaration("min-height", "2rem"),
-        token_declaration("color", tokens.fluent.color.get("text")?),
-        token_declaration("background-color", tokens.fluent.color.get("surface-alt")?),
-        token_declaration("border", tokens.fluent.border.get("action-subtle")?),
-        declaration("border-radius", "999px"),
-        token_declaration("padding", tokens.fluent.space.get("surface-pad-sm")?),
-    ]);
-    append_transition(
-        &mut declarations,
-        tokens.fluent.effect.get("interactive-transition")?,
-        tokens.fluent.motion.get("duration")?,
-        tokens.fluent.motion.get("easing")?,
-    );
-    Some(declarations)
-}
-
-fn tag(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    let mut declarations = typography_from_tokens(tokens, "label-size", "label-weight", None)?;
-    declarations.extend([
-        declaration("display", "inline-flex"),
-        declaration("align-items", "center"),
-        declaration("min-height", "1.5rem"),
-        token_declaration("color", tokens.fluent.color.get("primary")?),
-        declaration("background-color", "transparent"),
-        token_declaration("border", tokens.fluent.border.get("action-subtle")?),
-        token_declaration("border-radius", tokens.fluent.radius.get("sm")?),
-        declaration("padding", "0.2rem 0.55rem"),
-    ]);
-    append_transition(
-        &mut declarations,
-        tokens.fluent.effect.get("interactive-transition")?,
-        tokens.fluent.motion.get("duration")?,
-        tokens.fluent.motion.get("easing")?,
-    );
-    Some(declarations)
-}
-
 fn tooltip(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = typography_from_tokens(tokens, "label-size", "label-weight", None)?;
     declarations.extend([
@@ -669,92 +602,6 @@ fn persona(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     Some(declarations)
 }
 
-fn progress(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    let mut declarations = vec![
-        declaration("display", "block"),
-        declaration("inline-size", "100%"),
-        declaration("block-size", "0.5rem"),
-        token_declaration("background-color", tokens.fluent.color.get("surface-alt")?),
-        declaration("border-radius", "999px"),
-        token_declaration(
-            "background-image",
-            tokens.fluent.effect.get("surface-alt-tint")?,
-        ),
-        token_declaration("border", tokens.fluent.border.get("action-subtle")?),
-    ];
-    append_transition(
-        &mut declarations,
-        tokens.fluent.effect.get("interactive-transition")?,
-        tokens.fluent.motion.get("duration")?,
-        tokens.fluent.motion.get("easing")?,
-    );
-    Some(declarations)
-}
-
-fn spinner(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    let mut declarations = vec![
-        declaration("display", "inline-block"),
-        declaration("inline-size", "1.25rem"),
-        declaration("block-size", "1.25rem"),
-        declaration("border-width", "2px"),
-        declaration("border-style", "solid"),
-        token_declaration("border-color", tokens.fluent.color.get("border")?),
-        token_declaration("border-top-color", tokens.fluent.color.get("primary")?),
-        declaration("border-radius", "999px"),
-        declaration("animation", "motif-spin 0.9s linear infinite"),
-    ];
-    append_transition(
-        &mut declarations,
-        tokens.fluent.effect.get("transition")?,
-        tokens.fluent.motion.get("duration")?,
-        tokens.fluent.motion.get("easing")?,
-    );
-    Some(declarations)
-}
-
-fn skeleton(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    let mut declarations = vec![
-        declaration("display", "block"),
-        declaration("min-height", "1rem"),
-        token_declaration("background-color", tokens.fluent.color.get("surface-alt")?),
-        declaration(
-            "background-image",
-            "linear-gradient(90deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.08))",
-        ),
-        declaration("background-size", "200% 100%"),
-        token_declaration("border-radius", tokens.fluent.radius.get("sm")?),
-        declaration("animation", "motif-shimmer 1.4s ease-in-out infinite"),
-    ];
-    append_transition(
-        &mut declarations,
-        tokens.fluent.effect.get("transition")?,
-        tokens.fluent.motion.get("duration")?,
-        tokens.fluent.motion.get("easing")?,
-    );
-    Some(declarations)
-}
-
-fn empty_state(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    let mut declarations = vec![
-        declaration("display", "grid"),
-        declaration("justify-items", "start"),
-        declaration("gap", "0.75rem"),
-        token_declaration("color", tokens.fluent.color.get("muted")?),
-        token_declaration("background-color", tokens.fluent.color.get("surface-alt")?),
-        token_declaration("border", tokens.fluent.border.get("action-subtle")?),
-        token_declaration("border-radius", tokens.fluent.radius.get("lg")?),
-        token_declaration("padding", tokens.fluent.space.get("panel-pad")?),
-        token_declaration("box-shadow", tokens.fluent.shadow.get("surface-alt")?),
-    ];
-    append_transition(
-        &mut declarations,
-        tokens.fluent.effect.get("interactive-transition")?,
-        tokens.fluent.motion.get("duration")?,
-        tokens.fluent.motion.get("easing")?,
-    );
-    Some(declarations)
-}
-
 fn sheet(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = panel(tokens)?;
     declarations.push(declaration("max-width", "28rem"));
@@ -778,122 +625,6 @@ fn sheet_bottom(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     declarations.push(declaration("margin-bottom", "0"));
     declarations.push(declaration("border-bottom-left-radius", "0"));
     declarations.push(declaration("border-bottom-right-radius", "0"));
-    Some(declarations)
-}
-
-fn table(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    let mut declarations = vec![
-        declaration("display", "grid"),
-        declaration("gap", "0.5rem"),
-        token_declaration("color", tokens.fluent.color.get("text")?),
-        token_declaration("background-color", tokens.fluent.color.get("surface-alt")?),
-        token_declaration("border", tokens.fluent.border.get("action-subtle")?),
-        token_declaration("border-radius", tokens.fluent.radius.get("md")?),
-        token_declaration("padding", tokens.fluent.space.get("surface-pad-sm")?),
-    ];
-    append_transition(
-        &mut declarations,
-        tokens.fluent.effect.get("interactive-transition")?,
-        tokens.fluent.motion.get("duration")?,
-        tokens.fluent.motion.get("easing")?,
-    );
-    Some(declarations)
-}
-
-fn table_header(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    let mut declarations = typography_from_tokens(tokens, "label-size", "label-weight", None)?;
-    declarations.extend([
-        declaration("display", "grid"),
-        declaration(
-            "grid-template-columns",
-            "minmax(0, 2fr) minmax(0, 1fr) auto",
-        ),
-        declaration("align-items", "center"),
-        declaration("gap", "0.75rem"),
-        token_declaration("color", tokens.fluent.color.get("muted")?),
-        token_declaration("padding", tokens.fluent.space.get("surface-pad-sm")?),
-    ]);
-    Some(declarations)
-}
-
-fn accordion_item(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    let mut declarations = vec![
-        declaration("display", "grid"),
-        declaration("gap", "0.75rem"),
-        token_declaration("color", tokens.fluent.color.get("text")?),
-        token_declaration("background-color", tokens.fluent.color.get("surface-alt")?),
-        token_declaration("border", tokens.fluent.border.get("action-subtle")?),
-        token_declaration("border-radius", tokens.fluent.radius.get("md")?),
-        token_declaration("padding", tokens.fluent.space.get("surface-pad-sm")?),
-    ];
-    append_transition(
-        &mut declarations,
-        tokens.fluent.effect.get("interactive-transition")?,
-        tokens.fluent.motion.get("duration")?,
-        tokens.fluent.motion.get("easing")?,
-    );
-    Some(declarations)
-}
-
-fn accordion_header(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    let mut declarations = typography_from_tokens(tokens, "label-size", "label-weight", None)?;
-    declarations.extend([
-        declaration("display", "flex"),
-        declaration("align-items", "center"),
-        declaration("justify-content", "space-between"),
-        token_declaration("color", tokens.fluent.color.get("text")?),
-    ]);
-    Some(declarations)
-}
-
-fn accordion_item_open(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    let mut declarations = accordion_item(tokens)?;
-    declarations.push(token_declaration(
-        "background-image",
-        tokens.fluent.effect.get("surface-alt-tint")?,
-    ));
-    declarations.push(token_declaration(
-        "box-shadow",
-        tokens.fluent.shadow.get("surface-alt")?,
-    ));
-    Some(declarations)
-}
-
-fn table_row(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    let mut declarations = vec![
-        declaration("display", "grid"),
-        declaration(
-            "grid-template-columns",
-            "minmax(0, 2fr) minmax(0, 1fr) auto",
-        ),
-        declaration("align-items", "center"),
-        declaration("gap", "0.75rem"),
-        declaration("min-height", "3rem"),
-        token_declaration("color", tokens.fluent.color.get("text")?),
-        token_declaration("background-color", tokens.fluent.color.get("surface-alt")?),
-        token_declaration("border", tokens.fluent.border.get("action-subtle")?),
-        token_declaration("border-radius", tokens.fluent.radius.get("sm")?),
-        token_declaration("padding", tokens.fluent.space.get("surface-pad-sm")?),
-    ];
-    append_transition(
-        &mut declarations,
-        tokens.fluent.effect.get("interactive-transition")?,
-        tokens.fluent.motion.get("duration")?,
-        tokens.fluent.motion.get("easing")?,
-    );
-    Some(declarations)
-}
-
-fn table_row_selected(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    let mut declarations = table_row(tokens)?;
-    declarations.push(token_declaration(
-        "background-image",
-        tokens.fluent.effect.get("surface-alt-tint")?,
-    ));
-    declarations.push(token_declaration(
-        "border-color",
-        tokens.fluent.color.get("border-strong")?,
-    ));
     Some(declarations)
 }
 
