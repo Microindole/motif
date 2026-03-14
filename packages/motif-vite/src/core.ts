@@ -525,6 +525,41 @@ function resolveFluent(parsed: ParsedClass): Declaration[] | null {
         decl('border-radius', '999px'),
         tokenDecl('padding', fluent('space', 'surface-pad-sm')),
       ];
+    case 'chip:':
+      return withTransition(
+        [
+          ...fluentTypography('label-size', 'label-weight'),
+          decl('display', 'inline-flex'),
+          decl('align-items', 'center'),
+          decl('gap', '0.5rem'),
+          decl('min-height', '2rem'),
+          tokenDecl('color', fluent('color', 'text')),
+          tokenDecl('background-color', fluent('color', 'surface-alt')),
+          tokenDecl('border', fluent('border', 'action-subtle')),
+          decl('border-radius', '999px'),
+          tokenDecl('padding', fluent('space', 'surface-pad-sm')),
+        ],
+        fluent('effect', 'interactive-transition'),
+        fluent('motion', 'duration'),
+        fluent('motion', 'easing'),
+      );
+    case 'tag:':
+      return withTransition(
+        [
+          ...fluentTypography('label-size', 'label-weight'),
+          decl('display', 'inline-flex'),
+          decl('align-items', 'center'),
+          decl('min-height', '1.5rem'),
+          tokenDecl('color', fluent('color', 'primary')),
+          decl('background-color', 'transparent'),
+          tokenDecl('border', fluent('border', 'action-subtle')),
+          tokenDecl('border-radius', fluent('radius', 'sm')),
+          decl('padding', '0.2rem 0.55rem'),
+        ],
+        fluent('effect', 'interactive-transition'),
+        fluent('motion', 'duration'),
+        fluent('motion', 'easing'),
+      );
     case 'tooltip:':
       return [
         ...fluentTypography('label-size', 'label-weight'),
@@ -762,6 +797,86 @@ function resolveFluent(parsed: ParsedClass): Declaration[] | null {
         fluent('motion', 'duration'),
         fluent('motion', 'easing'),
       );
+    case 'sheet:side':
+      return withTransition(
+        [
+          tokenDecl('background-color', fluent('color', 'panel')),
+          tokenDecl('background-image', fluent('effect', 'panel-tint')),
+          decl('background-blend-mode', 'screen'),
+          tokenDecl('color', fluent('color', 'text')),
+          tokenDecl('border', fluent('border', 'panel')),
+          tokenDecl('border-radius', fluent('radius', 'lg')),
+          tokenDecl('padding', fluent('space', 'panel-pad')),
+          tokenDecl('box-shadow', fluent('shadow', 'panel')),
+          decl('backdrop-filter', 'blur(24px) saturate(1.2)'),
+          decl('max-width', '28rem'),
+          decl('width', '100%'),
+          decl('margin-inline', 'auto'),
+          decl('min-height', '100%'),
+          decl('margin-right', '0'),
+          decl('border-top-right-radius', '0'),
+          decl('border-bottom-right-radius', '0'),
+        ],
+        fluent('effect', 'interactive-transition'),
+        fluent('motion', 'duration'),
+        fluent('motion', 'easing'),
+      );
+    case 'sheet:bottom':
+      return withTransition(
+        [
+          tokenDecl('background-color', fluent('color', 'panel')),
+          tokenDecl('background-image', fluent('effect', 'panel-tint')),
+          decl('background-blend-mode', 'screen'),
+          tokenDecl('color', fluent('color', 'text')),
+          tokenDecl('border', fluent('border', 'panel')),
+          tokenDecl('border-radius', fluent('radius', 'lg')),
+          tokenDecl('padding', fluent('space', 'panel-pad')),
+          tokenDecl('box-shadow', fluent('shadow', 'panel')),
+          decl('backdrop-filter', 'blur(24px) saturate(1.2)'),
+          decl('max-width', '36rem'),
+          decl('width', '100%'),
+          decl('margin-inline', 'auto'),
+          decl('margin-bottom', '0'),
+          decl('border-bottom-left-radius', '0'),
+          decl('border-bottom-right-radius', '0'),
+        ],
+        fluent('effect', 'interactive-transition'),
+        fluent('motion', 'duration'),
+        fluent('motion', 'easing'),
+      );
+    case 'table:':
+      return withTransition(
+        [
+          decl('display', 'grid'),
+          decl('gap', '0.5rem'),
+          tokenDecl('color', fluent('color', 'text')),
+          tokenDecl('background-color', fluent('color', 'surface-alt')),
+          tokenDecl('border', fluent('border', 'action-subtle')),
+          tokenDecl('border-radius', fluent('radius', 'md')),
+          tokenDecl('padding', fluent('space', 'surface-pad-sm')),
+        ],
+        fluent('effect', 'interactive-transition'),
+        fluent('motion', 'duration'),
+        fluent('motion', 'easing'),
+      );
+    case 'table:header':
+      return [
+        ...fluentTypography('label-size', 'label-weight'),
+        decl('display', 'grid'),
+        decl('grid-template-columns', 'minmax(0, 2fr) minmax(0, 1fr) auto'),
+        decl('align-items', 'center'),
+        decl('gap', '0.75rem'),
+        tokenDecl('color', fluent('color', 'muted')),
+        tokenDecl('padding', fluent('space', 'surface-pad-sm')),
+      ];
+    case 'accordion:header':
+      return [
+        ...fluentTypography('label-size', 'label-weight'),
+        decl('display', 'flex'),
+        decl('align-items', 'center'),
+        decl('justify-content', 'space-between'),
+        tokenDecl('color', fluent('color', 'text')),
+      ];
     case 'accordion:item':
       return withTransition(
         [
@@ -1196,6 +1311,41 @@ function resolveMaterial(parsed: ParsedClass): Declaration[] | null {
         tokenDecl('border-radius', material('radius', 'pill')),
         decl('padding', '0.35rem 0.75rem'),
       ];
+    case 'chip:':
+      return withTransition(
+        [
+          ...materialTypography('label-size', 'label-weight'),
+          decl('display', 'inline-flex'),
+          decl('align-items', 'center'),
+          decl('gap', '0.5rem'),
+          decl('min-height', '2rem'),
+          tokenDecl('color', material('color', 'primary')),
+          tokenDecl('background-color', material('color', 'surface-container')),
+          tokenDecl('border', material('border', 'outlined-action')),
+          tokenDecl('border-radius', material('radius', 'pill')),
+          decl('padding', '0.55rem 0.85rem'),
+        ],
+        material('effect', 'state-transition'),
+        material('motion', 'duration'),
+        material('motion', 'easing'),
+      );
+    case 'tag:':
+      return withTransition(
+        [
+          ...materialTypography('label-size', 'label-weight'),
+          decl('display', 'inline-flex'),
+          decl('align-items', 'center'),
+          decl('min-height', '1.5rem'),
+          tokenDecl('color', material('color', 'primary')),
+          decl('background-color', 'transparent'),
+          tokenDecl('border', material('border', 'outlined-action')),
+          tokenDecl('border-radius', material('radius', 'md')),
+          decl('padding', '0.2rem 0.55rem'),
+        ],
+        material('effect', 'state-transition'),
+        material('motion', 'duration'),
+        material('motion', 'easing'),
+      );
     case 'tooltip:':
       return [
         ...materialTypography('label-size', 'label-weight'),
@@ -1431,6 +1581,82 @@ function resolveMaterial(parsed: ParsedClass): Declaration[] | null {
         material('motion', 'duration'),
         material('motion', 'easing'),
       );
+    case 'sheet:side':
+      return withTransition(
+        [
+          tokenDecl('background-color', material('color', 'surface-container')),
+          tokenDecl('background-image', material('effect', 'container-tint')),
+          tokenDecl('color', material('color', 'on-surface')),
+          tokenDecl('border', material('border', 'surface-container')),
+          tokenDecl('border-radius', material('radius', 'lg')),
+          decl('padding', '1rem'),
+          tokenDecl('box-shadow', material('shadow', 'container-high')),
+          decl('max-width', '28rem'),
+          decl('width', '100%'),
+          decl('margin-inline', 'auto'),
+          decl('min-height', '100%'),
+          decl('margin-right', '0'),
+          decl('border-top-right-radius', '0'),
+          decl('border-bottom-right-radius', '0'),
+        ],
+        material('effect', 'state-transition'),
+        material('motion', 'duration'),
+        material('motion', 'easing'),
+      );
+    case 'sheet:bottom':
+      return withTransition(
+        [
+          tokenDecl('background-color', material('color', 'surface-container')),
+          tokenDecl('background-image', material('effect', 'container-tint')),
+          tokenDecl('color', material('color', 'on-surface')),
+          tokenDecl('border', material('border', 'surface-container')),
+          tokenDecl('border-radius', material('radius', 'lg')),
+          decl('padding', '1rem'),
+          tokenDecl('box-shadow', material('shadow', 'container-high')),
+          decl('max-width', '36rem'),
+          decl('width', '100%'),
+          decl('margin-inline', 'auto'),
+          decl('margin-bottom', '0'),
+          decl('border-bottom-left-radius', '0'),
+          decl('border-bottom-right-radius', '0'),
+        ],
+        material('effect', 'state-transition'),
+        material('motion', 'duration'),
+        material('motion', 'easing'),
+      );
+    case 'table:':
+      return withTransition(
+        [
+          decl('display', 'grid'),
+          decl('gap', '0.5rem'),
+          tokenDecl('color', material('color', 'on-surface')),
+          tokenDecl('background-color', material('color', 'surface-container')),
+          tokenDecl('border', material('border', 'surface-container')),
+          tokenDecl('border-radius', material('radius', 'lg')),
+          decl('padding', '0.85rem 1rem'),
+        ],
+        material('effect', 'state-transition'),
+        material('motion', 'duration'),
+        material('motion', 'easing'),
+      );
+    case 'table:header':
+      return [
+        ...materialTypography('label-size', 'label-weight'),
+        decl('display', 'grid'),
+        decl('grid-template-columns', 'minmax(0, 2fr) minmax(0, 1fr) auto'),
+        decl('align-items', 'center'),
+        decl('gap', '0.75rem'),
+        tokenDecl('color', material('color', 'muted')),
+        decl('padding', '0.85rem 1rem'),
+      ];
+    case 'accordion:header':
+      return [
+        ...materialTypography('label-size', 'label-weight'),
+        decl('display', 'flex'),
+        decl('align-items', 'center'),
+        decl('justify-content', 'space-between'),
+        tokenDecl('color', material('color', 'on-surface')),
+      ];
     case 'accordion:item':
       return withTransition(
         [

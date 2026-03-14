@@ -197,3 +197,53 @@ test('compileSources renders eighth batch structured states', () => {
   assert.match(result.stylesheet, /\.m-table-row-selected \{/);
   assert.match(result.stylesheet, /border-color: #1a73e8;/);
 });
+
+test('compileSources renders ninth batch chip and sheet variants', () => {
+  const result = compileSources([
+    {
+      path: '/demo/Layout.tsx',
+      content: `
+        <span class="f-chip"></span>
+        <aside class="m-sheet-side"></aside>
+        <aside class="f-sheet-bottom"></aside>
+      `,
+    },
+  ]);
+
+  assert.match(result.stylesheet, /\.f-chip \{/);
+  assert.match(result.stylesheet, /\.m-sheet-side \{/);
+  assert.match(result.stylesheet, /\.f-sheet-bottom \{/);
+  assert.match(result.stylesheet, /max-width: 36rem;/);
+});
+
+test('compileSources renders tenth batch table container and tag semantics', () => {
+  const result = compileSources([
+    {
+      path: '/demo/DataGroup.tsx',
+      content: `
+        <div class="f-table"></div>
+        <span class="m-tag"></span>
+      `,
+    },
+  ]);
+
+  assert.match(result.stylesheet, /\.f-table \{/);
+  assert.match(result.stylesheet, /\.m-tag \{/);
+  assert.match(result.stylesheet, /min-height: 1.5rem;/);
+});
+
+test('compileSources renders eleventh batch table and accordion headers', () => {
+  const result = compileSources([
+    {
+      path: '/demo/Headers.tsx',
+      content: `
+        <div class="f-table-header"></div>
+        <div class="m-accordion-header"></div>
+      `,
+    },
+  ]);
+
+  assert.match(result.stylesheet, /\.f-table-header \{/);
+  assert.match(result.stylesheet, /\.m-accordion-header \{/);
+  assert.match(result.stylesheet, /justify-content: space-between;/);
+});

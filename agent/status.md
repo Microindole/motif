@@ -65,6 +65,10 @@
 - 已补第四批组件语义：`drawer` `toast` `segmented-button` `search-field` `breadcrumb-item` `avatar`，并接入 workspace 场景
 - 已补第五批组件语义：`progress` `spinner` `skeleton` `empty-state` `sheet`，并为生成器补上 `motif-spin` / `motif-shimmer` 关键帧
 - 已补第六批组件语义：`accordion-item` `table-row`，开始覆盖结构化数据与折叠信息块
+- 已补第七批组合件语义：`breadcrumb` `persona`
+- 已补第八批状态语义：`accordion-item-open` `table-row-selected`
+- 已补第九批展示/容器语义：`chip` `sheet-side` `sheet-bottom`
+- 已补第十批数据组合语义：`table` `tag`
 
 ## 当前优先级
 1. 把 `motif-vite` 的 adapter 从占位骨架接到真实 compile backend

@@ -518,3 +518,64 @@ fn resolves_eighth_batch_structured_states() {
         .iter()
         .any(|decl| decl.property == "border-color" && decl.value == "#1a73e8"));
 }
+
+#[test]
+fn resolves_ninth_batch_chip_and_sheet_variants() {
+    let tokens = load_registry().unwrap();
+
+    let fluent_chip = resolve_rule(&parse_class_name("f-chip").unwrap(), &tokens).unwrap();
+    assert!(fluent_chip
+        .declarations
+        .iter()
+        .any(|decl| decl.property == "min-height" && decl.value == "2rem"));
+
+    let material_sheet_side =
+        resolve_rule(&parse_class_name("m-sheet-side").unwrap(), &tokens).unwrap();
+    assert!(material_sheet_side
+        .declarations
+        .iter()
+        .any(|decl| decl.property == "border-top-right-radius" && decl.value == "0"));
+
+    let fluent_sheet_bottom =
+        resolve_rule(&parse_class_name("f-sheet-bottom").unwrap(), &tokens).unwrap();
+    assert!(fluent_sheet_bottom
+        .declarations
+        .iter()
+        .any(|decl| decl.property == "max-width" && decl.value == "36rem"));
+}
+
+#[test]
+fn resolves_tenth_batch_table_container_and_tag_semantics() {
+    let tokens = load_registry().unwrap();
+
+    let fluent_table = resolve_rule(&parse_class_name("f-table").unwrap(), &tokens).unwrap();
+    assert!(fluent_table
+        .declarations
+        .iter()
+        .any(|decl| decl.property == "display" && decl.value == "grid"));
+
+    let material_tag = resolve_rule(&parse_class_name("m-tag").unwrap(), &tokens).unwrap();
+    assert!(material_tag
+        .declarations
+        .iter()
+        .any(|decl| decl.property == "min-height" && decl.value == "1.5rem"));
+}
+
+#[test]
+fn resolves_eleventh_batch_table_and_accordion_headers() {
+    let tokens = load_registry().unwrap();
+
+    let fluent_table_header =
+        resolve_rule(&parse_class_name("f-table-header").unwrap(), &tokens).unwrap();
+    assert!(fluent_table_header
+        .declarations
+        .iter()
+        .any(|decl| decl.property == "grid-template-columns"));
+
+    let material_accordion_header =
+        resolve_rule(&parse_class_name("m-accordion-header").unwrap(), &tokens).unwrap();
+    assert!(material_accordion_header
+        .declarations
+        .iter()
+        .any(|decl| decl.property == "justify-content" && decl.value == "space-between"));
+}

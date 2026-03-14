@@ -47,7 +47,9 @@
 | Overlay | `dialog` | `f-dialog` | `m-dialog` | `ui-pad-*` `ui-radius-*` | `scaffolded` | 第一版已接 workspace |
 | Overlay | `menu/menu-item` | `f-menu-item` | `m-menu-item` | `ui-control-*` | `scaffolded` | 第一版已接 workspace |
 | Data | `list-item` | `f-list-item` | `m-list-item` | `ui-control-*` `ui-pad-*` | `scaffolded` | 第一版已接 workspace |
-| Data | `badge/chip` | `f-badge` | `m-badge` | `ui-text-*` `ui-radius-*` | `scaffolded` | 第一版已接 workspace |
+| Data | `badge/chip/tag` | `f-badge` `f-chip` `f-tag` | `m-badge` `m-chip` `m-tag` | `ui-text-*` `ui-radius-*` | `scaffolded` | 第一版已接 workspace |
+| Data | `table / row` | `f-table` `f-table-row` `f-table-row-selected` | `m-table` `m-table-row` `m-table-row-selected` | `ui-pad-*` | `scaffolded` | 第一版已接 workspace |
+| Overlay | `sheet / bottom sheet` | `f-sheet` `f-sheet-side` `f-sheet-bottom` | `m-sheet` `m-sheet-side` `m-sheet-bottom` | `ui-pad-*` `ui-radius-*` | `scaffolded` | 第一版已接 workspace |
 | Feedback | `tooltip` | `f-tooltip` | `m-tooltip` | `ui-text-*` | `scaffolded` | 第一版已接 workspace |
 | Feedback | `banner` | `f-banner` | `m-banner` | `ui-pad-*` | `scaffolded` | 第一版已接 workspace |
 | Feedback | `toast/snackbar` | `f-toast` | `m-toast` | `ui-pad-*` | `scaffolded` | 第一版已接 workspace |

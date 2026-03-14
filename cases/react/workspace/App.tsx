@@ -2,7 +2,7 @@ export function WorkspaceCase() {
   return (
     <>
       <div className="f-drawer f-stack"><div className="f-persona"><div className="f-avatar">A</div><div><div className="f-label">Alex</div><nav className="f-breadcrumb"><div className="f-breadcrumb-item">Workspace</div><div className="f-breadcrumb-item">Inbox</div></nav></div></div><input className="f-search-field" defaultValue="Search drafts" /><button className="f-segmented-button">Focused</button><div className="f-toast">Synced</div></div>
-      <div className="f-banner"><span className="f-badge">Synced</span><button className="f-icon-button">+</button></div>
+      <div className="f-banner"><span className="f-badge">Synced</span><span className="f-chip">Desktop</span><button className="f-icon-button">+</button></div>
       <button className="f-nav-item">Inbox</button>
       <div className="f-surface f-stack">
         <span className="f-label">Windows workspace</span>
@@ -28,12 +28,13 @@ export function WorkspaceCase() {
           <div className="f-spinner"></div>
           <div className="f-skeleton"></div>
           <div className="f-empty-state">No pinned layouts</div>
-          <aside className="f-sheet f-stack">Inspector</aside>
-          <div className="f-accordion-item-open">Rules</div>
-          <div className="f-table-row-selected"><span>Inbox sync</span><span>Pending</span><button className="f-icon-button">+</button></div>
+          <aside className="f-sheet-side f-stack">Inspector</aside>
+          <aside className="f-sheet-bottom f-stack">Bottom tray</aside>
+          <div className="f-accordion-item-open"><div className="f-accordion-header"><span>Rules</span><span className="f-tag">Expanded</span></div></div>
+          <div className="f-table"><div className="f-table-header"><span>Workflow</span><span>Status</span><span>Open</span></div><div className="f-table-row-selected"><span>Inbox sync</span><span className="f-tag">Desktop only</span><button className="f-icon-button">+</button></div></div>
         </div>
       </div>
-      <div className="m-banner"><span className="m-badge">Ready</span><button className="m-icon-button">+</button></div>
+      <div className="m-banner"><span className="m-badge">Ready</span><span className="m-chip">Mobile</span><button className="m-icon-button">+</button></div>
       <div className="m-drawer f-stack"><div className="m-persona"><div className="m-avatar">R</div><div><div className="m-label">Riley</div><nav className="m-breadcrumb"><div className="m-breadcrumb-item">Workspace</div><div className="m-breadcrumb-item">Board</div></nav></div></div><input className="m-search-field" defaultValue="Search tasks" /><button className="m-segmented-button">Board</button><div className="m-toast">Ready</div></div>
       <button className="m-nav-item">Board</button>
       <div className="m-surface f-stack dark:m-elevation-1">
@@ -61,9 +62,10 @@ export function WorkspaceCase() {
           <div className="m-spinner"></div>
           <div className="m-skeleton"></div>
           <div className="m-empty-state">No suggested tasks</div>
-          <aside className="m-sheet f-stack">Details</aside>
-          <div className="m-accordion-item-open">Constraints</div>
-          <div className="m-table-row-selected"><span>Board publish</span><span>Today</span><button className="m-icon-button">+</button></div>
+          <aside className="m-sheet-side f-stack">Details</aside>
+          <aside className="m-sheet-bottom f-stack">Bottom tray</aside>
+          <div className="m-accordion-item-open"><div className="m-accordion-header"><span>Constraints</span><span className="m-tag">Expanded</span></div></div>
+          <div className="m-table"><div className="m-table-header"><span>Workflow</span><span>Status</span><span>Open</span></div><div className="m-table-row-selected"><span>Board publish</span><span className="m-tag">Shared</span><button className="m-icon-button">+</button></div></div>
         </div>
       </div>
     </>

@@ -34,6 +34,8 @@ pub(super) fn resolve(parsed: &ParsedClass, tokens: &TokenRegistry) -> Option<Ve
         ("icon", Some("button")) => icon_button(tokens),
         ("nav", Some("item")) => nav_item(tokens),
         ("badge", None) => badge(tokens),
+        ("chip", None) => chip(tokens),
+        ("tag", None) => tag(tokens),
         ("tooltip", None) => tooltip(tokens),
         ("banner", None) => banner(tokens),
         ("drawer", None) => drawer(tokens),
@@ -49,7 +51,12 @@ pub(super) fn resolve(parsed: &ParsedClass, tokens: &TokenRegistry) -> Option<Ve
         ("skeleton", None) => skeleton(tokens),
         ("empty", Some("state")) => empty_state(tokens),
         ("sheet", None) => sheet(tokens),
+        ("sheet", Some("side")) => sheet_side(tokens),
+        ("sheet", Some("bottom")) => sheet_bottom(tokens),
+        ("table", None) => table(tokens),
+        ("table", Some("header")) => table_header(tokens),
         ("accordion", Some("item")) => accordion_item(tokens),
+        ("accordion", Some("header")) => accordion_header(tokens),
         ("accordion", Some("item-open")) => accordion_item_open(tokens),
         ("table", Some("row")) => table_row(tokens),
         ("table", Some("row-selected")) => table_row_selected(tokens),
@@ -445,6 +452,49 @@ fn badge(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     Some(declarations)
 }
 
+fn chip(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
+    let mut declarations = typography_from_tokens(tokens, "label-size", "label-weight", None)?;
+    declarations.extend([
+        declaration("display", "inline-flex"),
+        declaration("align-items", "center"),
+        declaration("gap", "0.5rem"),
+        declaration("min-height", "2rem"),
+        token_declaration("color", tokens.fluent.color.get("text")?),
+        token_declaration("background-color", tokens.fluent.color.get("surface-alt")?),
+        token_declaration("border", tokens.fluent.border.get("action-subtle")?),
+        declaration("border-radius", "999px"),
+        token_declaration("padding", tokens.fluent.space.get("surface-pad-sm")?),
+    ]);
+    append_transition(
+        &mut declarations,
+        tokens.fluent.effect.get("interactive-transition")?,
+        tokens.fluent.motion.get("duration")?,
+        tokens.fluent.motion.get("easing")?,
+    );
+    Some(declarations)
+}
+
+fn tag(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
+    let mut declarations = typography_from_tokens(tokens, "label-size", "label-weight", None)?;
+    declarations.extend([
+        declaration("display", "inline-flex"),
+        declaration("align-items", "center"),
+        declaration("min-height", "1.5rem"),
+        token_declaration("color", tokens.fluent.color.get("primary")?),
+        declaration("background-color", "transparent"),
+        token_declaration("border", tokens.fluent.border.get("action-subtle")?),
+        token_declaration("border-radius", tokens.fluent.radius.get("sm")?),
+        declaration("padding", "0.2rem 0.55rem"),
+    ]);
+    append_transition(
+        &mut declarations,
+        tokens.fluent.effect.get("interactive-transition")?,
+        tokens.fluent.motion.get("duration")?,
+        tokens.fluent.motion.get("easing")?,
+    );
+    Some(declarations)
+}
+
 fn tooltip(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = typography_from_tokens(tokens, "label-size", "label-weight", None)?;
     declarations.extend([
@@ -713,6 +763,59 @@ fn sheet(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     Some(declarations)
 }
 
+fn sheet_side(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
+    let mut declarations = sheet(tokens)?;
+    declarations.push(declaration("min-height", "100%"));
+    declarations.push(declaration("margin-right", "0"));
+    declarations.push(declaration("border-top-right-radius", "0"));
+    declarations.push(declaration("border-bottom-right-radius", "0"));
+    Some(declarations)
+}
+
+fn sheet_bottom(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
+    let mut declarations = sheet(tokens)?;
+    declarations.push(declaration("max-width", "36rem"));
+    declarations.push(declaration("margin-bottom", "0"));
+    declarations.push(declaration("border-bottom-left-radius", "0"));
+    declarations.push(declaration("border-bottom-right-radius", "0"));
+    Some(declarations)
+}
+
+fn table(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
+    let mut declarations = vec![
+        declaration("display", "grid"),
+        declaration("gap", "0.5rem"),
+        token_declaration("color", tokens.fluent.color.get("text")?),
+        token_declaration("background-color", tokens.fluent.color.get("surface-alt")?),
+        token_declaration("border", tokens.fluent.border.get("action-subtle")?),
+        token_declaration("border-radius", tokens.fluent.radius.get("md")?),
+        token_declaration("padding", tokens.fluent.space.get("surface-pad-sm")?),
+    ];
+    append_transition(
+        &mut declarations,
+        tokens.fluent.effect.get("interactive-transition")?,
+        tokens.fluent.motion.get("duration")?,
+        tokens.fluent.motion.get("easing")?,
+    );
+    Some(declarations)
+}
+
+fn table_header(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
+    let mut declarations = typography_from_tokens(tokens, "label-size", "label-weight", None)?;
+    declarations.extend([
+        declaration("display", "grid"),
+        declaration(
+            "grid-template-columns",
+            "minmax(0, 2fr) minmax(0, 1fr) auto",
+        ),
+        declaration("align-items", "center"),
+        declaration("gap", "0.75rem"),
+        token_declaration("color", tokens.fluent.color.get("muted")?),
+        token_declaration("padding", tokens.fluent.space.get("surface-pad-sm")?),
+    ]);
+    Some(declarations)
+}
+
 fn accordion_item(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = vec![
         declaration("display", "grid"),
@@ -729,6 +832,17 @@ fn accordion_item(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         tokens.fluent.motion.get("duration")?,
         tokens.fluent.motion.get("easing")?,
     );
+    Some(declarations)
+}
+
+fn accordion_header(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
+    let mut declarations = typography_from_tokens(tokens, "label-size", "label-weight", None)?;
+    declarations.extend([
+        declaration("display", "flex"),
+        declaration("align-items", "center"),
+        declaration("justify-content", "space-between"),
+        token_declaration("color", tokens.fluent.color.get("text")?),
+    ]);
     Some(declarations)
 }
 

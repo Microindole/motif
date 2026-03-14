@@ -25,7 +25,10 @@ export function App() {
         </aside>
         <div className="f-banner">
           <span className="f-label">Windows workspace</span>
-          <span className="f-badge">Synced</span>
+          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+            <span className="f-badge">Synced</span>
+            <span className="f-chip">Desktop</span>
+          </div>
         </div>
         <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
           <button className="f-nav-item">Inbox</button>
@@ -100,18 +103,35 @@ export function App() {
             <span className="f-title">No pinned layouts yet</span>
             <span className="f-body">Save a workspace snapshot to reuse this Fluent shell later.</span>
           </div>
-          <aside className="f-sheet f-stack">
+          <aside className="f-sheet-side f-stack">
             <span className="f-label">Inspector sheet</span>
             <span className="f-body f-text-muted">Review density, radius, and preset overrides without leaving the canvas.</span>
           </aside>
+          <aside className="f-sheet-bottom f-stack">
+            <span className="f-label">Bottom tray</span>
+            <span className="f-body f-text-muted">Queued shell actions and follow-up suggestions stay docked below the canvas.</span>
+          </aside>
           <div className="f-accordion-item-open">
-            <span className="f-label">Advanced routing rules</span>
+            <div className="f-accordion-header">
+              <span className="f-label">Advanced routing rules</span>
+              <span className="f-tag">Expanded</span>
+            </div>
             <span className="f-body f-text-muted">Expand to review archive, follow-up, and desktop notification behavior.</span>
           </div>
-          <div className="f-table-row-selected">
-            <span className="f-body">Inbox sync</span>
-            <span className="f-label">Pending</span>
-            <button className="f-icon-button" aria-label="Open inbox sync row">+</button>
+          <div className="f-table">
+            <div className="f-table-header">
+              <span className="f-label">Workflow</span>
+              <span className="f-label">Status</span>
+              <span className="f-label">Open</span>
+            </div>
+            <div className="f-table-row-selected">
+              <span className="f-body">Inbox sync</span>
+              <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                <span className="f-label">Pending</span>
+                <span className="f-tag">Desktop only</span>
+              </div>
+              <button className="f-icon-button" aria-label="Open inbox sync row">+</button>
+            </div>
           </div>
         </div>
       </section>
@@ -139,7 +159,10 @@ export function App() {
         </aside>
         <div className="m-banner">
           <span className="m-label">Google workspace</span>
-          <span className="m-badge">Ready</span>
+          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+            <span className="m-badge">Ready</span>
+            <span className="m-chip">Mobile</span>
+          </div>
         </div>
         <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
           <button className="m-nav-item">Board</button>
@@ -220,18 +243,35 @@ export function App() {
             <span className="m-title">No suggested tasks</span>
             <span className="m-body m-text-muted">Create a new issue or import work from another Google-style project board.</span>
           </div>
-          <aside className="m-sheet f-stack">
+          <aside className="m-sheet-side f-stack">
             <span className="m-label">Details sheet</span>
             <span className="m-body m-text-muted">Secondary actions and metadata stay close without overpowering the primary flow.</span>
           </aside>
+          <aside className="m-sheet-bottom f-stack">
+            <span className="m-label">Bottom tray</span>
+            <span className="m-body m-text-muted">Suggested follow-ups and recent board activity stay anchored below the main content.</span>
+          </aside>
           <div className="m-accordion-item-open">
-            <span className="m-label">Delivery constraints</span>
+            <div className="m-accordion-header">
+              <span className="m-label">Delivery constraints</span>
+              <span className="m-tag">Expanded</span>
+            </div>
             <span className="m-body m-text-muted">Expand to inspect owner rules, channel routing, and approval coverage.</span>
           </div>
-          <div className="m-table-row-selected">
-            <span className="m-body">Board publish</span>
-            <span className="m-label">Today</span>
-            <button className="m-icon-button" aria-label="Open board publish row">+</button>
+          <div className="m-table">
+            <div className="m-table-header">
+              <span className="m-label">Workflow</span>
+              <span className="m-label">Status</span>
+              <span className="m-label">Open</span>
+            </div>
+            <div className="m-table-row-selected">
+              <span className="m-body">Board publish</span>
+              <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                <span className="m-label">Today</span>
+                <span className="m-tag">Shared</span>
+              </div>
+              <button className="m-icon-button" aria-label="Open board publish row">+</button>
+            </div>
           </div>
         </div>
       </section>
