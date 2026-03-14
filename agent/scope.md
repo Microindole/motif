@@ -23,6 +23,8 @@
 - 开发态支持 watch，后续支持热更新
 - 保持 preset-first 和强约束语义，不向 Tailwind 式超大自由度扩张
 - 为未来仓库级或文件级 preset migration 预留结构
+- 进入完整组件矩阵建设，逐步覆盖 Fluent 2 / Material 3 的高频 Web 组件语义
+- 将尺寸、密度、圆角、文字级别等非风格参数从 preset 中剥离到 `ui-*` 参数层
 
 ## v0.1 非目标
 - AST 级复杂表达式求值
@@ -41,3 +43,5 @@
 - watch 模式
 - 开发态 CSS 自动更新
 - 文件级扫描结果保留，便于未来 preset migration
+- 组件矩阵文档与按域推进的组件实现
+- checkbox / radio / switch / tabs / dialog / menu / list-item 等高频组件语义

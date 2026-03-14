@@ -1,6 +1,6 @@
 # motif Status
 
-更新时间：2026-03-13
+更新时间：2026-03-14
 
 ## 当前阶段
 - P0：最小扫描到 CSS 输出闭环、双 preset、四类 demo、token 驱动、e2e、构建级验证，以及 AI 熵增防护的多轮质量闸门落地
@@ -28,6 +28,8 @@
 - 已新增 `packages/motif-vite/` 最小骨架：提供 `virtual:motif.css`、目录扫描、adapter 注入与文件变更失效流程
 - 已让 `motif-vite` 在开发态源码变更后主动触发样式刷新，先保证 watch / 热修改链路可感知
 - 已为 `motif-vite` 补上独立 `test` / `typecheck`，并接入 `xtask -- quality`
+- 已引入第一版与 preset 解耦的 `ui-*` 参数层，用于尺寸、圆角、文字大小等非风格参数调节
+- 已建立组件矩阵文档 `agent/components.md`，开始将主线从零散 rule 补齐切到按组件域推进
 - 已实现最小 CSS 生成：支持类名转义、伪类变体、`dark:` 媒体查询包装
 - 已实现最小输出写盘：默认在扫描根目录写出 `motif.css`，也支持显式输出路径
 - 已按 `framework/scenario` 重组 `cases/` 与 `demo/`：覆盖 `native/` `ts/` `react/` `vue/` 的 `basic/`、`variants/`、`theme/`、`workspace/` 场景
@@ -56,14 +58,22 @@
 - 已完成 `cargo run -p xtask -- demo-builds` 全量验证并通过
 - 已把产品文档主线更新为：最终接入体验要像 Tailwind 一样直接，但产品能力继续坚持少量 preset 与强约束语义，而不是走 Tailwind 式大全量 utility 路线
 - 已将 React / Vue 的 Vite demo 接到 `motif-vite`，改为通过 `virtual:motif.css` 注入样式
+- 已开始补第一批完整组件语义：`checkbox` `radio` `switch`
+- 已将 `checkbox` `radio` `switch` 接入 variants 场景与回归断言，开始从“零散 utility”转向真实组件矩阵
+- 已补第二批组件语义：`textarea` `select` `tab` `dialog` `list-item` `menu-item`，并接入 workspace 场景
+- 已补第三批组件语义：`icon-button` `nav-item` `badge` `tooltip` `banner`，并接入 workspace 场景
+- 已补第四批组件语义：`drawer` `toast` `segmented-button` `search-field` `breadcrumb-item` `avatar`，并接入 workspace 场景
+- 已补第五批组件语义：`progress` `spinner` `skeleton` `empty-state` `sheet`，并为生成器补上 `motif-spin` / `motif-shimmer` 关键帧
+- 已补第六批组件语义：`accordion-item` `table-row`，开始覆盖结构化数据与折叠信息块
 
 ## 当前优先级
 1. 把 `motif-vite` 的 adapter 从占位骨架接到真实 compile backend
 2. 明确 `motif-core` 的稳定 contract，避免后续迁到 npm / plugin 入口时重写边界混乱
 3. 优先保证 watch 和自动更新链路，再继续做 HMR 细化
-4. 继续把两套 preset 做得更像 Win11 与 Google 风格
-5. 把 `panel` / `surface-container` / `field` / `action` / `divider` / `label` 继续做细，让真实页面更稳
-6. 继续把 soft warning 降噪，并决定哪些 `[candidate]` 应升级为 hard gate
+4. 按组件矩阵推进第一批高频组件：`checkbox` `radio` `switch` `select` `textarea`
+5. 继续把两套 preset 做得更像 Win11 与 Google 风格
+6. 把 `panel` / `surface-container` / `field` / `action` / `divider` / `label` 继续做细，让真实页面更稳
+7. 继续把 soft warning 降噪，并决定哪些 `[candidate]` 应升级为 hard gate
 
 ## 当前阻塞
 - FIXME: 当前质量闸门已在仓库中落地，并已补上 diff coverage、重复代码检查、架构边界、复杂度代理、依赖膨胀、变更规模与提交信息检查，但 GitHub 分支保护和 CodeQL / Dependabot 的仓库级启用仍需在仓库设置里打开。
@@ -76,6 +86,7 @@
 - TODO: 为 `motif-vite` 实现第一版真实 adapter。
 - TODO: 评估 Rust Node binding、WASM 与 TS core 三条接法的成本。
 - TODO: 评估开发态 watch / 热更新的更细失效策略。
+- TODO: 按 `agent/components.md` 推进 P0 组件矩阵，并为每个组件补齐 demo / tests / 参数层。
 - TODO: 继续扩展 `f-` 的 mica / acrylic / border / hover / panel / subtle action 细节。
 - TODO: 继续扩展 `m-` 的 container / shape / typography / field / outlined action 层次。
 - TODO: 将 token schema 从“必填 key 校验”继续升级到更细的字段语义约束。

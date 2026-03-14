@@ -125,7 +125,7 @@ AI 直接生成 CSS 的问题是：
 - 再由统一引擎输出 CSS
 
 ## 当前不做的事
-- 不做完整组件库
+- 不做重运行时组件库
 - 不做开放式多 preset 平台
 - 不做任意值 DSL
 - 不做复杂表达式求值
@@ -167,23 +167,19 @@ AI 直接生成 CSS 的问题是：
 - 后续能接 codemod / migration tool
 
 ## 组件策略
-现在不应该直接追求“有很多组件”。
-当前更合理的做法是：
-- 先做组件所需的最小语义样式层
-- 再用 demo 页面证明这些语义层足以支撑常见 UI
+`motif` 最终仍然要覆盖两整套完整组件语义，而不是停在少量 utility 上。
 
-所以比起先做 `Button` / `Card` 组件，当前更应该优先稳定这些语义：
-- surface
-- surface-alt
-- surface-variant
-- title
-- body
-- label
-- primary
-- primary-container
-- field
-- divider
-- interactive state
+但它实现组件的方式应该是：
+- 不先做一个沉重的 React/Vue 运行时组件库
+- 先把组件语义和样式 contract 做全
+- 再决定哪些上层框架封装值得补
+
+这意味着当前主线应切到“组件矩阵建设”：
+- 组件语义层：`f-*` / `m-*`
+- 参数层：`ui-*`
+- demo / tests / cases 同步覆盖
+
+当前优先顺序见 `agent/components.md`。
 
 ## 成功标准
 如果 `motif` 成功，应该出现这些结果：

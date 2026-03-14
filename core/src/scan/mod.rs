@@ -171,7 +171,7 @@ fn normalize_candidate(candidate: &str) -> Option<String> {
     }
 
     let utility = trimmed.rsplit(':').next().unwrap_or(trimmed);
-    if utility.starts_with("f-") || utility.starts_with("m-") {
+    if utility.starts_with("f-") || utility.starts_with("m-") || utility.starts_with("ui-") {
         Some(trimmed.to_string())
     } else {
         None

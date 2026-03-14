@@ -1,6 +1,11 @@
 <template>
-  <section class="m-surface f-stack dark:m-elevation-1">
-    <button class="focus:m-ring hover:m-bg-hover-primary active:m-shadow-press">Vue variants</button>
+  <section class="m-surface f-stack dark:m-elevation-1 ui-pad-lg ui-radius-lg">
+    <button class="focus:m-ring hover:m-bg-hover-primary active:m-shadow-press ui-control-lg ui-radius-pill">
+      Vue variants
+    </button>
+    <input type="checkbox" class="f-checkbox" />
+    <input type="radio" class="m-radio" />
+    <button class="m-switch">Toggle</button>
   </section>
 </template>
 

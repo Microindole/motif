@@ -11,7 +11,7 @@ fn extracts_prefixed_classes_from_mixed_markup() {
         root.join("index.html"),
         r#"
         <div class="f-text-primary hover:f-bg-primary dark:m-elevation-1 plain-class">
-          <button className={'focus:f-ring active:m-shadow-2'} />
+          <button className={'focus:f-ring active:m-shadow-2 ui-control-lg'} />
         </div>
         "#,
     )
@@ -28,6 +28,7 @@ fn extracts_prefixed_classes_from_mixed_markup() {
             "f-text-primary",
             "focus:f-ring",
             "hover:f-bg-primary",
+            "ui-control-lg",
         ]
     );
 

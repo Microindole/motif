@@ -13,6 +13,7 @@ pub struct ParsedClass {
 pub enum Family {
     Fluent,
     Material,
+    Universal,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -60,6 +61,8 @@ pub fn parse_class_name(input: &str) -> Result<ParsedClass, ParseError> {
         (Family::Fluent, rest)
     } else if let Some(rest) = base.strip_prefix("m-") {
         (Family::Material, rest)
+    } else if let Some(rest) = base.strip_prefix("ui-") {
+        (Family::Universal, rest)
     } else {
         return Err(ParseError::MissingPrefix(input.to_string()));
     };

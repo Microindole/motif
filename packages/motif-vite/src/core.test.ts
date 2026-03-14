@@ -7,8 +7,8 @@ test('compileSources renders preset rules and variants into a stylesheet', () =>
     {
       path: '/demo/App.tsx',
       content: `
-        <main class="f-surface m-surface-container">
-          <button class="hover:f-bg-hover-primary focus:f-ring dark:m-elevation-1"></button>
+        <main class="f-surface m-surface-container ui-pad-lg">
+          <button class="hover:f-bg-hover-primary focus:f-ring dark:m-elevation-1 ui-control-lg ui-radius-pill"></button>
         </main>
       `,
     },
@@ -20,6 +20,8 @@ test('compileSources renders preset rules and variants into a stylesheet', () =>
   assert.match(result.stylesheet, /\.hover\\:f-bg-hover-primary:hover \{/);
   assert.match(result.stylesheet, /@media \(prefers-color-scheme: dark\)/);
   assert.match(result.stylesheet, /\.dark\\:m-elevation-1 \{/);
+  assert.match(result.stylesheet, /\.ui-control-lg \{/);
+  assert.match(result.stylesheet, /border-radius: 999px;/);
 });
 
 test('compileSources ignores unknown tokens and deduplicates repeated classes', () => {
@@ -37,4 +39,129 @@ test('compileSources ignores unknown tokens and deduplicates repeated classes', 
   const titleMatches = result.stylesheet.match(/\.f-title \{/g) ?? [];
   assert.equal(titleMatches.length, 1);
   assert.doesNotMatch(result.stylesheet, /unknown-token/);
+});
+
+test('compileSources renders first form control components for both presets', () => {
+  const result = compileSources([
+    {
+      path: '/demo/Form.tsx',
+      content: `
+        <input type="checkbox" class="f-checkbox" />
+        <input type="radio" class="m-radio" />
+        <button class="m-switch"></button>
+      `,
+    },
+  ]);
+
+  assert.match(result.stylesheet, /\.f-checkbox \{/);
+  assert.match(result.stylesheet, /\.m-radio \{/);
+  assert.match(result.stylesheet, /\.m-switch \{/);
+  assert.match(result.stylesheet, /inline-size: 2.5rem;/);
+});
+
+test('compileSources renders second batch component semantics', () => {
+  const result = compileSources([
+    {
+      path: '/demo/Workspace.tsx',
+      content: `
+        <textarea class="f-textarea"></textarea>
+        <select class="m-select"></select>
+        <button class="m-tab"></button>
+        <section class="f-dialog"></section>
+        <div class="m-list-item"></div>
+        <button class="f-menu-item"></button>
+      `,
+    },
+  ]);
+
+  assert.match(result.stylesheet, /\.f-textarea \{/);
+  assert.match(result.stylesheet, /\.m-select \{/);
+  assert.match(result.stylesheet, /\.m-tab \{/);
+  assert.match(result.stylesheet, /\.f-dialog \{/);
+  assert.match(result.stylesheet, /\.m-list-item \{/);
+  assert.match(result.stylesheet, /\.f-menu-item \{/);
+  assert.match(result.stylesheet, /max-width: 32rem;/);
+});
+
+test('compileSources renders third batch navigation and feedback semantics', () => {
+  const result = compileSources([
+    {
+      path: '/demo/Nav.tsx',
+      content: `
+        <button class="f-icon-button"></button>
+        <a class="m-nav-item"></a>
+        <span class="m-badge"></span>
+        <div class="f-tooltip"></div>
+        <section class="m-banner"></section>
+      `,
+    },
+  ]);
+
+  assert.match(result.stylesheet, /\.f-icon-button \{/);
+  assert.match(result.stylesheet, /\.m-nav-item \{/);
+  assert.match(result.stylesheet, /\.m-badge \{/);
+  assert.match(result.stylesheet, /\.f-tooltip \{/);
+  assert.match(result.stylesheet, /\.m-banner \{/);
+});
+
+test('compileSources renders fourth batch shell and identity semantics', () => {
+  const result = compileSources([
+    {
+      path: '/demo/Shell.tsx',
+      content: `
+        <aside class="f-drawer"></aside>
+        <section class="m-toast"></section>
+        <button class="m-segmented-button"></button>
+        <input class="f-search-field" />
+        <a class="m-breadcrumb-item"></a>
+        <div class="f-avatar"></div>
+      `,
+    },
+  ]);
+
+  assert.match(result.stylesheet, /\.f-drawer \{/);
+  assert.match(result.stylesheet, /\.m-toast \{/);
+  assert.match(result.stylesheet, /\.m-segmented-button \{/);
+  assert.match(result.stylesheet, /\.f-search-field \{/);
+  assert.match(result.stylesheet, /\.m-breadcrumb-item \{/);
+  assert.match(result.stylesheet, /\.f-avatar \{/);
+});
+
+test('compileSources renders fifth batch loading and empty semantics', () => {
+  const result = compileSources([
+    {
+      path: '/demo/Feedback.tsx',
+      content: `
+        <div class="f-progress"></div>
+        <div class="m-spinner"></div>
+        <div class="f-skeleton"></div>
+        <section class="m-empty-state"></section>
+        <aside class="f-sheet"></aside>
+      `,
+    },
+  ]);
+
+  assert.match(result.stylesheet, /\.f-progress \{/);
+  assert.match(result.stylesheet, /\.m-spinner \{/);
+  assert.match(result.stylesheet, /\.f-skeleton \{/);
+  assert.match(result.stylesheet, /\.m-empty-state \{/);
+  assert.match(result.stylesheet, /\.f-sheet \{/);
+  assert.match(result.stylesheet, /@keyframes motif-spin/);
+  assert.match(result.stylesheet, /@keyframes motif-shimmer/);
+});
+
+test('compileSources renders sixth batch structured data semantics', () => {
+  const result = compileSources([
+    {
+      path: '/demo/Data.tsx',
+      content: `
+        <section class="f-accordion-item"></section>
+        <div class="m-table-row"></div>
+      `,
+    },
+  ]);
+
+  assert.match(result.stylesheet, /\.f-accordion-item \{/);
+  assert.match(result.stylesheet, /\.m-table-row \{/);
+  assert.match(result.stylesheet, /grid-template-columns: minmax\(0, 2fr\) minmax\(0, 1fr\) auto;/);
 });

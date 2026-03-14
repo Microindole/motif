@@ -10,7 +10,8 @@
 6. `agent/scope.md`
 7. `agent/architecture.md`
 8. `agent/status.md`
-9. `agent/rules.md`
+9. `agent/components.md`
+10. `agent/rules.md`
 
 ## 当前目录结构
 - `agent/`：agent 入口与约束
