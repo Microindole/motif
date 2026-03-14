@@ -2,11 +2,14 @@
   <main class="shell">
     <section class="f-surface f-stack">
       <aside class="f-drawer f-stack">
-        <div class="cluster">
+        <div class="f-persona">
           <div class="f-avatar">A</div>
           <div>
             <div class="f-label">Alex</div>
-            <div class="f-breadcrumb-item">Workspace / Inbox</div>
+            <nav class="f-breadcrumb">
+              <div class="f-breadcrumb-item">Workspace</div>
+              <div class="f-breadcrumb-item">Inbox</div>
+            </nav>
           </div>
         </div>
         <input class="f-search-field" value="Search drafts" />
@@ -93,11 +96,14 @@
     </section>
     <section class="m-surface f-stack dark:m-elevation-1">
       <aside class="m-drawer f-stack">
-        <div class="cluster">
+        <div class="m-persona">
           <div class="m-avatar">R</div>
           <div>
             <div class="m-label">Riley</div>
-            <div class="m-breadcrumb-item">Workspace / Board</div>
+            <nav class="m-breadcrumb">
+              <div class="m-breadcrumb-item">Workspace</div>
+              <div class="m-breadcrumb-item">Board</div>
+            </nav>
           </div>
         </div>
         <input class="m-search-field" value="Search tasks" />

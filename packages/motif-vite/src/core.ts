@@ -623,6 +623,19 @@ function resolveFluent(parsed: ParsedClass): Declaration[] | null {
         fluent('motion', 'duration'),
         fluent('motion', 'easing'),
       );
+    case 'breadcrumb:':
+      return withTransition(
+        [
+          decl('display', 'inline-flex'),
+          decl('align-items', 'center'),
+          decl('flex-wrap', 'wrap'),
+          decl('gap', '0.5rem'),
+          tokenDecl('color', fluent('color', 'muted')),
+        ],
+        fluent('effect', 'transition'),
+        fluent('motion', 'duration'),
+        fluent('motion', 'easing'),
+      );
     case 'breadcrumb:item':
       return [
         ...fluentTypography('label-size', 'label-weight'),
@@ -641,6 +654,22 @@ function resolveFluent(parsed: ParsedClass): Declaration[] | null {
           tokenDecl('background-color', fluent('color', 'surface-alt')),
           decl('border-radius', '999px'),
           tokenDecl('border', fluent('border', 'action-subtle')),
+        ],
+        fluent('effect', 'interactive-transition'),
+        fluent('motion', 'duration'),
+        fluent('motion', 'easing'),
+      );
+    case 'persona:':
+      return withTransition(
+        [
+          decl('display', 'flex'),
+          decl('align-items', 'center'),
+          decl('gap', '0.75rem'),
+          tokenDecl('color', fluent('color', 'text')),
+          tokenDecl('background-color', fluent('color', 'surface-alt')),
+          tokenDecl('border', fluent('border', 'action-subtle')),
+          tokenDecl('border-radius', fluent('radius', 'md')),
+          tokenDecl('padding', fluent('space', 'surface-pad-sm')),
         ],
         fluent('effect', 'interactive-transition'),
         fluent('motion', 'duration'),
@@ -1228,6 +1257,19 @@ function resolveMaterial(parsed: ParsedClass): Declaration[] | null {
         material('motion', 'duration'),
         material('motion', 'easing'),
       );
+    case 'breadcrumb:':
+      return withTransition(
+        [
+          decl('display', 'inline-flex'),
+          decl('align-items', 'center'),
+          decl('flex-wrap', 'wrap'),
+          decl('gap', '0.5rem'),
+          tokenDecl('color', material('color', 'muted')),
+        ],
+        material('effect', 'transition'),
+        material('motion', 'duration'),
+        material('motion', 'easing'),
+      );
     case 'breadcrumb:item':
       return [
         ...materialTypography('label-size', 'label-weight'),
@@ -1246,6 +1288,22 @@ function resolveMaterial(parsed: ParsedClass): Declaration[] | null {
           tokenDecl('background-color', material('color', 'primary-container')),
           tokenDecl('border-radius', material('radius', 'pill')),
           decl('border', '0'),
+        ],
+        material('effect', 'state-transition'),
+        material('motion', 'duration'),
+        material('motion', 'easing'),
+      );
+    case 'persona:':
+      return withTransition(
+        [
+          decl('display', 'flex'),
+          decl('align-items', 'center'),
+          decl('gap', '0.75rem'),
+          tokenDecl('color', material('color', 'on-surface')),
+          tokenDecl('background-color', material('color', 'surface-container')),
+          tokenDecl('border', material('border', 'surface-container')),
+          tokenDecl('border-radius', material('radius', 'lg')),
+          decl('padding', '0.85rem 1rem'),
         ],
         material('effect', 'state-transition'),
         material('motion', 'duration'),

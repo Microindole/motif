@@ -3,11 +3,14 @@ export function App() {
     <main style={{ minHeight: "100vh", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "24px", padding: "32px", background: "linear-gradient(180deg, #ecf2fb 0%, #f8fbff 100%)" }}>
       <section className="f-surface f-stack">
         <aside className="f-drawer f-stack">
-          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+          <div className="f-persona">
             <div className="f-avatar">A</div>
             <div>
               <div className="f-label">Alex</div>
-              <div className="f-breadcrumb-item">Workspace / Inbox</div>
+              <nav className="f-breadcrumb">
+                <div className="f-breadcrumb-item">Workspace</div>
+                <div className="f-breadcrumb-item">Inbox</div>
+              </nav>
             </div>
           </div>
           <input className="f-search-field" defaultValue="Search drafts" />
@@ -114,11 +117,14 @@ export function App() {
       </section>
       <section className="m-surface f-stack dark:m-elevation-1">
         <aside className="m-drawer f-stack">
-          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+          <div className="m-persona">
             <div className="m-avatar">R</div>
             <div>
               <div className="m-label">Riley</div>
-              <div className="m-breadcrumb-item">Workspace / Board</div>
+              <nav className="m-breadcrumb">
+                <div className="m-breadcrumb-item">Workspace</div>
+                <div className="m-breadcrumb-item">Board</div>
+              </nav>
             </div>
           </div>
           <input className="m-search-field" defaultValue="Search tasks" />

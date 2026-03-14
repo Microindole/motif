@@ -210,8 +210,12 @@ fn assert_workspace_selectors(css: &str) {
     assert!(css.contains(".m-search-field {"));
     assert!(css.contains(".f-breadcrumb-item {"));
     assert!(css.contains(".m-breadcrumb-item {"));
+    assert!(css.contains(".f-breadcrumb {"));
+    assert!(css.contains(".m-breadcrumb {"));
     assert!(css.contains(".f-avatar {"));
     assert!(css.contains(".m-avatar {"));
+    assert!(css.contains(".f-persona {"));
+    assert!(css.contains(".m-persona {"));
     assert!(css.contains(".f-progress {"));
     assert!(css.contains(".m-progress {"));
     assert!(css.contains(".f-spinner {"));
@@ -235,6 +239,7 @@ fn assert_workspace_selectors(css: &str) {
     assert!(css.contains("animation: motif-spin 0.9s linear infinite;"));
     assert!(css.contains("animation: motif-shimmer 1.4s ease-in-out infinite;"));
     assert!(css.contains("grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) auto;"));
+    assert!(css.contains("flex-wrap: wrap;"));
     assert!(css.contains(".hover\\:m-bg-hover-primary:hover {"));
     assert!(css.contains(".hover\\:m-bg-hover-container:hover {"));
     assert!(css.contains(".hover\\:m-bg-hover-surface:hover {"));

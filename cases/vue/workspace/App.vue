@@ -1,7 +1,6 @@
 <template>
-  <div class="f-drawer f-stack"><div class="f-avatar">A</div><input class="f-search-field" value="Search drafts" /><button class="f-segmented-button">Focused</button><div class="f-toast">Synced</div></div>
+  <div class="f-drawer f-stack"><div class="f-persona"><div class="f-avatar">A</div><div><div class="f-label">Alex</div><nav class="f-breadcrumb"><div class="f-breadcrumb-item">Workspace</div><div class="f-breadcrumb-item">Inbox</div></nav></div></div><input class="f-search-field" value="Search drafts" /><button class="f-segmented-button">Focused</button><div class="f-toast">Synced</div></div>
   <div class="f-banner"><span class="f-badge">Synced</span><button class="f-icon-button">+</button></div>
-  <span class="f-breadcrumb-item">Workspace / Inbox</span>
   <button class="f-nav-item">Inbox</button>
   <div class="f-surface f-stack">
     <span class="f-label">Windows workspace</span>
@@ -31,8 +30,7 @@
     </div>
   </div>
   <div class="m-banner"><span class="m-badge">Ready</span><button class="m-icon-button">+</button></div>
-  <div class="m-drawer f-stack"><div class="m-avatar">R</div><input class="m-search-field" value="Search tasks" /><button class="m-segmented-button">Board</button><div class="m-toast">Ready</div></div>
-  <span class="m-breadcrumb-item">Workspace / Board</span>
+  <div class="m-drawer f-stack"><div class="m-persona"><div class="m-avatar">R</div><div><div class="m-label">Riley</div><nav class="m-breadcrumb"><div class="m-breadcrumb-item">Workspace</div><div class="m-breadcrumb-item">Board</div></nav></div></div><input class="m-search-field" value="Search tasks" /><button class="m-segmented-button">Board</button><div class="m-toast">Ready</div></div>
   <button class="m-nav-item">Board</button>
   <div class="m-surface f-stack dark:m-elevation-1">
     <span class="m-label">Google workspace</span>

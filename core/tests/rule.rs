@@ -481,3 +481,21 @@ fn resolves_sixth_batch_structured_data_semantics() {
         .iter()
         .any(|decl| decl.property == "grid-template-columns"));
 }
+
+#[test]
+fn resolves_seventh_batch_identity_and_navigation_groups() {
+    let tokens = load_registry().unwrap();
+
+    let fluent_breadcrumb =
+        resolve_rule(&parse_class_name("f-breadcrumb").unwrap(), &tokens).unwrap();
+    assert!(fluent_breadcrumb
+        .declarations
+        .iter()
+        .any(|decl| decl.property == "flex-wrap" && decl.value == "wrap"));
+
+    let material_persona = resolve_rule(&parse_class_name("m-persona").unwrap(), &tokens).unwrap();
+    assert!(material_persona
+        .declarations
+        .iter()
+        .any(|decl| decl.property == "display" && decl.value == "flex"));
+}

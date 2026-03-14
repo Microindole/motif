@@ -88,9 +88,10 @@
 3. 结构容器补齐：card / section / dialog / menu
 4. 导航补齐：tabs / nav-item / drawer
 5. 数据展示补齐：list-item / badge / toast / tooltip
-6. 应用壳层补齐：search / segmented / breadcrumb / avatar / toast / drawer
+6. 应用壳层补齐：search / segmented / breadcrumb / avatar / persona / toast / drawer
 7. 反馈与加载补齐：progress / spinner / skeleton / empty state / sheet
 8. 结构化数据补齐：accordion / table-row
+9. 组合导航与身份补齐：breadcrumb / persona
 
 ## 风格验收维度
 ### Fluent / Win11

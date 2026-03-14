@@ -165,3 +165,19 @@ test('compileSources renders sixth batch structured data semantics', () => {
   assert.match(result.stylesheet, /\.m-table-row \{/);
   assert.match(result.stylesheet, /grid-template-columns: minmax\(0, 2fr\) minmax\(0, 1fr\) auto;/);
 });
+
+test('compileSources renders seventh batch identity and navigation groups', () => {
+  const result = compileSources([
+    {
+      path: '/demo/Identity.tsx',
+      content: `
+        <nav class="f-breadcrumb"></nav>
+        <section class="m-persona"></section>
+      `,
+    },
+  ]);
+
+  assert.match(result.stylesheet, /\.f-breadcrumb \{/);
+  assert.match(result.stylesheet, /\.m-persona \{/);
+  assert.match(result.stylesheet, /flex-wrap: wrap;/);
+});

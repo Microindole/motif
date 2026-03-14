@@ -56,8 +56,10 @@ pub(super) fn resolve(parsed: &ParsedClass, tokens: &TokenRegistry) -> Option<Ve
         ("toast", None) => toast(tokens),
         ("segmented", Some("button")) => segmented_button(tokens),
         ("search", Some("field")) => search_field(tokens),
+        ("breadcrumb", None) => breadcrumb(tokens),
         ("breadcrumb", Some("item")) => breadcrumb_item(tokens),
         ("avatar", None) => avatar(tokens),
+        ("persona", None) => persona(tokens),
         ("progress", None) => progress(tokens),
         ("spinner", None) => spinner(tokens),
         ("skeleton", None) => skeleton(tokens),
@@ -552,6 +554,23 @@ fn search_field(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     Some(declarations)
 }
 
+fn breadcrumb(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
+    let mut declarations = vec![
+        declaration("display", "inline-flex"),
+        declaration("align-items", "center"),
+        declaration("flex-wrap", "wrap"),
+        declaration("gap", "0.5rem"),
+        token_declaration("color", tokens.material.color.get("muted")?),
+    ];
+    append_transition(
+        &mut declarations,
+        tokens.material.effect.get("transition")?,
+        tokens.material.motion.get("duration")?,
+        tokens.material.motion.get("easing")?,
+    );
+    Some(declarations)
+}
+
 fn breadcrumb_item(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = typography_from_tokens(tokens, "label-size", "label-weight", None)?;
     declarations.extend([
@@ -575,6 +594,29 @@ fn avatar(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         ),
         token_declaration("border-radius", tokens.material.radius.get("pill")?),
         declaration("border", "0"),
+    ];
+    append_transition(
+        &mut declarations,
+        tokens.material.effect.get("state-transition")?,
+        tokens.material.motion.get("duration")?,
+        tokens.material.motion.get("easing")?,
+    );
+    Some(declarations)
+}
+
+fn persona(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
+    let mut declarations = vec![
+        declaration("display", "flex"),
+        declaration("align-items", "center"),
+        declaration("gap", "0.75rem"),
+        token_declaration("color", tokens.material.color.get("on-surface")?),
+        token_declaration(
+            "background-color",
+            tokens.material.color.get("surface-container")?,
+        ),
+        token_declaration("border", tokens.material.border.get("surface-container")?),
+        token_declaration("border-radius", tokens.material.radius.get("lg")?),
+        declaration("padding", "0.85rem 1rem"),
     ];
     append_transition(
         &mut declarations,

@@ -40,8 +40,10 @@ pub(super) fn resolve(parsed: &ParsedClass, tokens: &TokenRegistry) -> Option<Ve
         ("toast", None) => toast(tokens),
         ("segmented", Some("button")) => segmented_button(tokens),
         ("search", Some("field")) => search_field(tokens),
+        ("breadcrumb", None) => breadcrumb(tokens),
         ("breadcrumb", Some("item")) => breadcrumb_item(tokens),
         ("avatar", None) => avatar(tokens),
+        ("persona", None) => persona(tokens),
         ("progress", None) => progress(tokens),
         ("spinner", None) => spinner(tokens),
         ("skeleton", None) => skeleton(tokens),
@@ -548,6 +550,23 @@ fn search_field(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     Some(declarations)
 }
 
+fn breadcrumb(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
+    let mut declarations = vec![
+        declaration("display", "inline-flex"),
+        declaration("align-items", "center"),
+        declaration("flex-wrap", "wrap"),
+        declaration("gap", "0.5rem"),
+        token_declaration("color", tokens.fluent.color.get("muted")?),
+    ];
+    append_transition(
+        &mut declarations,
+        tokens.fluent.effect.get("transition")?,
+        tokens.fluent.motion.get("duration")?,
+        tokens.fluent.motion.get("easing")?,
+    );
+    Some(declarations)
+}
+
 fn breadcrumb_item(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = typography_from_tokens(tokens, "label-size", "label-weight", None)?;
     declarations.extend([
@@ -568,6 +587,26 @@ fn avatar(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         token_declaration("background-color", tokens.fluent.color.get("surface-alt")?),
         declaration("border-radius", "999px"),
         token_declaration("border", tokens.fluent.border.get("action-subtle")?),
+    ];
+    append_transition(
+        &mut declarations,
+        tokens.fluent.effect.get("interactive-transition")?,
+        tokens.fluent.motion.get("duration")?,
+        tokens.fluent.motion.get("easing")?,
+    );
+    Some(declarations)
+}
+
+fn persona(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
+    let mut declarations = vec![
+        declaration("display", "flex"),
+        declaration("align-items", "center"),
+        declaration("gap", "0.75rem"),
+        token_declaration("color", tokens.fluent.color.get("text")?),
+        token_declaration("background-color", tokens.fluent.color.get("surface-alt")?),
+        token_declaration("border", tokens.fluent.border.get("action-subtle")?),
+        token_declaration("border-radius", tokens.fluent.radius.get("md")?),
+        token_declaration("padding", tokens.fluent.space.get("surface-pad-sm")?),
     ];
     append_transition(
         &mut declarations,
