@@ -71,8 +71,10 @@ pub(super) fn resolve(parsed: &ParsedClass, tokens: &TokenRegistry) -> Option<Ve
         ("sheet", Some("bottom")) => sheet_bottom(tokens),
         ("table", None) => table(tokens),
         ("table", Some("header")) => table_header(tokens),
+        ("table", Some("cell")) => table_cell(tokens),
         ("accordion", Some("item")) => accordion_item(tokens),
         ("accordion", Some("header")) => accordion_header(tokens),
+        ("accordion", Some("content")) => accordion_content(tokens),
         ("accordion", Some("item-open")) => accordion_item_open(tokens),
         ("table", Some("row")) => table_row(tokens),
         ("table", Some("row-selected")) => table_row_selected(tokens),
@@ -844,6 +846,15 @@ fn table_header(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     Some(declarations)
 }
 
+fn table_cell(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
+    typography_from_tokens(
+        tokens,
+        "body-size",
+        "body-weight",
+        Some(tokens.material.color.get("on-surface")?),
+    )
+}
+
 fn accordion_item(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = vec![
         declaration("display", "grid"),
@@ -873,6 +884,16 @@ fn accordion_header(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         declaration("align-items", "center"),
         declaration("justify-content", "space-between"),
         token_declaration("color", tokens.material.color.get("on-surface")?),
+    ]);
+    Some(declarations)
+}
+
+fn accordion_content(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
+    let mut declarations = typography_from_tokens(tokens, "body-size", "body-weight", None)?;
+    declarations.extend([
+        token_declaration("color", tokens.material.color.get("muted")?),
+        declaration("display", "grid"),
+        declaration("gap", "0.5rem"),
     ]);
     Some(declarations)
 }

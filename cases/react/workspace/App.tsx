@@ -30,8 +30,8 @@ export function WorkspaceCase() {
           <div className="f-empty-state">No pinned layouts</div>
           <aside className="f-sheet-side f-stack">Inspector</aside>
           <aside className="f-sheet-bottom f-stack">Bottom tray</aside>
-          <div className="f-accordion-item-open"><div className="f-accordion-header"><span>Rules</span><span className="f-tag">Expanded</span></div></div>
-          <div className="f-table"><div className="f-table-header"><span>Workflow</span><span>Status</span><span>Open</span></div><div className="f-table-row-selected"><span>Inbox sync</span><span className="f-tag">Desktop only</span><button className="f-icon-button">+</button></div></div>
+          <div className="f-accordion-item-open"><div className="f-accordion-header"><span>Rules</span><span className="f-tag">Expanded</span></div><div className="f-accordion-content"><span>Desktop routing</span></div></div>
+          <div className="f-table"><div className="f-table-header"><span>Workflow</span><span>Status</span><span>Open</span></div><div className="f-table-row-selected"><span className="f-table-cell">Inbox sync</span><span className="f-tag">Desktop only</span><button className="f-icon-button">+</button></div></div>
         </div>
       </div>
       <div className="m-banner"><span className="m-badge">Ready</span><span className="m-chip">Mobile</span><button className="m-icon-button">+</button></div>
@@ -64,8 +64,8 @@ export function WorkspaceCase() {
           <div className="m-empty-state">No suggested tasks</div>
           <aside className="m-sheet-side f-stack">Details</aside>
           <aside className="m-sheet-bottom f-stack">Bottom tray</aside>
-          <div className="m-accordion-item-open"><div className="m-accordion-header"><span>Constraints</span><span className="m-tag">Expanded</span></div></div>
-          <div className="m-table"><div className="m-table-header"><span>Workflow</span><span>Status</span><span>Open</span></div><div className="m-table-row-selected"><span>Board publish</span><span className="m-tag">Shared</span><button className="m-icon-button">+</button></div></div>
+          <div className="m-accordion-item-open"><div className="m-accordion-header"><span>Constraints</span><span className="m-tag">Expanded</span></div><div className="m-accordion-content"><span>Shared routing</span></div></div>
+          <div className="m-table"><div className="m-table-header"><span>Workflow</span><span>Status</span><span>Open</span></div><div className="m-table-row-selected"><span className="m-table-cell">Board publish</span><span className="m-tag">Shared</span><button className="m-icon-button">+</button></div></div>
         </div>
       </div>
     </>

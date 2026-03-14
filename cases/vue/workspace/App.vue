@@ -26,8 +26,8 @@
       <div class="f-empty-state">No pinned layouts</div>
       <aside class="f-sheet-side f-stack">Inspector</aside>
       <aside class="f-sheet-bottom f-stack">Bottom tray</aside>
-      <div class="f-accordion-item-open"><div class="f-accordion-header"><span>Rules</span><span class="f-tag">Expanded</span></div></div>
-      <div class="f-table"><div class="f-table-header"><span>Workflow</span><span>Status</span><span>Open</span></div><div class="f-table-row-selected"><span>Inbox sync</span><span class="f-tag">Desktop only</span><button class="f-icon-button">+</button></div></div>
+      <div class="f-accordion-item-open"><div class="f-accordion-header"><span>Rules</span><span class="f-tag">Expanded</span></div><div class="f-accordion-content"><span>Desktop routing</span></div></div>
+      <div class="f-table"><div class="f-table-header"><span>Workflow</span><span>Status</span><span>Open</span></div><div class="f-table-row-selected"><span class="f-table-cell">Inbox sync</span><span class="f-tag">Desktop only</span><button class="f-icon-button">+</button></div></div>
     </div>
   </div>
   <div class="m-banner"><span class="m-badge">Ready</span><span class="m-chip">Mobile</span><button class="m-icon-button">+</button></div>
@@ -58,8 +58,8 @@
       <div class="m-empty-state">No suggested tasks</div>
       <aside class="m-sheet-side f-stack">Details</aside>
       <aside class="m-sheet-bottom f-stack">Bottom tray</aside>
-      <div class="m-accordion-item-open"><div class="m-accordion-header"><span>Constraints</span><span class="m-tag">Expanded</span></div></div>
-      <div class="m-table"><div class="m-table-header"><span>Workflow</span><span>Status</span><span>Open</span></div><div class="m-table-row-selected"><span>Board publish</span><span class="m-tag">Shared</span><button class="m-icon-button">+</button></div></div>
+      <div class="m-accordion-item-open"><div class="m-accordion-header"><span>Constraints</span><span class="m-tag">Expanded</span></div><div class="m-accordion-content"><span>Shared routing</span></div></div>
+      <div class="m-table"><div class="m-table-header"><span>Workflow</span><span>Status</span><span>Open</span></div><div class="m-table-row-selected"><span class="m-table-cell">Board publish</span><span class="m-tag">Shared</span><button class="m-icon-button">+</button></div></div>
     </div>
   </div>
 </template>

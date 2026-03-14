@@ -240,8 +240,12 @@ fn assert_workspace_selectors(css: &str) {
     assert!(css.contains(".m-table {"));
     assert!(css.contains(".f-table-header {"));
     assert!(css.contains(".m-table-header {"));
+    assert!(css.contains(".f-table-cell {"));
+    assert!(css.contains(".m-table-cell {"));
     assert!(css.contains(".f-accordion-header {"));
     assert!(css.contains(".m-accordion-header {"));
+    assert!(css.contains(".f-accordion-content {"));
+    assert!(css.contains(".m-accordion-content {"));
     assert!(css.contains("min-width: 16rem;"));
     assert!(css.contains("padding-left: 2.5rem;"));
     assert!(css.contains("max-width: 32rem;"));

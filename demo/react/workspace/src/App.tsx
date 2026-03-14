@@ -116,7 +116,9 @@ export function App() {
               <span className="f-label">Advanced routing rules</span>
               <span className="f-tag">Expanded</span>
             </div>
-            <span className="f-body f-text-muted">Expand to review archive, follow-up, and desktop notification behavior.</span>
+            <div className="f-accordion-content">
+              <span className="f-body f-text-muted">Expand to review archive, follow-up, and desktop notification behavior.</span>
+            </div>
           </div>
           <div className="f-table">
             <div className="f-table-header">
@@ -125,7 +127,7 @@ export function App() {
               <span className="f-label">Open</span>
             </div>
             <div className="f-table-row-selected">
-              <span className="f-body">Inbox sync</span>
+              <span className="f-table-cell">Inbox sync</span>
               <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
                 <span className="f-label">Pending</span>
                 <span className="f-tag">Desktop only</span>
@@ -256,7 +258,9 @@ export function App() {
               <span className="m-label">Delivery constraints</span>
               <span className="m-tag">Expanded</span>
             </div>
-            <span className="m-body m-text-muted">Expand to inspect owner rules, channel routing, and approval coverage.</span>
+            <div className="m-accordion-content">
+              <span className="m-body m-text-muted">Expand to inspect owner rules, channel routing, and approval coverage.</span>
+            </div>
           </div>
           <div className="m-table">
             <div className="m-table-header">
@@ -265,7 +269,7 @@ export function App() {
               <span className="m-label">Open</span>
             </div>
             <div className="m-table-row-selected">
-              <span className="m-body">Board publish</span>
+              <span className="m-table-cell">Board publish</span>
               <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
                 <span className="m-label">Today</span>
                 <span className="m-tag">Shared</span>

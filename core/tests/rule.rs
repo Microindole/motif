@@ -579,3 +579,22 @@ fn resolves_eleventh_batch_table_and_accordion_headers() {
         .iter()
         .any(|decl| decl.property == "justify-content" && decl.value == "space-between"));
 }
+
+#[test]
+fn resolves_twelfth_batch_table_cells_and_accordion_content() {
+    let tokens = load_registry().unwrap();
+
+    let fluent_table_cell =
+        resolve_rule(&parse_class_name("f-table-cell").unwrap(), &tokens).unwrap();
+    assert!(fluent_table_cell
+        .declarations
+        .iter()
+        .any(|decl| decl.property == "font-size"));
+
+    let material_accordion_content =
+        resolve_rule(&parse_class_name("m-accordion-content").unwrap(), &tokens).unwrap();
+    assert!(material_accordion_content
+        .declarations
+        .iter()
+        .any(|decl| decl.property == "gap" && decl.value == "0.5rem"));
+}

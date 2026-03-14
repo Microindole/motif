@@ -95,7 +95,9 @@
             <span class="f-label">Advanced routing rules</span>
             <span class="f-tag">Expanded</span>
           </div>
-          <span class="f-body f-text-muted">Expand to review archive, follow-up, and desktop notification behavior.</span>
+          <div class="f-accordion-content">
+            <span class="f-body f-text-muted">Expand to review archive, follow-up, and desktop notification behavior.</span>
+          </div>
         </div>
         <div class="f-table">
           <div class="f-table-header">
@@ -104,7 +106,7 @@
             <span class="f-label">Open</span>
           </div>
           <div class="f-table-row-selected">
-            <span class="f-body">Inbox sync</span>
+            <span class="f-table-cell">Inbox sync</span>
             <div class="cluster">
               <span class="f-label">Pending</span>
               <span class="f-tag">Desktop only</span>
@@ -210,7 +212,9 @@
             <span class="m-label">Delivery constraints</span>
             <span class="m-tag">Expanded</span>
           </div>
-          <span class="m-body m-text-muted">Expand to inspect owner rules, channel routing, and approval coverage.</span>
+          <div class="m-accordion-content">
+            <span class="m-body m-text-muted">Expand to inspect owner rules, channel routing, and approval coverage.</span>
+          </div>
         </div>
         <div class="m-table">
           <div class="m-table-header">
@@ -219,7 +223,7 @@
             <span class="m-label">Open</span>
           </div>
           <div class="m-table-row-selected">
-            <span class="m-body">Board publish</span>
+            <span class="m-table-cell">Board publish</span>
             <div class="cluster">
               <span class="m-label">Today</span>
               <span class="m-tag">Shared</span>
