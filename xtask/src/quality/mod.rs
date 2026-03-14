@@ -11,7 +11,7 @@ mod github_event;
 pub mod pr;
 
 use crate::demo_builds;
-use crate::utils::repo_root;
+use crate::utils::{npm_program, path_from_repo, repo_root};
 
 pub fn run() -> Result<(), String> {
     let root = repo_root();
@@ -61,6 +61,9 @@ pub fn run() -> Result<(), String> {
     ) {
         failures.push(error);
     }
+    if let Err(error) = run_motif_vite_checks(&root) {
+        failures.push(error);
+    }
     if let Err(error) = demo_builds::run() {
         failures.push(error);
     }
@@ -82,4 +85,25 @@ pub fn run() -> Result<(), String> {
         }
         Err("quality checks failed".to_string())
     }
+}
+
+fn run_motif_vite_checks(root: &std::path::Path) -> Result<(), String> {
+    let motif_vite_dir = path_from_repo(root, "packages/motif-vite");
+    let npm = npm_program();
+
+    crate::utils::run_step(
+        "motif-vite: install dependencies",
+        npm,
+        &["install", "--no-package-lock"],
+        &motif_vite_dir,
+    )?;
+    crate::utils::run_step(
+        "motif-vite: typecheck",
+        npm,
+        &["run", "typecheck"],
+        &motif_vite_dir,
+    )?;
+    crate::utils::run_step("motif-vite: test", npm, &["test"], &motif_vite_dir)?;
+
+    Ok(())
 }
