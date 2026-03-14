@@ -75,7 +75,25 @@ struct FunctionStats {
 }
 
 fn is_complexity_target(file: &str) -> bool {
-    (file.starts_with("core/src/") || file.starts_with("xtask/src/")) && file.ends_with(".rs")
+    if file.starts_with("node_modules/")
+        || file.contains("/node_modules/")
+        || file.starts_with("target/")
+        || file.contains("/target/")
+        || file.starts_with("dist/")
+        || file.contains("/dist/")
+        || file.starts_with("coverage/")
+        || file.contains("/coverage/")
+        || file.starts_with(".vite/")
+        || file.contains("/.vite/")
+    {
+        return false;
+    }
+
+    [
+        ".rs", ".ts", ".tsx", ".js", ".jsx", ".vue", ".svelte", ".ps1", ".sh",
+    ]
+    .iter()
+    .any(|ext| file.ends_with(ext))
 }
 
 fn warns_on_function_count(file: &str) -> bool {

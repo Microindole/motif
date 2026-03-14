@@ -1,0 +1,328 @@
+import type { Declaration, ParsedClass } from '../shared.js';
+import {
+  actionLayout,
+  decl,
+  material,
+  materialTypography,
+  tokenDecl,
+  withTransition,
+} from '../shared.js';
+
+export function resolveMaterialFoundation(parsed: ParsedClass): Declaration[] | null {
+  switch (`${parsed.utility}:${parsed.value ?? ''}`) {
+    case 'surface:':
+      return withTransition(
+        [
+          tokenDecl('background-color', material('color', 'surface')),
+          tokenDecl('background-image', material('effect', 'surface-tint')),
+          tokenDecl('color', material('color', 'on-surface')),
+          tokenDecl('border-radius', material('radius', 'lg')),
+          decl('padding', '1.25rem'),
+          tokenDecl('box-shadow', material('shadow', 'surface')),
+        ],
+        material('effect', 'transition'),
+        material('motion', 'duration'),
+        material('motion', 'easing'),
+      );
+    case 'surface:container':
+      return withTransition(
+        [
+          tokenDecl('background-color', material('color', 'surface-container')),
+          tokenDecl('background-image', material('effect', 'container-tint')),
+          tokenDecl('color', material('color', 'on-surface')),
+          tokenDecl('border', material('border', 'surface-container')),
+          tokenDecl('border-radius', material('radius', 'lg')),
+          decl('padding', '1rem'),
+          tokenDecl('box-shadow', material('shadow', 'container-high')),
+        ],
+        material('effect', 'state-transition'),
+        material('motion', 'duration'),
+        material('motion', 'easing'),
+      );
+    case 'surface:variant':
+      return withTransition(
+        [
+          tokenDecl('background-color', material('color', 'surface-variant')),
+          tokenDecl('background-image', material('effect', 'variant-tint')),
+          tokenDecl('color', material('color', 'on-surface')),
+          tokenDecl('border-radius', material('radius', 'lg')),
+          decl('padding', '1rem'),
+          tokenDecl('box-shadow', material('shadow', 'container')),
+        ],
+        material('effect', 'transition'),
+        material('motion', 'duration'),
+        material('motion', 'easing'),
+      );
+    case 'bg:primary':
+      return withTransition(
+        [
+          tokenDecl('background-color', material('color', 'primary')),
+          tokenDecl('color', material('color', 'on-primary')),
+          tokenDecl('border-radius', material('radius', 'pill')),
+        ],
+        material('effect', 'state-transition'),
+        material('motion', 'duration'),
+        material('motion', 'easing'),
+      );
+    case 'bg:hover-primary':
+      return [tokenDecl('background-color', material('color', 'hover-primary'))];
+    case 'bg:hover-container':
+      return [tokenDecl('background-color', material('color', 'hover-container'))];
+    case 'bg:hover-surface':
+      return [tokenDecl('background-color', material('color', 'hover-surface'))];
+    case 'bg:primary-container':
+      return withTransition(
+        [
+          tokenDecl('background-color', material('color', 'primary-container')),
+          tokenDecl('color', material('color', 'on-primary-container')),
+          tokenDecl('border-radius', material('radius', 'lg')),
+          tokenDecl('box-shadow', material('shadow', 'container')),
+        ],
+        material('effect', 'state-transition'),
+        material('motion', 'duration'),
+        material('motion', 'easing'),
+      );
+    case 'text:primary':
+      return [tokenDecl('color', material('color', 'primary'))];
+    case 'text:on-primary':
+      return [tokenDecl('color', material('color', 'on-primary'))];
+    case 'text:muted':
+      return [tokenDecl('color', material('color', 'muted'))];
+    case 'ring:':
+      return withTransition(
+        [
+          decl('outline-width', '2px'),
+          decl('outline-style', 'solid'),
+          tokenDecl('outline-color', material('color', 'primary')),
+          decl('outline-offset', '2px'),
+          decl('box-shadow', '0 0 0 4px rgba(26, 115, 232, 0.16)'),
+        ],
+        material('effect', 'state-transition'),
+        material('motion', 'duration'),
+        material('motion', 'easing'),
+      );
+    case 'title:':
+      return materialTypography('title-size', 'title-weight', material('color', 'on-surface'));
+    case 'body:':
+      return materialTypography('body-size', 'body-weight', material('color', 'on-surface'));
+    case 'label:':
+      return materialTypography('label-size', 'label-weight', material('color', 'muted'));
+    case 'divider:':
+      return [decl('display', 'block'), tokenDecl('border-bottom', material('border', 'divider'))];
+    case 'border:focus':
+      return [tokenDecl('border', material('border', 'focus'))];
+    case 'field:':
+      return withTransition(
+        [
+          ...materialTypography('body-size', 'body-weight'),
+          decl('min-height', '2.75rem'),
+          tokenDecl('color', material('color', 'on-surface')),
+          tokenDecl('caret-color', material('color', 'primary')),
+          tokenDecl('background-color', material('color', 'field')),
+          tokenDecl('background-image', material('effect', 'field-tint')),
+          tokenDecl('border', material('border', 'field')),
+          tokenDecl('border-radius', material('radius', 'lg')),
+          tokenDecl('padding', material('space', 'field-pad')),
+          tokenDecl('box-shadow', material('shadow', 'field')),
+        ],
+        material('effect', 'state-transition'),
+        material('motion', 'duration'),
+        material('motion', 'easing'),
+      );
+    case 'checkbox:':
+      return withTransition(
+        [
+          decl('appearance', 'none'),
+          decl('display', 'inline-grid'),
+          decl('place-items', 'center'),
+          decl('inline-size', '1.125rem'),
+          decl('block-size', '1.125rem'),
+          tokenDecl('background-color', material('color', 'surface')),
+          tokenDecl('border', material('border', 'outlined-action')),
+          tokenDecl('border-radius', material('radius', 'md')),
+          tokenDecl('box-shadow', material('shadow', 'outlined-action')),
+        ],
+        material('effect', 'state-transition'),
+        material('motion', 'duration'),
+        material('motion', 'easing'),
+      );
+    case 'radio:':
+      return withTransition(
+        [
+          decl('appearance', 'none'),
+          decl('display', 'inline-grid'),
+          decl('place-items', 'center'),
+          decl('inline-size', '1.125rem'),
+          decl('block-size', '1.125rem'),
+          tokenDecl('background-color', material('color', 'surface')),
+          tokenDecl('border', material('border', 'outlined-action')),
+          tokenDecl('border-radius', material('radius', 'pill')),
+          tokenDecl('box-shadow', material('shadow', 'outlined-action')),
+        ],
+        material('effect', 'state-transition'),
+        material('motion', 'duration'),
+        material('motion', 'easing'),
+      );
+    case 'switch:':
+      return withTransition(
+        [
+          decl('appearance', 'none'),
+          decl('display', 'inline-flex'),
+          decl('align-items', 'center'),
+          decl('inline-size', '2.5rem'),
+          decl('block-size', '1.5rem'),
+          tokenDecl('background-color', material('color', 'surface-container')),
+          tokenDecl('border', material('border', 'outlined-action')),
+          tokenDecl('border-radius', material('radius', 'pill')),
+          tokenDecl('box-shadow', material('shadow', 'outlined-action')),
+        ],
+        material('effect', 'state-transition'),
+        material('motion', 'duration'),
+        material('motion', 'easing'),
+      );
+    case 'textarea:':
+      return withTransition(
+        [
+          ...materialTypography('body-size', 'body-weight'),
+          decl('min-height', '6.5rem'),
+          decl('resize', 'vertical'),
+          tokenDecl('color', material('color', 'on-surface')),
+          tokenDecl('caret-color', material('color', 'primary')),
+          tokenDecl('background-color', material('color', 'field')),
+          tokenDecl('background-image', material('effect', 'field-tint')),
+          tokenDecl('border', material('border', 'field')),
+          tokenDecl('border-radius', material('radius', 'lg')),
+          tokenDecl('padding', material('space', 'field-pad')),
+          tokenDecl('box-shadow', material('shadow', 'field')),
+        ],
+        material('effect', 'state-transition'),
+        material('motion', 'duration'),
+        material('motion', 'easing'),
+      );
+    case 'select:':
+      return withTransition(
+        [
+          ...materialTypography('body-size', 'body-weight'),
+          decl('min-height', '2.75rem'),
+          decl('appearance', 'none'),
+          decl('background-repeat', 'no-repeat'),
+          decl('background-position', 'right 0.85rem center'),
+          tokenDecl('color', material('color', 'on-surface')),
+          tokenDecl('background-color', material('color', 'field')),
+          tokenDecl('background-image', material('effect', 'field-tint')),
+          tokenDecl('border', material('border', 'field')),
+          tokenDecl('border-radius', material('radius', 'lg')),
+          tokenDecl('padding', material('space', 'field-pad')),
+          tokenDecl('box-shadow', material('shadow', 'field')),
+        ],
+        material('effect', 'state-transition'),
+        material('motion', 'duration'),
+        material('motion', 'easing'),
+      );
+    case 'tab:':
+      return withTransition(
+        [
+          ...materialTypography('label-size', 'label-weight'),
+          decl('display', 'inline-flex'),
+          decl('align-items', 'center'),
+          decl('justify-content', 'center'),
+          decl('min-height', '2.5rem'),
+          tokenDecl('color', material('color', 'primary')),
+          decl('background-color', 'transparent'),
+          tokenDecl('border-radius', material('radius', 'pill')),
+          tokenDecl('padding', material('space', 'action-pad')),
+          tokenDecl('border', material('border', 'outlined-action')),
+        ],
+        material('effect', 'state-transition'),
+        material('motion', 'duration'),
+        material('motion', 'easing'),
+      );
+    case 'dialog:':
+      return withTransition(
+        [
+          tokenDecl('background-color', material('color', 'surface-container')),
+          tokenDecl('background-image', material('effect', 'container-tint')),
+          tokenDecl('color', material('color', 'on-surface')),
+          tokenDecl('border', material('border', 'surface-container')),
+          tokenDecl('border-radius', material('radius', 'lg')),
+          decl('padding', '1rem'),
+          tokenDecl('box-shadow', material('shadow', 'container-high')),
+          decl('max-width', '32rem'),
+          decl('width', '100%'),
+        ],
+        material('effect', 'state-transition'),
+        material('motion', 'duration'),
+        material('motion', 'easing'),
+      );
+    case 'list:item':
+      return withTransition(
+        [
+          decl('display', 'flex'),
+          decl('align-items', 'center'),
+          decl('justify-content', 'space-between'),
+          decl('min-height', '3rem'),
+          tokenDecl('color', material('color', 'on-surface')),
+          tokenDecl('background-color', material('color', 'surface-container')),
+          tokenDecl('border', material('border', 'surface-container')),
+          tokenDecl('border-radius', material('radius', 'lg')),
+          decl('padding', '0.85rem 1rem'),
+        ],
+        material('effect', 'state-transition'),
+        material('motion', 'duration'),
+        material('motion', 'easing'),
+      );
+    case 'menu:item':
+      return withTransition(
+        [
+          decl('display', 'flex'),
+          decl('align-items', 'center'),
+          decl('justify-content', 'space-between'),
+          decl('min-height', '2.5rem'),
+          decl('cursor', 'pointer'),
+          tokenDecl('color', material('color', 'on-surface')),
+          tokenDecl('background-color', material('color', 'surface-container')),
+          tokenDecl('border', material('border', 'surface-container')),
+          tokenDecl('border-radius', material('radius', 'lg')),
+          decl('padding', '0.85rem 1rem'),
+        ],
+        material('effect', 'state-transition'),
+        material('motion', 'duration'),
+        material('motion', 'easing'),
+      );
+    case 'icon:button':
+      return withTransition(
+        [
+          decl('display', 'inline-grid'),
+          decl('place-items', 'center'),
+          decl('inline-size', '2.5rem'),
+          decl('block-size', '2.5rem'),
+          tokenDecl('color', material('color', 'primary')),
+          tokenDecl('background-color', material('color', 'surface-container')),
+          tokenDecl('border', material('border', 'outlined-action')),
+          tokenDecl('border-radius', material('radius', 'pill')),
+          tokenDecl('box-shadow', material('shadow', 'outlined-action')),
+        ],
+        material('effect', 'state-transition'),
+        material('motion', 'duration'),
+        material('motion', 'easing'),
+      );
+    case 'nav:item':
+      return withTransition(
+        [
+          ...materialTypography('label-size', 'label-weight'),
+          decl('display', 'inline-flex'),
+          decl('align-items', 'center'),
+          decl('min-height', '2.5rem'),
+          tokenDecl('color', material('color', 'primary')),
+          decl('background-color', 'transparent'),
+          tokenDecl('border-radius', material('radius', 'pill')),
+          tokenDecl('padding', material('space', 'action-pad')),
+        ],
+        material('effect', 'state-transition'),
+        material('motion', 'duration'),
+        material('motion', 'easing'),
+      );
+    default:
+      return null;
+  }
+}

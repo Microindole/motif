@@ -41,6 +41,18 @@ test('compileSources ignores unknown tokens and deduplicates repeated classes', 
   assert.doesNotMatch(result.stylesheet, /unknown-token/);
 });
 
+test('compileSources safely trims repeated punctuation around class candidates', () => {
+  const repeatedCommas = ','.repeat(4096);
+  const result = compileSources([
+    {
+      path: '/demo/Punctuation.tsx',
+      content: `<div class="${repeatedCommas}f-title${repeatedCommas}"></div>`,
+    },
+  ]);
+
+  assert.match(result.stylesheet, /\.f-title \{/);
+});
+
 test('compileSources renders first form control components for both presets', () => {
   const result = compileSources([
     {
@@ -246,4 +258,20 @@ test('compileSources renders eleventh batch table and accordion headers', () => 
   assert.match(result.stylesheet, /\.f-table-header \{/);
   assert.match(result.stylesheet, /\.m-accordion-header \{/);
   assert.match(result.stylesheet, /justify-content: space-between;/);
+});
+
+test('compileSources renders twelfth batch table cells and accordion content', () => {
+  const result = compileSources([
+    {
+      path: '/demo/Body.tsx',
+      content: `
+        <div class="f-table-cell"></div>
+        <div class="m-accordion-content"></div>
+      `,
+    },
+  ]);
+
+  assert.match(result.stylesheet, /\.f-table-cell \{/);
+  assert.match(result.stylesheet, /\.m-accordion-content \{/);
+  assert.match(result.stylesheet, /gap: 0.5rem;/);
 });
