@@ -499,3 +499,22 @@ fn resolves_seventh_batch_identity_and_navigation_groups() {
         .iter()
         .any(|decl| decl.property == "display" && decl.value == "flex"));
 }
+
+#[test]
+fn resolves_eighth_batch_structured_states() {
+    let tokens = load_registry().unwrap();
+
+    let fluent_open =
+        resolve_rule(&parse_class_name("f-accordion-item-open").unwrap(), &tokens).unwrap();
+    assert!(fluent_open
+        .declarations
+        .iter()
+        .any(|decl| decl.property == "background-image"));
+
+    let material_selected =
+        resolve_rule(&parse_class_name("m-table-row-selected").unwrap(), &tokens).unwrap();
+    assert!(material_selected
+        .declarations
+        .iter()
+        .any(|decl| decl.property == "border-color" && decl.value == "#1a73e8"));
+}

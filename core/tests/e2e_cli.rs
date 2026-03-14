@@ -226,10 +226,10 @@ fn assert_workspace_selectors(css: &str) {
     assert!(css.contains(".m-empty-state {"));
     assert!(css.contains(".f-sheet {"));
     assert!(css.contains(".m-sheet {"));
-    assert!(css.contains(".f-accordion-item {"));
-    assert!(css.contains(".m-accordion-item {"));
-    assert!(css.contains(".f-table-row {"));
-    assert!(css.contains(".m-table-row {"));
+    assert!(css.contains(".f-accordion-item-open {"));
+    assert!(css.contains(".m-accordion-item-open {"));
+    assert!(css.contains(".f-table-row-selected {"));
+    assert!(css.contains(".m-table-row-selected {"));
     assert!(css.contains("min-width: 16rem;"));
     assert!(css.contains("padding-left: 2.5rem;"));
     assert!(css.contains("max-width: 32rem;"));
@@ -240,6 +240,7 @@ fn assert_workspace_selectors(css: &str) {
     assert!(css.contains("animation: motif-shimmer 1.4s ease-in-out infinite;"));
     assert!(css.contains("grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) auto;"));
     assert!(css.contains("flex-wrap: wrap;"));
+    assert!(css.contains("border-color: #1a73e8;"));
     assert!(css.contains(".hover\\:m-bg-hover-primary:hover {"));
     assert!(css.contains(".hover\\:m-bg-hover-container:hover {"));
     assert!(css.contains(".hover\\:m-bg-hover-surface:hover {"));

@@ -29,8 +29,8 @@ export function WorkspaceCase() {
           <div className="f-skeleton"></div>
           <div className="f-empty-state">No pinned layouts</div>
           <aside className="f-sheet f-stack">Inspector</aside>
-          <div className="f-accordion-item">Rules</div>
-          <div className="f-table-row"><span>Inbox sync</span><span>Pending</span><button className="f-icon-button">+</button></div>
+          <div className="f-accordion-item-open">Rules</div>
+          <div className="f-table-row-selected"><span>Inbox sync</span><span>Pending</span><button className="f-icon-button">+</button></div>
         </div>
       </div>
       <div className="m-banner"><span className="m-badge">Ready</span><button className="m-icon-button">+</button></div>
@@ -62,8 +62,8 @@ export function WorkspaceCase() {
           <div className="m-skeleton"></div>
           <div className="m-empty-state">No suggested tasks</div>
           <aside className="m-sheet f-stack">Details</aside>
-          <div className="m-accordion-item">Constraints</div>
-          <div className="m-table-row"><span>Board publish</span><span>Today</span><button className="m-icon-button">+</button></div>
+          <div className="m-accordion-item-open">Constraints</div>
+          <div className="m-table-row-selected"><span>Board publish</span><span>Today</span><button className="m-icon-button">+</button></div>
         </div>
       </div>
     </>

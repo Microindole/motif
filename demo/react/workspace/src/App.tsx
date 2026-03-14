@@ -104,11 +104,11 @@ export function App() {
             <span className="f-label">Inspector sheet</span>
             <span className="f-body f-text-muted">Review density, radius, and preset overrides without leaving the canvas.</span>
           </aside>
-          <div className="f-accordion-item">
+          <div className="f-accordion-item-open">
             <span className="f-label">Advanced routing rules</span>
             <span className="f-body f-text-muted">Expand to review archive, follow-up, and desktop notification behavior.</span>
           </div>
-          <div className="f-table-row">
+          <div className="f-table-row-selected">
             <span className="f-body">Inbox sync</span>
             <span className="f-label">Pending</span>
             <button className="f-icon-button" aria-label="Open inbox sync row">+</button>
@@ -224,11 +224,11 @@ export function App() {
             <span className="m-label">Details sheet</span>
             <span className="m-body m-text-muted">Secondary actions and metadata stay close without overpowering the primary flow.</span>
           </aside>
-          <div className="m-accordion-item">
+          <div className="m-accordion-item-open">
             <span className="m-label">Delivery constraints</span>
             <span className="m-body m-text-muted">Expand to inspect owner rules, channel routing, and approval coverage.</span>
           </div>
-          <div className="m-table-row">
+          <div className="m-table-row-selected">
             <span className="m-body">Board publish</span>
             <span className="m-label">Today</span>
             <button className="m-icon-button" aria-label="Open board publish row">+</button>

@@ -777,6 +777,23 @@ function resolveFluent(parsed: ParsedClass): Declaration[] | null {
         fluent('motion', 'duration'),
         fluent('motion', 'easing'),
       );
+    case 'accordion:item-open':
+      return withTransition(
+        [
+          decl('display', 'grid'),
+          decl('gap', '0.75rem'),
+          tokenDecl('color', fluent('color', 'text')),
+          tokenDecl('background-color', fluent('color', 'surface-alt')),
+          tokenDecl('background-image', fluent('effect', 'surface-alt-tint')),
+          tokenDecl('border', fluent('border', 'action-subtle')),
+          tokenDecl('border-radius', fluent('radius', 'md')),
+          tokenDecl('padding', fluent('space', 'surface-pad-sm')),
+          tokenDecl('box-shadow', fluent('shadow', 'surface-alt')),
+        ],
+        fluent('effect', 'interactive-transition'),
+        fluent('motion', 'duration'),
+        fluent('motion', 'easing'),
+      );
     case 'table:row':
       return withTransition(
         [
@@ -788,6 +805,26 @@ function resolveFluent(parsed: ParsedClass): Declaration[] | null {
           tokenDecl('color', fluent('color', 'text')),
           tokenDecl('background-color', fluent('color', 'surface-alt')),
           tokenDecl('border', fluent('border', 'action-subtle')),
+          tokenDecl('border-radius', fluent('radius', 'sm')),
+          tokenDecl('padding', fluent('space', 'surface-pad-sm')),
+        ],
+        fluent('effect', 'interactive-transition'),
+        fluent('motion', 'duration'),
+        fluent('motion', 'easing'),
+      );
+    case 'table:row-selected':
+      return withTransition(
+        [
+          decl('display', 'grid'),
+          decl('grid-template-columns', 'minmax(0, 2fr) minmax(0, 1fr) auto'),
+          decl('align-items', 'center'),
+          decl('gap', '0.75rem'),
+          decl('min-height', '3rem'),
+          tokenDecl('color', fluent('color', 'text')),
+          tokenDecl('background-color', fluent('color', 'surface-alt')),
+          tokenDecl('background-image', fluent('effect', 'surface-alt-tint')),
+          tokenDecl('border', fluent('border', 'action-subtle')),
+          tokenDecl('border-color', fluent('color', 'border-strong')),
           tokenDecl('border-radius', fluent('radius', 'sm')),
           tokenDecl('padding', fluent('space', 'surface-pad-sm')),
         ],
@@ -1409,6 +1446,23 @@ function resolveMaterial(parsed: ParsedClass): Declaration[] | null {
         material('motion', 'duration'),
         material('motion', 'easing'),
       );
+    case 'accordion:item-open':
+      return withTransition(
+        [
+          decl('display', 'grid'),
+          decl('gap', '0.75rem'),
+          tokenDecl('color', material('color', 'on-surface')),
+          tokenDecl('background-color', material('color', 'surface-container')),
+          tokenDecl('background-image', material('effect', 'container-tint')),
+          tokenDecl('border', material('border', 'surface-container')),
+          tokenDecl('border-radius', material('radius', 'lg')),
+          decl('padding', '1rem'),
+          tokenDecl('box-shadow', material('shadow', 'container')),
+        ],
+        material('effect', 'state-transition'),
+        material('motion', 'duration'),
+        material('motion', 'easing'),
+      );
     case 'table:row':
       return withTransition(
         [
@@ -1420,6 +1474,26 @@ function resolveMaterial(parsed: ParsedClass): Declaration[] | null {
           tokenDecl('color', material('color', 'on-surface')),
           tokenDecl('background-color', material('color', 'surface-container')),
           tokenDecl('border', material('border', 'surface-container')),
+          tokenDecl('border-radius', material('radius', 'md')),
+          decl('padding', '0.85rem 1rem'),
+        ],
+        material('effect', 'state-transition'),
+        material('motion', 'duration'),
+        material('motion', 'easing'),
+      );
+    case 'table:row-selected':
+      return withTransition(
+        [
+          decl('display', 'grid'),
+          decl('grid-template-columns', 'minmax(0, 2fr) minmax(0, 1fr) auto'),
+          decl('align-items', 'center'),
+          decl('gap', '0.75rem'),
+          decl('min-height', '3rem'),
+          tokenDecl('color', material('color', 'on-surface')),
+          tokenDecl('background-color', material('color', 'surface-container')),
+          tokenDecl('background-image', material('effect', 'container-tint')),
+          tokenDecl('border', material('border', 'surface-container')),
+          tokenDecl('border-color', material('color', 'primary')),
           tokenDecl('border-radius', material('radius', 'md')),
           decl('padding', '0.85rem 1rem'),
         ],

@@ -181,3 +181,19 @@ test('compileSources renders seventh batch identity and navigation groups', () =
   assert.match(result.stylesheet, /\.m-persona \{/);
   assert.match(result.stylesheet, /flex-wrap: wrap;/);
 });
+
+test('compileSources renders eighth batch structured states', () => {
+  const result = compileSources([
+    {
+      path: '/demo/States.tsx',
+      content: `
+        <section class="f-accordion-item-open"></section>
+        <div class="m-table-row-selected"></div>
+      `,
+    },
+  ]);
+
+  assert.match(result.stylesheet, /\.f-accordion-item-open \{/);
+  assert.match(result.stylesheet, /\.m-table-row-selected \{/);
+  assert.match(result.stylesheet, /border-color: #1a73e8;/);
+});

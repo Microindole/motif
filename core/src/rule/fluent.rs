@@ -50,7 +50,9 @@ pub(super) fn resolve(parsed: &ParsedClass, tokens: &TokenRegistry) -> Option<Ve
         ("empty", Some("state")) => empty_state(tokens),
         ("sheet", None) => sheet(tokens),
         ("accordion", Some("item")) => accordion_item(tokens),
+        ("accordion", Some("item-open")) => accordion_item_open(tokens),
         ("table", Some("row")) => table_row(tokens),
+        ("table", Some("row-selected")) => table_row_selected(tokens),
         ("action", Some("primary")) => action_primary(tokens),
         ("action", Some("subtle")) => action_subtle(tokens),
         _ => None,
@@ -730,6 +732,19 @@ fn accordion_item(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     Some(declarations)
 }
 
+fn accordion_item_open(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
+    let mut declarations = accordion_item(tokens)?;
+    declarations.push(token_declaration(
+        "background-image",
+        tokens.fluent.effect.get("surface-alt-tint")?,
+    ));
+    declarations.push(token_declaration(
+        "box-shadow",
+        tokens.fluent.shadow.get("surface-alt")?,
+    ));
+    Some(declarations)
+}
+
 fn table_row(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = vec![
         declaration("display", "grid"),
@@ -752,6 +767,19 @@ fn table_row(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         tokens.fluent.motion.get("duration")?,
         tokens.fluent.motion.get("easing")?,
     );
+    Some(declarations)
+}
+
+fn table_row_selected(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
+    let mut declarations = table_row(tokens)?;
+    declarations.push(token_declaration(
+        "background-image",
+        tokens.fluent.effect.get("surface-alt-tint")?,
+    ));
+    declarations.push(token_declaration(
+        "border-color",
+        tokens.fluent.color.get("border-strong")?,
+    ));
     Some(declarations)
 }
 
