@@ -2,6 +2,9 @@ use crate::utils::{path_from_repo, read_lines};
 use std::collections::BTreeMap;
 use std::path::Path;
 
+#[path = "checks/source.rs"]
+mod source;
+
 pub fn run_core_checks(
     root: &Path,
     tracked: &[String],
@@ -45,37 +48,14 @@ fn test_file_line_limits(
             continue;
         }
 
-        let limit = match file.as_str() {
-            value if value.starts_with("core/src/") && value.ends_with(".rs") => Some(320),
-            value if value.starts_with("core/tests/") && value.ends_with(".rs") => Some(420),
-            value if value.starts_with("xtask/src/") && value.ends_with(".rs") => Some(320),
-            value if value.starts_with("scripts/") && value.ends_with(".ps1") => Some(320),
-            value if value.starts_with("agent/") && value.ends_with(".md") => Some(400),
-            value if value.starts_with("tokens/") && value.ends_with(".json") => Some(220),
-            value
-                if value.starts_with(".github/")
-                    && (value.ends_with(".yml")
-                        || value.ends_with(".yaml")
-                        || value.ends_with(".md")) =>
-            {
-                Some(260)
-            }
-            value
-                if (value.starts_with("demo/") || value.starts_with("cases/"))
-                    && (value.ends_with(".html")
-                        || value.ends_with(".ts")
-                        || value.ends_with(".tsx")
-                        || value.ends_with(".vue")
-                        || value.ends_with(".md")
-                        || value.ends_with(".json")) =>
-            {
-                Some(260)
-            }
-            _ => None,
-        };
+        if !source::is_source_file(file) {
+            continue;
+        }
+
+        let lines = read_lines(&path)?.len();
+        let limit = source::source_file_line_limit(file);
 
         if let Some(limit) = limit {
-            let lines = read_lines(&path)?.len();
             if lines > limit {
                 failures.push(format!("{file} is {lines} lines, exceeds limit {limit}"));
             } else if warns_on_large_core_file(file) && lines > 240 {
@@ -87,7 +67,8 @@ fn test_file_line_limits(
 }
 
 fn warns_on_large_core_file(file: &str) -> bool {
-    file.starts_with("core/src/") && file.ends_with(".rs") && !file.starts_with("core/src/rule/")
+    (file.starts_with("core/src/") && file.ends_with(".rs") && !file.starts_with("core/src/rule/"))
+        || file.starts_with("packages/")
 }
 
 fn test_directory_flatness(tracked: &[String], failures: &mut Vec<String>) {
@@ -231,10 +212,7 @@ fn test_comment_heuristics(
         if !path.is_file() {
             continue;
         }
-        let is_source = [".rs", ".ts", ".tsx", ".vue", ".ps1"]
-            .iter()
-            .any(|ext| file.ends_with(ext));
-        if !is_source {
+        if !source::is_source_file(file) {
             continue;
         }
         let lines = read_lines(&path)?;

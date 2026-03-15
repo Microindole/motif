@@ -1,4 +1,4 @@
-use motif_core::scan::scan_root;
+use motif_core::scan::{scan_root, scan_sources, SourceInput};
 use std::fs;
 use std::path::PathBuf;
 use std::time::{SystemTime, UNIX_EPOCH};
@@ -11,7 +11,7 @@ fn extracts_prefixed_classes_from_mixed_markup() {
         root.join("index.html"),
         r#"
         <div class="f-text-primary hover:f-bg-primary dark:m-elevation-1 plain-class">
-          <button className={'focus:f-ring active:m-shadow-2'} />
+          <button className={'focus:f-ring active:m-shadow-2 ui-control-lg'} />
         </div>
         "#,
     )
@@ -28,6 +28,7 @@ fn extracts_prefixed_classes_from_mixed_markup() {
             "f-text-primary",
             "focus:f-ring",
             "hover:f-bg-primary",
+            "ui-control-lg",
         ]
     );
 
@@ -60,12 +61,44 @@ fn scans_supported_files_and_skips_build_output() {
     let actual: Vec<_> = result.class_names.into_iter().collect();
 
     assert_eq!(result.files.len(), 2);
+    assert_eq!(result.entries.len(), 2);
+    assert!(result
+        .entries
+        .iter()
+        .any(|entry| entry.path.ends_with("app.tsx") && entry.class_names.contains("f-stack")));
     assert_eq!(
         actual,
         vec!["f-stack", "focus:f-ring", "hover:f-bg-primary", "m-surface"]
     );
 
     fs::remove_dir_all(root).unwrap();
+}
+
+#[test]
+fn scans_in_memory_sources_with_file_level_results() {
+    let result = scan_sources(&[
+        SourceInput {
+            path: PathBuf::from("src/app.tsx"),
+            content: "<div className=\"f-stack hover:f-bg-primary\"></div>".to_string(),
+        },
+        SourceInput {
+            path: PathBuf::from("src/panel.vue"),
+            content: "<section class=\"m-surface focus:m-ring\"></section>".to_string(),
+        },
+    ]);
+
+    assert_eq!(result.files.len(), 2);
+    assert_eq!(result.entries.len(), 2);
+    assert!(result
+        .entries
+        .iter()
+        .any(|entry| entry.path == PathBuf::from("src/app.tsx")
+            && entry.class_names.contains("hover:f-bg-primary")));
+    assert!(result
+        .entries
+        .iter()
+        .any(|entry| entry.path == PathBuf::from("src/panel.vue")
+            && entry.class_names.contains("focus:m-ring")));
 }
 
 fn unique_temp_dir() -> PathBuf {

@@ -1,3 +1,4 @@
+pub mod engine;
 pub mod gen;
 pub mod parse;
 pub mod rule;

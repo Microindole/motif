@@ -42,6 +42,7 @@ pub fn resolve_rule(parsed: &ParsedClass, tokens: &TokenRegistry) -> Option<Rule
     let declarations = match parsed.family {
         Family::Fluent => fluent::resolve(parsed, tokens),
         Family::Material => material::resolve(parsed, tokens),
+        Family::Universal => shared::resolve(parsed),
     }?;
 
     Some(RuleMatch {

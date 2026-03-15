@@ -20,6 +20,15 @@ fn parses_value_less_utility() {
 }
 
 #[test]
+fn parses_universal_ui_utility() {
+    let parsed = parse_class_name("ui-control-lg").unwrap();
+
+    assert_eq!(parsed.family, Family::Universal);
+    assert_eq!(parsed.utility, "control");
+    assert_eq!(parsed.value.as_deref(), Some("lg"));
+}
+
+#[test]
 fn rejects_unknown_variants() {
     let error = parse_class_name("sm:f-bg-primary").unwrap_err();
     assert_eq!(error, ParseError::InvalidVariant("sm".to_string()));

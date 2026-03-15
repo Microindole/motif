@@ -23,10 +23,15 @@
   </head>
   <body>
     <main class="shell">
-      <section class="m-surface f-stack dark:m-elevation-1">
+      <section class="m-surface f-stack dark:m-elevation-1 ui-pad-lg ui-radius-lg">
         <h1 class="f-text-primary">motif native variants</h1>
-        <p>Focus, hover, active and dark rules are all present in this scenario.</p>
-        <button class="focus:m-ring hover:m-bg-hover-primary active:m-shadow-press">Native variants</button>
+        <p class="ui-text-sm">Focus, hover, active and dark rules stay in one place while size is adjusted independently.</p>
+        <button class="focus:m-ring hover:m-bg-hover-primary active:m-shadow-press ui-control-lg ui-radius-pill">Native variants</button>
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+          <input type="checkbox" class="f-checkbox" aria-label="Fluent checkbox" />
+          <input type="radio" class="m-radio" aria-label="Material radio" />
+          <button class="m-switch" aria-label="Material switch"></button>
+        </div>
       </section>
     </main>
   </body>

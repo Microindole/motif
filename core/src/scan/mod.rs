@@ -14,9 +14,22 @@ const SKIP_DIRECTORIES: &[&str] = &[
     "coverage",
 ];
 
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct ScannedFile {
+    pub path: PathBuf,
+    pub class_names: BTreeSet<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct SourceInput {
+    pub path: PathBuf,
+    pub content: String,
+}
+
 #[derive(Debug)]
 pub struct ScanResult {
     pub files: Vec<PathBuf>,
+    pub entries: Vec<ScannedFile>,
     pub class_names: BTreeSet<String>,
 }
 
@@ -36,20 +49,39 @@ impl fmt::Display for ScanError {
 impl std::error::Error for ScanError {}
 
 pub fn scan_root(root: &Path) -> Result<ScanResult, ScanError> {
-    let mut files = Vec::new();
-    let mut class_names = BTreeSet::new();
-
-    visit_path(root, &mut files, &mut class_names)?;
-    files.sort();
-
-    Ok(ScanResult { files, class_names })
+    let mut entries = Vec::new();
+    visit_path(root, &mut entries)?;
+    entries.sort_by(|left, right| left.path.cmp(&right.path));
+    Ok(build_scan_result(entries))
 }
 
-fn visit_path(
-    path: &Path,
-    files: &mut Vec<PathBuf>,
-    class_names: &mut BTreeSet<String>,
-) -> Result<(), ScanError> {
+pub fn scan_sources(sources: &[SourceInput]) -> ScanResult {
+    let mut entries = sources
+        .iter()
+        .filter_map(|source| scanned_file(&source.path, &source.content))
+        .collect::<Vec<_>>();
+    entries.sort_by(|left, right| left.path.cmp(&right.path));
+    build_scan_result(entries)
+}
+
+fn build_scan_result(entries: Vec<ScannedFile>) -> ScanResult {
+    let files = entries
+        .iter()
+        .map(|entry| entry.path.clone())
+        .collect::<Vec<_>>();
+    let class_names = entries
+        .iter()
+        .flat_map(|entry| entry.class_names.iter().cloned())
+        .collect::<BTreeSet<_>>();
+
+    ScanResult {
+        files,
+        entries,
+        class_names,
+    }
+}
+
+fn visit_path(path: &Path, entries: &mut Vec<ScannedFile>) -> Result<(), ScanError> {
     let metadata = fs::metadata(path).map_err(|source| ScanError::Io {
         path: path.to_path_buf(),
         source,
@@ -70,9 +102,8 @@ fn visit_path(
                 continue;
             }
 
-            visit_path(&child_path, files, class_names)?;
+            visit_path(&child_path, entries)?;
         }
-
         return Ok(());
     }
 
@@ -84,11 +115,22 @@ fn visit_path(
         path: path.to_path_buf(),
         source,
     })?;
-
-    files.push(path.to_path_buf());
-    class_names.extend(extract_class_names(&content));
-
+    if let Some(entry) = scanned_file(path, &content) {
+        entries.push(entry);
+    }
     Ok(())
+}
+
+fn scanned_file(path: &Path, content: &str) -> Option<ScannedFile> {
+    let class_names = extract_class_names(content);
+    if class_names.is_empty() {
+        return None;
+    }
+
+    Some(ScannedFile {
+        path: path.to_path_buf(),
+        class_names,
+    })
 }
 
 fn should_skip_dir(path: &Path) -> bool {
@@ -129,7 +171,7 @@ fn normalize_candidate(candidate: &str) -> Option<String> {
     }
 
     let utility = trimmed.rsplit(':').next().unwrap_or(trimmed);
-    if utility.starts_with("f-") || utility.starts_with("m-") {
+    if utility.starts_with("f-") || utility.starts_with("m-") || utility.starts_with("ui-") {
         Some(trimmed.to_string())
     } else {
         None
