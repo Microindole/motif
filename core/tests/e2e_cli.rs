@@ -157,6 +157,13 @@ fn assert_theme_selectors(css: &str) {
 }
 
 fn assert_workspace_selectors(css: &str) {
+    assert_workspace_base_selectors(css);
+    assert_workspace_component_matrix(css);
+    assert_workspace_layout_metrics(css);
+    assert_workspace_material_states(css);
+}
+
+fn assert_workspace_base_selectors(css: &str) {
     assert!(css.contains(".f-label {"));
     assert!(css.contains(".f-divider {"));
     assert!(css.contains(".f-field {"));
@@ -178,89 +185,106 @@ fn assert_workspace_selectors(css: &str) {
     assert!(css.contains(".m-action-primary {"));
     assert!(css.contains(".m-action-tonal {"));
     assert!(css.contains(".m-action-outlined {"));
-    assert!(css.contains(".f-textarea {"));
-    assert!(css.contains(".m-textarea {"));
-    assert!(css.contains(".f-select {"));
-    assert!(css.contains(".m-select {"));
-    assert!(css.contains(".f-tab {"));
-    assert!(css.contains(".m-tab {"));
-    assert!(css.contains(".f-dialog {"));
-    assert!(css.contains(".m-dialog {"));
-    assert!(css.contains(".f-list-item {"));
-    assert!(css.contains(".m-list-item {"));
-    assert!(css.contains(".f-menu-item {"));
-    assert!(css.contains(".m-menu-item {"));
-    assert!(css.contains(".f-icon-button {"));
-    assert!(css.contains(".m-icon-button {"));
-    assert!(css.contains(".f-nav-item {"));
-    assert!(css.contains(".m-nav-item {"));
-    assert!(css.contains(".f-badge {"));
-    assert!(css.contains(".m-badge {"));
-    assert!(css.contains(".f-chip {"));
-    assert!(css.contains(".m-chip {"));
-    assert!(css.contains(".f-tag {"));
-    assert!(css.contains(".m-tag {"));
-    assert!(css.contains(".f-tooltip {"));
-    assert!(css.contains(".m-tooltip {"));
-    assert!(css.contains(".f-banner {"));
-    assert!(css.contains(".m-banner {"));
-    assert!(css.contains(".f-drawer {"));
-    assert!(css.contains(".m-drawer {"));
-    assert!(css.contains(".f-toast {"));
-    assert!(css.contains(".m-toast {"));
-    assert!(css.contains(".f-segmented-button {"));
-    assert!(css.contains(".m-segmented-button {"));
-    assert!(css.contains(".f-search-field {"));
-    assert!(css.contains(".m-search-field {"));
-    assert!(css.contains(".f-breadcrumb-item {"));
-    assert!(css.contains(".m-breadcrumb-item {"));
-    assert!(css.contains(".f-breadcrumb {"));
-    assert!(css.contains(".m-breadcrumb {"));
-    assert!(css.contains(".f-avatar {"));
-    assert!(css.contains(".m-avatar {"));
-    assert!(css.contains(".f-persona {"));
-    assert!(css.contains(".m-persona {"));
-    assert!(css.contains(".f-progress {"));
-    assert!(css.contains(".m-progress {"));
-    assert!(css.contains(".f-spinner {"));
-    assert!(css.contains(".m-spinner {"));
-    assert!(css.contains(".f-skeleton {"));
-    assert!(css.contains(".m-skeleton {"));
-    assert!(css.contains(".f-empty-state {"));
-    assert!(css.contains(".m-empty-state {"));
-    assert!(css.contains(".f-sheet-side {"));
-    assert!(css.contains(".m-sheet-side {"));
-    assert!(css.contains(".f-sheet-bottom {"));
-    assert!(css.contains(".m-sheet-bottom {"));
-    assert!(css.contains(".f-accordion-item-open {"));
-    assert!(css.contains(".m-accordion-item-open {"));
-    assert!(css.contains(".f-table-row-selected {"));
-    assert!(css.contains(".m-table-row-selected {"));
-    assert!(css.contains(".f-table {"));
-    assert!(css.contains(".m-table {"));
-    assert!(css.contains(".f-table-header {"));
-    assert!(css.contains(".m-table-header {"));
-    assert!(css.contains(".f-table-cell {"));
-    assert!(css.contains(".m-table-cell {"));
-    assert!(css.contains(".f-accordion-header {"));
-    assert!(css.contains(".m-accordion-header {"));
-    assert!(css.contains(".f-accordion-content {"));
-    assert!(css.contains(".m-accordion-content {"));
-    assert!(css.contains("min-width: 16rem;"));
-    assert!(css.contains("padding-left: 2.5rem;"));
-    assert!(css.contains("max-width: 32rem;"));
-    assert!(css.contains("max-width: 28rem;"));
-    assert!(css.contains("max-width: 36rem;"));
-    assert!(css.contains("resize: vertical;"));
-    assert!(css.contains("appearance: none;"));
-    assert!(css.contains("animation: motif-spin 0.9s linear infinite;"));
-    assert!(css.contains("animation: motif-shimmer 1.4s ease-in-out infinite;"));
-    assert!(css.contains("grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) auto;"));
-    assert!(css.contains("flex-wrap: wrap;"));
-    assert!(css.contains("border-color: #1a73e8;"));
-    assert!(css.contains("border-top-right-radius: 0;"));
-    assert!(css.contains("min-height: 1.5rem;"));
-    assert!(css.contains("justify-content: space-between;"));
+}
+
+fn assert_workspace_component_matrix(css: &str) {
+    for selector in [
+        ".f-textarea {",
+        ".m-textarea {",
+        ".f-select {",
+        ".m-select {",
+        ".f-tab {",
+        ".m-tab {",
+        ".f-dialog {",
+        ".m-dialog {",
+        ".f-list-item {",
+        ".m-list-item {",
+        ".f-menu-item {",
+        ".m-menu-item {",
+        ".f-icon-button {",
+        ".m-icon-button {",
+        ".f-nav-item {",
+        ".m-nav-item {",
+        ".f-badge {",
+        ".m-badge {",
+        ".f-chip {",
+        ".m-chip {",
+        ".f-tag {",
+        ".m-tag {",
+        ".f-tooltip {",
+        ".m-tooltip {",
+        ".f-banner {",
+        ".m-banner {",
+        ".f-drawer {",
+        ".m-drawer {",
+        ".f-toast {",
+        ".m-toast {",
+        ".f-segmented-button {",
+        ".m-segmented-button {",
+        ".f-search-field {",
+        ".m-search-field {",
+        ".f-breadcrumb-item {",
+        ".m-breadcrumb-item {",
+        ".f-breadcrumb {",
+        ".m-breadcrumb {",
+        ".f-avatar {",
+        ".m-avatar {",
+        ".f-persona {",
+        ".m-persona {",
+        ".f-progress {",
+        ".m-progress {",
+        ".f-spinner {",
+        ".m-spinner {",
+        ".f-skeleton {",
+        ".m-skeleton {",
+        ".f-empty-state {",
+        ".m-empty-state {",
+        ".f-sheet-side {",
+        ".m-sheet-side {",
+        ".f-sheet-bottom {",
+        ".m-sheet-bottom {",
+        ".f-accordion-item-open {",
+        ".m-accordion-item-open {",
+        ".f-table-row-selected {",
+        ".m-table-row-selected {",
+        ".f-table {",
+        ".m-table {",
+        ".f-table-header {",
+        ".m-table-header {",
+        ".f-table-cell {",
+        ".m-table-cell {",
+        ".f-accordion-header {",
+        ".m-accordion-header {",
+        ".f-accordion-content {",
+        ".m-accordion-content {",
+    ] {
+        assert!(css.contains(selector));
+    }
+}
+
+fn assert_workspace_layout_metrics(css: &str) {
+    for value in [
+        "min-width: 16rem;",
+        "padding-left: 2.5rem;",
+        "max-width: 32rem;",
+        "max-width: 28rem;",
+        "max-width: 36rem;",
+        "resize: vertical;",
+        "appearance: none;",
+        "animation: motif-spin 0.9s linear infinite;",
+        "animation: motif-shimmer 1.4s ease-in-out infinite;",
+        "grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) auto;",
+        "flex-wrap: wrap;",
+        "border-color: #1a73e8;",
+        "border-top-right-radius: 0;",
+        "min-height: 1.5rem;",
+        "justify-content: space-between;",
+    ] {
+        assert!(css.contains(value));
+    }
+}
+
+fn assert_workspace_material_states(css: &str) {
     assert!(css.contains(".hover\\:m-bg-hover-primary:hover {"));
     assert!(css.contains(".hover\\:m-bg-hover-container:hover {"));
     assert!(css.contains(".hover\\:m-bg-hover-surface:hover {"));

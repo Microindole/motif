@@ -19,7 +19,7 @@
     "vite": "^7.3.1"
   },
   "scripts": {
-    "test": "node --import tsx --test src/core.test.ts src/index.test.ts",
+    "test": "node --import tsx --test tests/core.test.ts tests/index.test.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   }
 }

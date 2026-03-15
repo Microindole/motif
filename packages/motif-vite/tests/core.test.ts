@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { compileSources } from './core.js';
+import { compileSources } from '../src/core.js';
 
 test('compileSources renders preset rules and variants into a stylesheet', () => {
   const result = compileSources([

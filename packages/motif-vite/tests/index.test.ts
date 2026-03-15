@@ -4,8 +4,8 @@ import os from 'node:os';
 import path from 'node:path';
 import { promises as fs } from 'node:fs';
 import type { ModuleNode, ViteDevServer } from 'vite';
-import { motifVite } from './index.js';
-import type { MotifCompileAdapter, MotifSourceFile } from './types.js';
+import { motifVite } from '../src/index.js';
+import type { MotifCompileAdapter, MotifSourceFile } from '../src/types.js';
 
 function hookHandler<T extends (...args: any[]) => any>(
   hook: T | { handler: T } | undefined,
