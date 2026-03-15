@@ -2,6 +2,9 @@ use crate::utils::{path_from_repo, read_lines};
 use std::collections::BTreeMap;
 use std::path::Path;
 
+#[path = "checks/source.rs"]
+mod source;
+
 pub fn run_core_checks(
     root: &Path,
     tracked: &[String],
@@ -45,12 +48,12 @@ fn test_file_line_limits(
             continue;
         }
 
-        if !is_source_file(file) {
+        if !source::is_source_file(file) {
             continue;
         }
 
         let lines = read_lines(&path)?.len();
-        let limit = source_file_line_limit(file);
+        let limit = source::source_file_line_limit(file);
 
         if let Some(limit) = limit {
             if lines > limit {
@@ -209,7 +212,7 @@ fn test_comment_heuristics(
         if !path.is_file() {
             continue;
         }
-        if !is_source_file(file) {
+        if !source::is_source_file(file) {
             continue;
         }
         let lines = read_lines(&path)?;
@@ -251,54 +254,4 @@ fn test_comment_heuristics(
         }
     }
     Ok(())
-}
-
-fn is_source_file(file: &str) -> bool {
-    if file.starts_with("node_modules/")
-        || file.contains("/node_modules/")
-        || file.starts_with("target/")
-        || file.contains("/target/")
-        || file.starts_with("dist/")
-        || file.contains("/dist/")
-        || file.starts_with("coverage/")
-        || file.contains("/coverage/")
-        || file.starts_with(".vite/")
-        || file.contains("/.vite/")
-    {
-        return false;
-    }
-
-    is_code_extension(file)
-}
-
-fn is_code_extension(file: &str) -> bool {
-    [
-        ".rs", ".ts", ".tsx", ".js", ".jsx", ".vue", ".svelte", ".ps1", ".sh",
-    ]
-    .iter()
-    .any(|ext| file.ends_with(ext))
-}
-
-fn source_file_line_limit(file: &str) -> Option<usize> {
-    match file {
-        value if value.starts_with("core/src/") && value.ends_with(".rs") => Some(320),
-        value if value.starts_with("core/tests/") && value.ends_with(".rs") => Some(420),
-        value if value.starts_with("xtask/src/") && value.ends_with(".rs") => Some(320),
-        value if value.starts_with("xtask/tests/") && value.ends_with(".rs") => Some(320),
-        value
-            if value.starts_with("scripts/")
-                && (value.ends_with(".ps1") || value.ends_with(".sh")) =>
-        {
-            Some(320)
-        }
-        value if value.starts_with("packages/") && is_code_extension(value) => Some(360),
-        value
-            if (value.starts_with("demo/") || value.starts_with("cases/"))
-                && is_source_file(value) =>
-        {
-            Some(260)
-        }
-        value if is_source_file(value) => Some(320),
-        _ => None,
-    }
 }
