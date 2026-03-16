@@ -86,6 +86,12 @@ export function FluentWorkspaceSection() {
           </button>
           <button
             style={{ cursor: "pointer" }}
+            className="f-action-outlined focus:f-ring hover:f-bg-hover-subtle active:f-shadow-press"
+          >
+            Open inspector
+          </button>
+          <button
+            style={{ cursor: "pointer" }}
             className="f-action-primary hover:f-bg-hover-primary active:f-shadow-press"
           >
             Send update

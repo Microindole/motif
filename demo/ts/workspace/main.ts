@@ -70,6 +70,7 @@ app.innerHTML = `
         </div>
         <div style="display:flex;gap:12px;flex-wrap:wrap;">
           <button style="cursor:pointer;" class="f-action-subtle focus:f-ring hover:f-bg-hover-subtle active:f-shadow-press">Preview panel</button>
+          <button style="cursor:pointer;" class="f-action-outlined focus:f-ring hover:f-bg-hover-subtle active:f-shadow-press">Open inspector</button>
           <button style="cursor:pointer;" class="f-action-primary hover:f-bg-hover-primary active:f-shadow-press">Send update</button>
         </div>
           <div class="f-dialog f-stack">
@@ -241,6 +242,8 @@ app.innerHTML = `
     </section>
   </main>
 `;
+
+
 
 
 

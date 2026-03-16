@@ -30,6 +30,24 @@ fn resolves_workspace_fluent_utilities() {
         "transition-property",
         "background-color, border-color, box-shadow, transform"
     ));
+    assert!(has_exact(
+        &tokens,
+        "f-action-outlined",
+        "background-color",
+        "transparent"
+    ));
+    assert!(has_contains(
+        &tokens,
+        "f-action-outlined",
+        "background-image",
+        "0.48"
+    ));
+    assert!(has_exact(
+        &tokens,
+        "f-action-outlined",
+        "min-height",
+        "2.5rem"
+    ));
     assert!(has_contains(
         &tokens,
         "f-shadow-press",
@@ -129,6 +147,8 @@ fn resolves_list_and_navigation_shell_traits() {
     let tokens = tokens();
 
     assert!(has_exact(&tokens, "f-drawer", "gap", "1rem"));
+    assert!(has_exact(&tokens, "f-drawer", "width", "100%"));
+    assert!(has_contains(&tokens, "f-drawer", "background-image", "0.44"));
     assert!(has_contains(&tokens, "f-drawer", "backdrop-filter", "24px"));
     assert!(has_contains(
         &tokens,
@@ -136,25 +156,51 @@ fn resolves_list_and_navigation_shell_traits() {
         "background-image",
         "0.48"
     ));
+    assert!(has_exact(&tokens, "f-list-item", "width", "100%"));
+    assert!(has_exact(&tokens, "f-list-item", "overflow", "hidden"));
     assert!(has_exact(
         &tokens,
         "f-nav-item",
         "background-color",
         "rgba(255, 255, 255, 0.7)"
     ));
+    assert!(has_exact(&tokens, "f-nav-item", "width", "100%"));
+    assert!(has_contains(&tokens, "f-nav-item", "background-image", "0.48"));
     assert!(has_exact(&tokens, "m-drawer", "gap", "1rem"));
+    assert!(has_exact(&tokens, "m-drawer", "width", "100%"));
+    assert!(has_contains(&tokens, "m-drawer", "background-image", "0.72"));
     assert!(has_contains(
         &tokens,
         "m-list-item",
         "background-image",
         "0.72"
     ));
+    assert!(has_exact(&tokens, "m-list-item", "width", "100%"));
+    assert!(has_exact(&tokens, "m-list-item", "overflow", "hidden"));
     assert!(has_exact(
         &tokens,
         "m-nav-item",
         "border",
         "1px solid #b6c3d6"
     ));
+    assert!(has_exact(&tokens, "m-nav-item", "width", "100%"));
+    assert!(has_contains(&tokens, "m-nav-item", "background-image", "0.72"));
+    assert!(has_exact(&tokens, "f-toast", "width", "100%"));
+    assert!(has_contains(&tokens, "f-toast", "background-image", "0.48"));
+    assert!(has_exact(&tokens, "m-toast", "width", "100%"));
+    assert!(has_contains(&tokens, "m-toast", "background-image", "0.72"));
+    assert!(has_exact(&tokens, "f-sheet", "overflow", "hidden"));
+    assert!(has_exact(&tokens, "f-sheet", "align-self", "stretch"));
+    assert!(has_exact(&tokens, "m-sheet", "overflow", "hidden"));
+    assert!(has_exact(&tokens, "m-sheet", "align-self", "stretch"));
+    assert!(has_exact(&tokens, "f-table", "width", "100%"));
+    assert!(has_contains(&tokens, "f-table", "background-image", "0.48"));
+    assert!(has_exact(&tokens, "f-table-row-selected", "overflow", "hidden"));
+    assert!(has_contains(&tokens, "f-table-row-selected", "box-shadow", "34px"));
+    assert!(has_exact(&tokens, "m-table", "width", "100%"));
+    assert!(has_contains(&tokens, "m-table", "background-image", "0.72"));
+    assert!(has_exact(&tokens, "m-table-row-selected", "overflow", "hidden"));
+    assert!(has_contains(&tokens, "m-table-row-selected", "box-shadow", "rgba(60, 64, 67, 0.16)"));
 }
 
 #[test]

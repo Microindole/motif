@@ -17,6 +17,7 @@ const workspace = `
       <select class="f-select focus:f-border-focus focus:f-ring"><option>Inbox</option></select>
       <div class="f-list-item"><span>Share</span><input type="checkbox" class="f-checkbox" /></div>
       <button class="f-action-subtle focus:f-ring hover:f-bg-hover-subtle active:f-shadow-press">Preview panel</button>
+      <button class="f-action-outlined focus:f-ring hover:f-bg-hover-subtle active:f-shadow-press">Open inspector</button>
       <button class="f-action-primary hover:f-bg-hover-primary active:f-shadow-press">Send update</button>
       <div class="f-dialog f-stack"><button class="f-menu-item">Move</button></div>
       <div class="f-tooltip">Tip</div>
@@ -65,6 +66,8 @@ const workspace = `
 `;
 
 document.body.innerHTML = workspace;
+
+
 
 
 
