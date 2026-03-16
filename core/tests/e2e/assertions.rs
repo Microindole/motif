@@ -25,6 +25,18 @@ pub(crate) fn assert_variant_selectors(css: &str) {
     assert!(css.contains("box-shadow: 0 1px 2px rgba(60, 64, 67, 0.24);"));
     assert!(css.contains(".focus\\:m-ring:focus {"));
     assert!(css.contains(".ui-control-lg {"));
+    assert!(css.contains(".ui-pad-xl {"));
+    assert!(css.contains("padding: 1.5rem;"));
+    assert!(css.contains(".ui-gap-xl {"));
+    assert!(css.contains("gap: 1.25rem;"));
+    assert!(css.contains(".ui-text-xs {"));
+    assert!(css.contains("font-size: 0.75rem;"));
+    assert!(css.contains(".ui-density-compact {"));
+    assert!(css.contains("padding: 0.625rem;"));
+    assert!(css.contains(".ui-density-comfortable {"));
+    assert!(css.contains(".ui-stack-inline {"));
+    assert!(css.contains("flex-wrap: wrap;"));
+    assert!(css.contains(".ui-stack-center {"));
     assert!(css.contains("min-height: 3.25rem;"));
     assert!(css.contains(".ui-radius-pill {"));
     assert!(css.contains("border-radius: 999px;"));
@@ -208,5 +220,7 @@ fn assert_workspace_material_states(css: &str) {
     assert!(css.contains(".focus\\:m-border-focus:focus {"));
     assert!(css.contains(".focus\\:m-ring:focus {"));
 }
+
+
 
 

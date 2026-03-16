@@ -78,6 +78,9 @@
 - 已继续收紧 `list-item` 的条目壳层：列表项改为完整行宽并裁切内部内容，Rust / TS core 与 workspace 规则断言继续保持对齐
 - 已继续收紧 `sheet / toast` 的壳层语义：面板补齐拉伸与裁切约束，toast 补上完整浮层壳层与 preset 差异背景，Rust / TS core 规则继续保持对齐
 - 已继续收紧 `table / row` 的数据壳层：表格容器与选中行补上完整宽度、裁切和层次反馈，Rust / TS core 规则继续保持对齐
+- 已扩展 `ui-*` 参数层：新增 `ui-pad-xl`、`ui-gap-xl`、`ui-text-xs`，并接入 variants 场景、Rust 规则断言、e2e 断言与 `motif-vite` smoke test
+- 已继续扩展 `ui-*` 参数层：新增 `ui-density-compact`、`ui-density-comfortable`，并接入 variants 场景、Rust 规则断言、e2e 断言与 `motif-vite` smoke test
+- 已继续扩展 `ui-*` 参数层：新增 `ui-stack-inline`、`ui-stack-center`，并用它们替换 variants 场景里的手写行内布局样式，Rust / TS core 与断言继续保持对齐
 - 已完成 Rust rule、`motif-vite` shared、`core/tests/e2e` 与 `core/tests/rule` 的结构拆分，当前代码侧 duplicate hard gate 已清空
 
 ## 当前优先级
