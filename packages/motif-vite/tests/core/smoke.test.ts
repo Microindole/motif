@@ -2,13 +2,15 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { compileSources } from '../../src/core.js';
 
+// Smoke tests pin the smallest cross-section of parser/render behavior so shared helpers
+// can be refactored without losing coverage for variants, dedupe, and universal utilities.
 test('compileSources renders preset rules and variants into a stylesheet', () => {
   const result = compileSources([
     {
       path: '/demo/App.tsx',
       content: `
         <main class="f-surface m-surface-container ui-pad-lg">
-          <button class="hover:f-bg-hover-primary focus:f-ring dark:m-elevation-1 ui-control-lg ui-radius-pill"></button>
+          <button class="hover:f-bg-hover-primary focus:f-ring dark:m-elevation-1 ui-control-lg ui-radius-pill ui-gap-lg"></button>
         </main>
       `,
     },
@@ -21,6 +23,8 @@ test('compileSources renders preset rules and variants into a stylesheet', () =>
   assert.match(result.stylesheet, /@media \(prefers-color-scheme: dark\)/);
   assert.match(result.stylesheet, /\.dark\\:m-elevation-1 \{/);
   assert.match(result.stylesheet, /\.ui-control-lg \{/);
+  assert.match(result.stylesheet, /\.ui-gap-lg \{/);
+  assert.match(result.stylesheet, /gap: 1rem;/);
   assert.match(result.stylesheet, /border-radius: 999px;/);
 });
 
@@ -93,6 +97,7 @@ test('compileSources renders second batch component semantics', () => {
   assert.match(result.stylesheet, /\.m-list-item \{/);
   assert.match(result.stylesheet, /\.f-menu-item \{/);
   assert.match(result.stylesheet, /max-width: 32rem;/);
+  assert.match(result.stylesheet, /background-blend-mode: screen;/);
 });
 
 test('compileSources renders third batch navigation and feedback semantics', () => {
@@ -114,5 +119,6 @@ test('compileSources renders third batch navigation and feedback semantics', () 
   assert.match(result.stylesheet, /\.m-badge \{/);
   assert.match(result.stylesheet, /\.f-tooltip \{/);
   assert.match(result.stylesheet, /\.m-banner \{/);
+  assert.match(result.stylesheet, /border: 1px solid #b6c3d6;/);
 });
 

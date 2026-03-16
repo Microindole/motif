@@ -6,7 +6,7 @@ const spinnerRowStyle = { display: "flex", alignItems: "center", gap: "12px" } a
 export function MaterialWorkspaceSection() {
   return (
     <section className="m-surface f-stack dark:m-elevation-1">
-      <aside className="m-drawer f-stack">
+      <aside className="m-drawer f-stack ui-gap-lg">
         <div className="m-persona">
           <div className="m-avatar">R</div>
           <div>
@@ -73,7 +73,7 @@ export function MaterialWorkspaceSection() {
             <option value="review">Needs review</option>
           </select>
         </label>
-        <div className="m-list-item">
+        <div className="m-list-item ui-gap-md">
           <span>Sync with mobile owners</span>
           <button className="m-switch" aria-label="Sync with mobile owners" />
         </div>

@@ -6,7 +6,7 @@ const spinnerRowStyle = { display: "flex", alignItems: "center", gap: "12px" } a
 export function FluentWorkspaceSection() {
   return (
     <section className="f-surface f-stack">
-      <aside className="f-drawer f-stack">
+      <aside className="f-drawer f-stack ui-gap-lg">
         <div className="f-persona">
           <div className="f-avatar">A</div>
           <div>
@@ -73,7 +73,7 @@ export function FluentWorkspaceSection() {
             <option value="follow-up">Follow up</option>
           </select>
         </label>
-        <div className="f-list-item">
+        <div className="f-list-item ui-gap-md">
           <span>Share with review group</span>
           <input type="checkbox" className="f-checkbox" aria-label="Share with review group" />
         </div>

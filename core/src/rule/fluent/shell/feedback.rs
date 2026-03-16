@@ -22,12 +22,20 @@ fn list_item(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         declaration("display", "flex"),
         declaration("align-items", "center"),
         declaration("justify-content", "space-between"),
+        declaration("gap", "0.75rem"),
         declaration("min-height", "3rem"),
         token_declaration("color", tokens.fluent.color.get("text")?),
         token_declaration("background-color", tokens.fluent.color.get("surface-alt")?),
+        token_declaration(
+            "background-image",
+            tokens.fluent.effect.get("surface-alt-tint")?,
+        ),
+        declaration("background-blend-mode", "screen"),
         token_declaration("border", tokens.fluent.border.get("action-subtle")?),
         token_declaration("border-radius", tokens.fluent.radius.get("md")?),
         token_declaration("padding", tokens.fluent.space.get("surface-pad-sm")?),
+        token_declaration("box-shadow", tokens.fluent.shadow.get("surface-alt")?),
+        declaration("backdrop-filter", "blur(18px) saturate(1.08)"),
     ];
     append_transition(
         &mut declarations,
@@ -74,11 +82,17 @@ fn nav_item(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     declarations.extend([
         declaration("display", "inline-flex"),
         declaration("align-items", "center"),
+        declaration("gap", "0.5rem"),
         declaration("min-height", "2.5rem"),
-        token_declaration("color", tokens.fluent.color.get("muted")?),
-        declaration("background-color", "transparent"),
+        token_declaration("color", tokens.fluent.color.get("text")?),
+        token_declaration(
+            "background-color",
+            tokens.fluent.color.get("action-subtle")?,
+        ),
+        token_declaration("border", tokens.fluent.border.get("action-subtle")?),
         token_declaration("border-radius", tokens.fluent.radius.get("md")?),
         token_declaration("padding", tokens.fluent.space.get("action-pad")?),
+        token_declaration("box-shadow", tokens.fluent.shadow.get("action-subtle")?),
     ]);
     append_transition(
         &mut declarations,

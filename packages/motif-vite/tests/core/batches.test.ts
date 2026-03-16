@@ -2,6 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { compileSources } from '../../src/core.js';
 
+// Batch tests track the staged component-matrix rollout; each block represents a vertical
+// slice that should keep rendering once preset rules move between shared/foundation/shell layers.
 test('compileSources renders fourth batch shell and identity semantics', () => {
   const result = compileSources([
     {

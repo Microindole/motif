@@ -9,9 +9,9 @@ pub mod dependencies_parse;
 mod duplicates;
 mod github_event;
 pub mod pr;
+mod runner;
 
-use crate::demo_builds;
-use crate::utils::{npm_program, path_from_repo, repo_root};
+use crate::utils::repo_root;
 
 pub fn run() -> Result<(), String> {
     let root = repo_root();
@@ -20,53 +20,8 @@ pub fn run() -> Result<(), String> {
     let mut failures = Vec::new();
     let mut warnings = Vec::new();
 
-    checks::run_core_checks(&root, &tracked, &mut failures, &mut warnings)?;
-    boundary::test_architecture_boundaries(&root, &tracked, &mut failures)?;
-    complexity::test_complexity_heuristics(&root, &tracked, &mut failures, &mut warnings)?;
-    dependencies::test_dependency_hygiene(&root, &tracked, &mut failures, &mut warnings)?;
-    duplicates::test_duplicate_blocks(&root, &tracked, &mut failures, &mut warnings)?;
-    changes::test_change_size(&root, &mut failures, &mut warnings);
-    commit::test_commit_message(&root, &mut failures, &mut warnings);
-    pr::test_pr_description(&mut failures, &mut warnings);
-
-    if let Err(error) = crate::utils::run_step(
-        "cargo fmt --all --check",
-        "cargo",
-        &["fmt", "--all", "--check"],
-        &root,
-    ) {
-        failures.push(error);
-    }
-    if let Err(error) = crate::utils::run_step(
-        "cargo clippy --workspace --all-targets --all-features -- -D warnings",
-        "cargo",
-        &[
-            "clippy",
-            "--workspace",
-            "--all-targets",
-            "--all-features",
-            "--",
-            "-D",
-            "warnings",
-        ],
-        &root,
-    ) {
-        failures.push(error);
-    }
-    if let Err(error) = crate::utils::run_step(
-        "cargo test -p motif-core",
-        "cargo",
-        &["test", "-p", "motif-core"],
-        &root,
-    ) {
-        failures.push(error);
-    }
-    if let Err(error) = run_motif_vite_checks(&root) {
-        failures.push(error);
-    }
-    if let Err(error) = demo_builds::run() {
-        failures.push(error);
-    }
+    run_repo_quality_checks(&root, &tracked, &mut failures, &mut warnings)?;
+    runner::run_command_quality_checks(&root, &mut failures);
 
     if !warnings.is_empty() {
         println!("\nSoft warnings:");
@@ -87,23 +42,19 @@ pub fn run() -> Result<(), String> {
     }
 }
 
-fn run_motif_vite_checks(root: &std::path::Path) -> Result<(), String> {
-    let motif_vite_dir = path_from_repo(root, "packages/motif-vite");
-    let npm = npm_program();
-
-    crate::utils::run_step(
-        "motif-vite: install dependencies",
-        npm,
-        &["install", "--no-package-lock"],
-        &motif_vite_dir,
-    )?;
-    crate::utils::run_step(
-        "motif-vite: typecheck",
-        npm,
-        &["run", "typecheck"],
-        &motif_vite_dir,
-    )?;
-    crate::utils::run_step("motif-vite: test", npm, &["test"], &motif_vite_dir)?;
-
+fn run_repo_quality_checks(
+    root: &std::path::Path,
+    tracked: &[String],
+    failures: &mut Vec<String>,
+    warnings: &mut Vec<String>,
+) -> Result<(), String> {
+    checks::run_core_checks(root, tracked, failures, warnings)?;
+    boundary::test_architecture_boundaries(root, tracked, failures)?;
+    complexity::test_complexity_heuristics(root, tracked, failures, warnings)?;
+    dependencies::test_dependency_hygiene(root, tracked, failures, warnings)?;
+    duplicates::test_duplicate_blocks(root, tracked, failures, warnings)?;
+    changes::test_change_size(root, failures, warnings);
+    commit::test_commit_message(root, failures, warnings);
+    pr::test_pr_description(failures, warnings);
     Ok(())
 }

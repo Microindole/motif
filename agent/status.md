@@ -1,10 +1,10 @@
 # motif Status
 
-更新时间：2026-03-14
+更新时间：2026-03-16
 
 ## 当前阶段
 - P0：最小扫描到 CSS 输出闭环、双 preset、四类 demo、token 驱动、e2e、构建级验证，以及 AI 熵增防护的多轮质量闸门落地
-- P0.5：将产品主线从“Rust CLI 原型闭环”转向“前端工具链优先、接入体验接近 Tailwind、但继续保持 preset-first 与强约束”的终局路线
+- P1：前端工具链入口与完整组件矩阵并行推进；`motif-vite` 已可直接接入 Vite demo，当前主线转为“组件收口 + 风格拟合 + 参数层”
 
 ## 当前已完成
 - 已建立顶层目录：`agent/` `core/` `web/` `demo/` `cases/` `tests/` `tokens/`
@@ -27,7 +27,9 @@
 - 已为扫描结果保留文件级来源，并补上内存源码扫描入口，为未来 watch / plugin / migration 铺路
 - 已新增 `packages/motif-vite/` 最小骨架：提供 `virtual:motif.css`、目录扫描、adapter 注入与文件变更失效流程
 - 已让 `motif-vite` 在开发态源码变更后主动触发样式刷新，先保证 watch / 热修改链路可感知
+- 已让 `motif-vite` 默认走 TS core adapter，Rust core 继续作为稳定 contract 与对照实现
 - 已为 `motif-vite` 补上独立 `test` / `typecheck`，并接入 `xtask -- quality`
+- 已将 `motif-vite` 的 shared helper 与 tests 按目录下沉拆分，避免 `shared.ts` / `core.test.ts` 继续膨胀成上帝文件
 - 已引入第一版与 preset 解耦的 `ui-*` 参数层，用于尺寸、圆角、文字大小等非风格参数调节
 - 已建立组件矩阵文档 `agent/components.md`，开始将主线从零散 rule 补齐切到按组件域推进
 - 已实现最小 CSS 生成：支持类名转义、伪类变体、`dark:` 媒体查询包装
@@ -69,26 +71,27 @@
 - 已补第八批状态语义：`accordion-item-open` `table-row-selected`
 - 已补第九批展示/容器语义：`chip` `sheet-side` `sheet-bottom`
 - 已补第十批数据组合语义：`table` `tag`
+- 已补第十一批结构语义：`table-header` `accordion-header`
+- 已补第十二批结构语义：`table-cell` `accordion-content`
+- 已完成 Rust rule、`motif-vite` shared、`core/tests/e2e` 与 `core/tests/rule` 的结构拆分，当前代码侧 duplicate hard gate 已清空
 
 ## 当前优先级
-1. 把 `motif-vite` 的 adapter 从占位骨架接到真实 compile backend
-2. 明确 `motif-core` 的稳定 contract，避免后续迁到 npm / plugin 入口时重写边界混乱
-3. 优先保证 watch 和自动更新链路，再继续做 HMR 细化
-4. 按组件矩阵推进第一批高频组件：`checkbox` `radio` `switch` `select` `textarea`
-5. 继续把两套 preset 做得更像 Win11 与 Google 风格
-6. 把 `panel` / `surface-container` / `field` / `action` / `divider` / `label` 继续做细，让真实页面更稳
-7. 继续把 soft warning 降噪，并决定哪些 `[candidate]` 应升级为 hard gate
+1. 按 `agent/components.md` 把 P0 中仍为 `scaffolded` / `in_progress` 的高频组件收口到 `done_v1`
+2. 继续做双 preset 风格拟合，优先磨 `surface/panel/field/action/dialog/drawer/list-item`
+3. 扩展 `ui-*` 参数层，从尺寸/圆角继续补到密度、间距和组件级参数
+4. 保持 `motif-core` contract 稳定，让 Rust core 与 `motif-vite` TS core 持续对齐
+5. 在 watch 已可用的基础上，再评估更细的 CSS update / HMR 粒度
+6. 继续降低 soft warning 噪音，并把质量闸门维持在低噪音状态
 
 ## 当前阻塞
 - FIXME: 当前质量闸门已在仓库中落地，并已补上 diff coverage、重复代码检查、架构边界、复杂度代理、依赖膨胀、变更规模与提交信息检查，但 GitHub 分支保护和 CodeQL / Dependabot 的仓库级启用仍需在仓库设置里打开。
 - FIXME: 当前 preset 已能看出较明显差异，并已补到 panel / container / subtle / outlined action，但 Win11 向的云母/亚克力层次与 Google 向的完整 container / field / action 系统仍是第一版。
-- FIXME: 当前 `motif-vite` 仍依赖外部 adapter；真实 Rust binding / WASM / TS core adapter 还未接通。
+- FIXME: 当前 `motif-vite` 已走 TS core，但 Rust core 与 TS core 的规则覆盖仍需继续压齐。
 
 ## 当前待办
 - TODO: 在 GitHub 仓库设置中启用 required checks、审查要求与分支保护。
 - TODO: 继续把 `motif-core` contract 压稳，避免 plugin 接入时再次牵动 rule / token 主体。
-- TODO: 为 `motif-vite` 实现第一版真实 adapter。
-- TODO: 评估 Rust Node binding、WASM 与 TS core 三条接法的成本。
+- TODO: 继续补齐 TS core 与 Rust core 的规则覆盖差距。
 - TODO: 评估开发态 watch / 热更新的更细失效策略。
 - TODO: 按 `agent/components.md` 推进 P0 组件矩阵，并为每个组件补齐 demo / tests / 参数层。
 - TODO: 继续扩展 `f-` 的 mica / acrylic / border / hover / panel / subtle action 细节。

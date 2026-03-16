@@ -1,6 +1,6 @@
 # motif Components
 
-更新时间：2026-03-14
+更新时间：2026-03-16
 
 ## 组件目标
 `motif` 的终局不是少量按钮和输入框，而是两整套可落完整页面的组件语义系统：
@@ -34,25 +34,25 @@
 | Typography | `title/body/label` | `f-title` `f-body` `f-label` | `m-title` `m-body` `m-label` | `ui-text-*` | `done_v1` | 仍需更细级别 |
 | Action | `button primary` | `f-action-primary` | `m-action-primary` | `ui-control-*` `ui-radius-*` | `done_v1` | 需扩成完整按钮矩阵 |
 | Action | `button secondary` | `f-action-subtle` | `m-action-tonal` | `ui-control-*` `ui-radius-*` | `done_v1` | |
-| Action | `button outlined` | `planned` | `m-action-outlined` | `ui-control-*` `ui-radius-*` | `in_progress` | Fluent 侧仍缺对应表达 |
+| Action | `button outlined` | `planned` | `m-action-outlined` | `ui-control-*` `ui-radius-*` | `in_progress` | Fluent 侧仍缺更明确对应表达 |
 | Form | `text field` | `f-field` | `m-field` | `ui-control-*` | `done_v1` | |
-| Form | `textarea` | `f-textarea` | `m-textarea` | `ui-control-*` `ui-text-*` | `scaffolded` | 第一版已接 workspace |
-| Form | `select` | `f-select` | `m-select` | `ui-control-*` | `scaffolded` | 第一版已接 workspace |
-| Form | `checkbox` | `f-checkbox` | `m-checkbox` | `ui-control-*` | `scaffolded` | 第一版已接 variants/workspace |
-| Form | `radio` | `f-radio` | `m-radio` | `ui-control-*` | `scaffolded` | 第一版已接 variants/workspace |
-| Form | `switch` | `f-switch` | `m-switch` | `ui-control-*` | `scaffolded` | 第一版已接 variants/workspace |
+| Form | `textarea` | `f-textarea` | `m-textarea` | `ui-control-*` `ui-text-*` | `done_v1` | 已接 workspace、Rust/TS tests |
+| Form | `select` | `f-select` | `m-select` | `ui-control-*` | `done_v1` | 已接 workspace、Rust/TS tests |
+| Form | `checkbox` | `f-checkbox` | `m-checkbox` | `ui-control-*` | `done_v1` | 已接 variants/workspace、Rust/TS tests |
+| Form | `radio` | `f-radio` | `m-radio` | `ui-control-*` | `done_v1` | 已接 variants/workspace、Rust/TS tests |
+| Form | `switch` | `f-switch` | `m-switch` | `ui-control-*` | `done_v1` | 已接 variants/workspace、Rust/TS tests |
 | Feedback | `divider` | `f-divider` | `m-divider` | - | `done_v1` | |
-| Navigation | `tabs` | `f-tab` | `m-tab` | `ui-control-*` | `scaffolded` | 第一版已接 workspace |
-| Navigation | `drawer/nav` | `f-drawer` `f-nav-item` | `m-drawer` `m-nav-item` | `ui-pad-*` | `scaffolded` | 第一版已接 workspace |
-| Overlay | `dialog` | `f-dialog` | `m-dialog` | `ui-pad-*` `ui-radius-*` | `scaffolded` | 第一版已接 workspace |
-| Overlay | `menu/menu-item` | `f-menu-item` | `m-menu-item` | `ui-control-*` | `scaffolded` | 第一版已接 workspace |
-| Data | `list-item` | `f-list-item` | `m-list-item` | `ui-control-*` `ui-pad-*` | `scaffolded` | 第一版已接 workspace |
-| Data | `badge/chip/tag` | `f-badge` `f-chip` `f-tag` | `m-badge` `m-chip` `m-tag` | `ui-text-*` `ui-radius-*` | `scaffolded` | 第一版已接 workspace |
-| Data | `table / row` | `f-table` `f-table-row` `f-table-row-selected` | `m-table` `m-table-row` `m-table-row-selected` | `ui-pad-*` | `scaffolded` | 第一版已接 workspace |
-| Overlay | `sheet / bottom sheet` | `f-sheet` `f-sheet-side` `f-sheet-bottom` | `m-sheet` `m-sheet-side` `m-sheet-bottom` | `ui-pad-*` `ui-radius-*` | `scaffolded` | 第一版已接 workspace |
-| Feedback | `tooltip` | `f-tooltip` | `m-tooltip` | `ui-text-*` | `scaffolded` | 第一版已接 workspace |
-| Feedback | `banner` | `f-banner` | `m-banner` | `ui-pad-*` | `scaffolded` | 第一版已接 workspace |
-| Feedback | `toast/snackbar` | `f-toast` | `m-toast` | `ui-pad-*` | `scaffolded` | 第一版已接 workspace |
+| Navigation | `tabs` | `f-tab` | `m-tab` | `ui-control-*` | `done_v1` | 已接 workspace、Rust/TS tests |
+| Navigation | `drawer/nav` | `f-drawer` `f-nav-item` | `m-drawer` `m-nav-item` | `ui-pad-*` | `in_progress` | 第一版已接 workspace，仍需更像官方 |
+| Overlay | `dialog` | `f-dialog` | `m-dialog` | `ui-pad-*` `ui-radius-*` | `done_v1` | 已接 workspace、Rust/TS tests |
+| Overlay | `menu/menu-item` | `f-menu-item` | `m-menu-item` | `ui-control-*` | `done_v1` | 已接 workspace、Rust/TS tests |
+| Data | `list-item` | `f-list-item` | `m-list-item` | `ui-control-*` `ui-pad-*` | `in_progress` | 第一版已接 workspace，仍需风格拟合 |
+| Data | `badge/chip/tag` | `f-badge` `f-chip` `f-tag` | `m-badge` `m-chip` `m-tag` | `ui-text-*` `ui-radius-*` | `done_v1` | 已接 workspace、Rust/TS tests |
+| Data | `table / row` | `f-table` `f-table-row` `f-table-row-selected` | `m-table` `m-table-row` `m-table-row-selected` | `ui-pad-*` | `in_progress` | 已补 `header/cell/content`，仍需更完整表格层次 |
+| Overlay | `sheet / bottom sheet` | `f-sheet` `f-sheet-side` `f-sheet-bottom` | `m-sheet` `m-sheet-side` `m-sheet-bottom` | `ui-pad-*` `ui-radius-*` | `in_progress` | 第一版已接 workspace，仍需层次拟合 |
+| Feedback | `tooltip` | `f-tooltip` | `m-tooltip` | `ui-text-*` | `done_v1` | 已接 workspace、Rust/TS tests |
+| Feedback | `banner` | `f-banner` | `m-banner` | `ui-pad-*` | `done_v1` | 已接 workspace、Rust/TS tests |
+| Feedback | `toast/snackbar` | `f-toast` | `m-toast` | `ui-pad-*` | `in_progress` | 第一版已接 workspace，仍需角色拟合 |
 
 ## P1 组件矩阵
 - icon-button
@@ -85,15 +85,11 @@
 - `motif-vite` 的 TS core 具备对应能力
 
 ## 当前实现顺序
-1. 表单控件补齐：`checkbox` `radio` `switch` `select` `textarea`
-2. 按钮矩阵补齐：primary / secondary / outlined / icon
-3. 结构容器补齐：card / section / dialog / menu
-4. 导航补齐：tabs / nav-item / drawer
-5. 数据展示补齐：list-item / badge / toast / tooltip
-6. 应用壳层补齐：search / segmented / breadcrumb / avatar / persona / toast / drawer
-7. 反馈与加载补齐：progress / spinner / skeleton / empty state / sheet
-8. 结构化数据补齐：accordion / table-row
-9. 组合导航与身份补齐：breadcrumb / persona
+1. 把已落第一版的高频组件从 `scaffolded` / `in_progress` 收口到 `done_v1`
+2. 按钮矩阵补齐：primary / secondary / outlined / icon，尤其 Fluent 侧对应关系
+3. 结构容器拟合：panel / dialog / menu / drawer / sheet
+4. 数据与结构拟合：list-item / table / accordion
+5. 组合导航与身份拟合：search / segmented / breadcrumb / avatar / persona
 
 ## 风格验收维度
 ### Fluent / Win11
@@ -109,10 +105,11 @@
 - 移动优先感与系统化层次是否明显
 
 ## 当前结论
-当前项目已经具备：
-- 双 preset 核心方向
-- 参数层第一版
-- Vite 插件入口
+当前项目已经进入“组件矩阵驱动阶段”：
+- 双 preset 核心方向已稳定
+- 参数层第一版已可用
+- `motif-vite` 已成为真实前端入口
 
-但离“完整组件系统”还差一个组件矩阵驱动阶段。
-从本文件开始，后续推进应按组件域和矩阵状态前进，而不是继续零散加 rule。
+接下来不应再回到零散加 rule，而应持续按矩阵状态推进：
+- 先把高频组件做到 `done_v1`
+- 再继续做 Win11 / Google 风格拟合

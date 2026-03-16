@@ -54,13 +54,13 @@ export function resolveFluentFoundationControls(parsed: ParsedClass): Declaratio
       ], fluent('effect', 'interactive-transition'), fluent('motion', 'duration'), fluent('motion', 'easing'));
     case 'list:item':
       return withTransition([
-        decl('display', 'flex'), decl('align-items', 'center'), decl('justify-content', 'space-between'), decl('min-height', '3rem'), tokenDecl('color', fluent('color', 'text')), tokenDecl('background-color', fluent('color', 'surface-alt')),
-        tokenDecl('border', fluent('border', 'action-subtle')), tokenDecl('border-radius', fluent('radius', 'md')), tokenDecl('padding', fluent('space', 'surface-pad-sm')),
+        decl('display', 'flex'), decl('align-items', 'center'), decl('justify-content', 'space-between'), decl('gap', '0.75rem'), decl('min-height', '3rem'), tokenDecl('color', fluent('color', 'text')), tokenDecl('background-color', fluent('color', 'surface-alt')),
+        tokenDecl('background-image', fluent('effect', 'surface-alt-tint')), decl('background-blend-mode', 'screen'), tokenDecl('border', fluent('border', 'action-subtle')), tokenDecl('border-radius', fluent('radius', 'md')), tokenDecl('padding', fluent('space', 'surface-pad-sm')), tokenDecl('box-shadow', fluent('shadow', 'surface-alt')), decl('backdrop-filter', 'blur(18px) saturate(1.08)'),
       ], fluent('effect', 'interactive-transition'), fluent('motion', 'duration'), fluent('motion', 'easing'));
     case 'menu:item':
       return withTransition([
-        decl('display', 'flex'), decl('align-items', 'center'), decl('justify-content', 'space-between'), decl('min-height', '2.5rem'), decl('cursor', 'pointer'), tokenDecl('color', fluent('color', 'text')), tokenDecl('background-color', fluent('color', 'surface-alt')),
-        tokenDecl('border', fluent('border', 'action-subtle')), tokenDecl('border-radius', fluent('radius', 'md')), tokenDecl('padding', fluent('space', 'surface-pad-sm')),
+        decl('display', 'flex'), decl('align-items', 'center'), decl('justify-content', 'space-between'), decl('gap', '0.75rem'), decl('min-height', '2.5rem'), decl('cursor', 'pointer'), tokenDecl('color', fluent('color', 'text')), tokenDecl('background-color', fluent('color', 'surface-alt')),
+        tokenDecl('background-image', fluent('effect', 'surface-alt-tint')), decl('background-blend-mode', 'screen'), tokenDecl('border', fluent('border', 'action-subtle')), tokenDecl('border-radius', fluent('radius', 'md')), tokenDecl('padding', fluent('space', 'surface-pad-sm')), tokenDecl('box-shadow', fluent('shadow', 'surface-alt')), decl('backdrop-filter', 'blur(18px) saturate(1.08)'),
       ], fluent('effect', 'interactive-transition'), fluent('motion', 'duration'), fluent('motion', 'easing'));
     case 'icon:button':
       return withTransition([
@@ -69,8 +69,8 @@ export function resolveFluentFoundationControls(parsed: ParsedClass): Declaratio
       ], fluent('effect', 'interactive-transition'), fluent('motion', 'duration'), fluent('motion', 'easing'));
     case 'nav:item':
       return withTransition([
-        ...fluentTypography('label-size', 'label-weight'), decl('display', 'inline-flex'), decl('align-items', 'center'), decl('min-height', '2.5rem'), tokenDecl('color', fluent('color', 'muted')),
-        decl('background-color', 'transparent'), tokenDecl('border-radius', fluent('radius', 'md')), tokenDecl('padding', fluent('space', 'action-pad')),
+        ...fluentTypography('label-size', 'label-weight'), decl('display', 'inline-flex'), decl('align-items', 'center'), decl('gap', '0.5rem'), decl('min-height', '2.5rem'), tokenDecl('color', fluent('color', 'text')),
+        tokenDecl('background-color', fluent('color', 'action-subtle')), tokenDecl('border', fluent('border', 'action-subtle')), tokenDecl('border-radius', fluent('radius', 'md')), tokenDecl('padding', fluent('space', 'action-pad')), tokenDecl('box-shadow', fluent('shadow', 'action-subtle')),
       ], fluent('effect', 'interactive-transition'), fluent('motion', 'duration'), fluent('motion', 'easing'));
     default:
       return null;

@@ -22,15 +22,21 @@ fn list_item(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         declaration("display", "flex"),
         declaration("align-items", "center"),
         declaration("justify-content", "space-between"),
+        declaration("gap", "0.75rem"),
         declaration("min-height", "3rem"),
         token_declaration("color", tokens.material.color.get("on-surface")?),
         token_declaration(
             "background-color",
             tokens.material.color.get("surface-container")?,
         ),
+        token_declaration(
+            "background-image",
+            tokens.material.effect.get("container-tint")?,
+        ),
         token_declaration("border", tokens.material.border.get("surface-container")?),
         token_declaration("border-radius", tokens.material.radius.get("lg")?),
         declaration("padding", "0.85rem 1rem"),
+        token_declaration("box-shadow", tokens.material.shadow.get("container")?),
     ];
     with_effect_transition(tokens, declarations, "state-transition")
 }
@@ -65,11 +71,21 @@ fn nav_item(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     declarations.extend([
         declaration("display", "inline-flex"),
         declaration("align-items", "center"),
+        declaration("gap", "0.5rem"),
         declaration("min-height", "2.5rem"),
         token_declaration("color", tokens.material.color.get("primary")?),
-        declaration("background-color", "transparent"),
+        token_declaration(
+            "background-color",
+            tokens.material.color.get("surface-container")?,
+        ),
+        token_declaration(
+            "background-image",
+            tokens.material.effect.get("container-tint")?,
+        ),
+        token_declaration("border", tokens.material.border.get("outlined-action")?),
         token_declaration("border-radius", tokens.material.radius.get("pill")?),
         token_declaration("padding", tokens.material.space.get("action-pad")?),
+        token_declaration("box-shadow", tokens.material.shadow.get("outlined-action")?),
     ]);
     with_effect_transition(tokens, declarations, "state-transition")
 }
