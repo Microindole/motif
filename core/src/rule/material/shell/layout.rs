@@ -33,6 +33,7 @@ fn drawer(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let declarations = vec![
         declaration("display", "flex"),
         declaration("flex-direction", "column"),
+        declaration("gap", "1rem"),
         declaration("min-width", "16rem"),
         token_declaration("color", tokens.material.color.get("on-surface")?),
         token_declaration(

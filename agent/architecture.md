@@ -55,15 +55,17 @@
 - CLI 只是这些 contract 的一个调用者。
 - 后续 `Vite` 插件也应尽量复用这些 contract，而不是重新发明一套流程。
 
-## 当前 plugin 骨架
-- `packages/motif-vite/` 已有最小 Vite 插件骨架
-- 当前通过 `adapter` 注入 compile 能力，而不是把 Rust binding 直接写死在插件内部
-- 插件已具备：
+## 当前 plugin 状态
+- `packages/motif-vite/` 已不只是骨架，当前默认走 TS core adapter
+- 插件仍保留 `adapter` 注入层，不把 Rust binding 直接写死在插件内部
+- 插件当前已具备：
 - 虚拟模块 `virtual:motif.css`
 - 源码目录递归扫描
 - 文件变更后失效并重新编译样式
+- React / Vue Vite demo 的真实接入路径
+- 独立 `typecheck` / `test`
 - 当前仍缺：
-- 更完整的 Rust binding / WASM / TS core adapter
+- Rust binding / WASM 与 TS core 的统一策略
 - 更细的增量失效策略
 - 开发态 HMR 优化与验证
 
@@ -100,9 +102,9 @@
 
 ## 用户入口演进
 ### 当前入口
-- Rust CLI 生成 `motif.css`
+- Rust CLI 仍可直接生成 `motif.css`
 - `xtask` 负责质量闸门与 demo 构建验证
-- `packages/motif-vite` 提供最小插件外壳，但编译 adapter 仍待接实
+- `packages/motif-vite` 已可作为真实前端入口，默认走 TS core
 
 ### 目标入口
 - `npm` 包

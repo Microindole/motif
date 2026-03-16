@@ -4,6 +4,8 @@ import type { Declaration, Family, ParsedClass, Variant } from './types.js';
 const CLASS_BOUNDARY = /[\s"'`<>=\{\}\(\)\[\],;]/;
 const CLASS_CHAR = /^[A-Za-z0-9:/_.-]+$/;
 
+// Parsing stays intentionally narrow: we only accept static preset/UI class shapes so
+// TS core and Rust core can stay aligned, dedupe reliably, and leave room for migration.
 export function extractClassNames(content: string): Set<string> {
   const result = new Set<string>();
   for (const candidate of content.split(CLASS_BOUNDARY)) {
@@ -108,6 +110,12 @@ export function resolveUniversal(parsed: ParsedClass): Declaration[] | null {
       return [decl('padding', '1rem')];
     case 'pad:lg':
       return [decl('padding', '1.25rem')];
+    case 'gap:sm':
+      return [decl('gap', '0.5rem')];
+    case 'gap:md':
+      return [decl('gap', '0.75rem')];
+    case 'gap:lg':
+      return [decl('gap', '1rem')];
     case 'radius:sm':
       return [decl('border-radius', '6px')];
     case 'radius:md':

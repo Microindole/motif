@@ -8,6 +8,7 @@ export function resolveMaterialShellLayout(parsed: ParsedClass): Declaration[] |
         [
           decl('display', 'flex'),
           decl('flex-direction', 'column'),
+          decl('gap', '1rem'),
           decl('min-width', '16rem'),
           tokenDecl('color', material('color', 'on-surface')),
           tokenDecl('background-color', material('color', 'surface-container')),

@@ -59,7 +59,7 @@ fn resolves_third_batch_navigation_and_feedback_semantics() {
     assert!(material_nav
         .declarations
         .iter()
-        .any(|decl| decl.property == "background-color" && decl.value == "transparent"));
+        .any(|decl| decl.property == "border" && decl.value == "1px solid #b6c3d6"));
 
     let material_badge = resolve_rule(&parse_class_name("m-badge").unwrap(), &tokens).unwrap();
     assert!(material_badge

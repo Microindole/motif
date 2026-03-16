@@ -47,17 +47,17 @@ fn drawer(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = vec![
         declaration("display", "flex"),
         declaration("flex-direction", "column"),
+        declaration("gap", "1rem"),
         declaration("min-width", "16rem"),
         token_declaration("color", tokens.fluent.color.get("text")?),
-        token_declaration("background-color", tokens.fluent.color.get("surface")?),
-        token_declaration(
-            "background-image",
-            tokens.fluent.effect.get("surface-tint")?,
-        ),
+        token_declaration("background-color", tokens.fluent.color.get("panel")?),
+        token_declaration("background-image", tokens.fluent.effect.get("panel-tint")?),
+        declaration("background-blend-mode", "screen"),
         token_declaration("border", tokens.fluent.border.get("panel")?),
         token_declaration("border-radius", tokens.fluent.radius.get("lg")?),
         token_declaration("padding", tokens.fluent.space.get("panel-pad")?),
         token_declaration("box-shadow", tokens.fluent.shadow.get("panel")?),
+        declaration("backdrop-filter", "blur(24px) saturate(1.18)"),
     ];
     append_transition(
         &mut declarations,

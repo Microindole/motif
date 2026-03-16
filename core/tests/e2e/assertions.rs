@@ -55,6 +55,9 @@ pub(crate) fn assert_workspace_selectors(css: &str) {
     assert_workspace_material_states(css);
 }
 
+// Keep the workspace selector checks grouped by page concern so the test still
+// reads like a fixture contract instead of scattering hundreds of assertions
+// across the call sites.
 fn assert_workspace_base_selectors(css: &str) {
     assert!(css.contains(".f-label {"));
     assert!(css.contains(".f-divider {"));
@@ -80,6 +83,12 @@ fn assert_workspace_base_selectors(css: &str) {
 }
 
 fn assert_workspace_component_matrix(css: &str) {
+    assert_workspace_form_and_overlay_selectors(css);
+    assert_workspace_navigation_and_identity_selectors(css);
+    assert_workspace_feedback_and_data_selectors(css);
+}
+
+fn assert_workspace_form_and_overlay_selectors(css: &str) {
     for selector in [
         ".f-textarea {",
         ".m-textarea {",
@@ -93,6 +102,13 @@ fn assert_workspace_component_matrix(css: &str) {
         ".m-list-item {",
         ".f-menu-item {",
         ".m-menu-item {",
+    ] {
+        assert!(css.contains(selector));
+    }
+}
+
+fn assert_workspace_navigation_and_identity_selectors(css: &str) {
+    for selector in [
         ".f-icon-button {",
         ".m-icon-button {",
         ".f-nav-item {",
@@ -123,6 +139,13 @@ fn assert_workspace_component_matrix(css: &str) {
         ".m-avatar {",
         ".f-persona {",
         ".m-persona {",
+    ] {
+        assert!(css.contains(selector));
+    }
+}
+
+fn assert_workspace_feedback_and_data_selectors(css: &str) {
+    for selector in [
         ".f-progress {",
         ".m-progress {",
         ".f-spinner {",
