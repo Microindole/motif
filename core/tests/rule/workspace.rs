@@ -140,6 +140,30 @@ fn resolves_universal_size_utilities() {
     assert_eq!(rule.declarations[0].value, "999px");
     assert!(has_exact(&tokens, "ui-text-sm", "font-size", "0.875rem"));
     assert!(has_exact(&tokens, "ui-gap-lg", "gap", "1rem"));
+    assert!(has_exact(&tokens, "ui-gap-xl", "gap", "1.25rem"));
+    assert!(has_exact(&tokens, "ui-pad-xl", "padding", "1.5rem"));
+    assert!(has_exact(&tokens, "ui-text-xs", "font-size", "0.75rem"));
+    assert!(has_exact(
+        &tokens,
+        "ui-density-compact",
+        "padding",
+        "0.625rem"
+    ));
+    assert!(has_exact(
+        &tokens,
+        "ui-density-comfortable",
+        "gap",
+        "1rem"
+    ));
+    assert!(has_exact(&tokens, "ui-stack-inline", "display", "flex"));
+    assert!(has_exact(
+        &tokens,
+        "ui-stack-inline",
+        "flex-direction",
+        "row"
+    ));
+    assert!(has_exact(&tokens, "ui-stack-inline", "flex-wrap", "wrap"));
+    assert!(has_exact(&tokens, "ui-stack-center", "justify-content", "center"));
 }
 
 #[test]
@@ -219,3 +243,5 @@ fn resolves_selection_controls_for_both_presets() {
         "#f5f7fb"
     ));
 }
+
+

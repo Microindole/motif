@@ -110,12 +110,24 @@ export function resolveUniversal(parsed: ParsedClass): Declaration[] | null {
       return [decl('padding', '1rem')];
     case 'pad:lg':
       return [decl('padding', '1.25rem')];
+    case 'pad:xl':
+      return [decl('padding', '1.5rem')];
     case 'gap:sm':
       return [decl('gap', '0.5rem')];
     case 'gap:md':
       return [decl('gap', '0.75rem')];
     case 'gap:lg':
       return [decl('gap', '1rem')];
+    case 'gap:xl':
+      return [decl('gap', '1.25rem')];
+    case 'density:compact':
+      return [decl('padding', '0.625rem'), decl('gap', '0.5rem')];
+    case 'density:comfortable':
+      return [decl('padding', '1.125rem'), decl('gap', '1rem')];
+    case 'stack:inline':
+      return [decl('display', 'flex'), decl('flex-direction', 'row'), decl('align-items', 'center'), decl('flex-wrap', 'wrap')];
+    case 'stack:center':
+      return [decl('display', 'flex'), decl('align-items', 'center'), decl('justify-content', 'center')];
     case 'radius:sm':
       return [decl('border-radius', '6px')];
     case 'radius:md':
@@ -124,6 +136,8 @@ export function resolveUniversal(parsed: ParsedClass): Declaration[] | null {
       return [decl('border-radius', '14px')];
     case 'radius:pill':
       return [decl('border-radius', '999px')];
+    case 'text:xs':
+      return text('0.75rem', '1.35');
     case 'text:sm':
       return text('0.875rem', '1.4');
     case 'text:md':
@@ -134,3 +148,5 @@ export function resolveUniversal(parsed: ParsedClass): Declaration[] | null {
       return null;
   }
 }
+
+

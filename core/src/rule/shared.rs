@@ -10,13 +10,20 @@ pub(super) fn resolve(parsed: &ParsedClass) -> Option<Vec<Declaration>> {
         ("pad", Some("sm")) => Some(vec![declaration("padding", "0.75rem")]),
         ("pad", Some("md")) => Some(vec![declaration("padding", "1rem")]),
         ("pad", Some("lg")) => Some(vec![declaration("padding", "1.25rem")]),
+        ("pad", Some("xl")) => Some(vec![declaration("padding", "1.5rem")]),
         ("gap", Some("sm")) => Some(vec![declaration("gap", "0.5rem")]),
         ("gap", Some("md")) => Some(vec![declaration("gap", "0.75rem")]),
         ("gap", Some("lg")) => Some(vec![declaration("gap", "1rem")]),
+        ("gap", Some("xl")) => Some(vec![declaration("gap", "1.25rem")]),
+        ("density", Some("compact")) => Some(density("0.625rem", "0.5rem")),
+        ("density", Some("comfortable")) => Some(density("1.125rem", "1rem")),
+        ("stack", Some("inline")) => Some(stack_inline()),
+        ("stack", Some("center")) => Some(stack_center()),
         ("radius", Some("sm")) => Some(vec![declaration("border-radius", "6px")]),
         ("radius", Some("md")) => Some(vec![declaration("border-radius", "10px")]),
         ("radius", Some("lg")) => Some(vec![declaration("border-radius", "14px")]),
         ("radius", Some("pill")) => Some(vec![declaration("border-radius", "999px")]),
+        ("text", Some("xs")) => Some(text("0.75rem", "1.35")),
         ("text", Some("sm")) => Some(text("0.875rem", "1.4")),
         ("text", Some("md")) => Some(text("1rem", "1.5")),
         ("text", Some("lg")) => Some(text("1.125rem", "1.55")),
@@ -189,5 +196,29 @@ fn text(font_size: &'static str, line_height: &'static str) -> Vec<Declaration> 
     vec![
         declaration("font-size", font_size),
         declaration("line-height", line_height),
+    ]
+}
+
+fn density(padding: &'static str, gap: &'static str) -> Vec<Declaration> {
+    vec![
+        declaration("padding", padding),
+        declaration("gap", gap),
+    ]
+}
+
+fn stack_inline() -> Vec<Declaration> {
+    vec![
+        declaration("display", "flex"),
+        declaration("flex-direction", "row"),
+        declaration("align-items", "center"),
+        declaration("flex-wrap", "wrap"),
+    ]
+}
+
+fn stack_center() -> Vec<Declaration> {
+    vec![
+        declaration("display", "flex"),
+        declaration("align-items", "center"),
+        declaration("justify-content", "center"),
     ]
 }

@@ -9,8 +9,11 @@ test('compileSources renders preset rules and variants into a stylesheet', () =>
     {
       path: '/demo/App.tsx',
       content: `
-        <main class="f-surface m-surface-container ui-pad-lg">
-          <button class="hover:f-bg-hover-primary focus:f-ring dark:m-elevation-1 ui-control-lg ui-radius-pill ui-gap-lg"></button>
+        <main class="f-surface m-surface-container ui-pad-xl ui-text-xs">
+          <button class="hover:f-bg-hover-primary focus:f-ring dark:m-elevation-1 ui-control-lg ui-radius-pill ui-gap-xl ui-density-compact"></button>
+          <div class="ui-stack-inline ui-gap-xl"></div>
+          <section class="ui-density-comfortable"></section>
+          <section class="ui-stack-center"></section>
         </main>
       `,
     },
@@ -23,8 +26,18 @@ test('compileSources renders preset rules and variants into a stylesheet', () =>
   assert.match(result.stylesheet, /@media \(prefers-color-scheme: dark\)/);
   assert.match(result.stylesheet, /\.dark\\:m-elevation-1 \{/);
   assert.match(result.stylesheet, /\.ui-control-lg \{/);
-  assert.match(result.stylesheet, /\.ui-gap-lg \{/);
-  assert.match(result.stylesheet, /gap: 1rem;/);
+  assert.match(result.stylesheet, /\.ui-gap-xl \{/);
+  assert.match(result.stylesheet, /gap: 1.25rem;/);
+  assert.match(result.stylesheet, /\.ui-pad-xl \{/);
+  assert.match(result.stylesheet, /padding: 1.5rem;/);
+  assert.match(result.stylesheet, /\.ui-text-xs \{/);
+  assert.match(result.stylesheet, /font-size: 0.75rem;/);
+  assert.match(result.stylesheet, /\.ui-density-compact \{/);
+  assert.match(result.stylesheet, /padding: 0.625rem;/);
+  assert.match(result.stylesheet, /\.ui-density-comfortable \{/);
+  assert.match(result.stylesheet, /\.ui-stack-inline \{/);
+  assert.match(result.stylesheet, /flex-wrap: wrap;/);
+  assert.match(result.stylesheet, /\.ui-stack-center \{/);
   assert.match(result.stylesheet, /border-radius: 999px;/);
 });
 
@@ -93,12 +106,12 @@ test('compileSources renders second batch component semantics', () => {
 
   assert.match(result.stylesheet, /\.f-textarea \{/);
   assert.match(result.stylesheet, /\.f-action-outlined \{/);
-  assert.match(result.stylesheet, /background-color: transparent;/);
   assert.match(result.stylesheet, /\.m-select \{/);
   assert.match(result.stylesheet, /\.m-tab \{/);
   assert.match(result.stylesheet, /\.f-dialog \{/);
   assert.match(result.stylesheet, /\.m-list-item \{/);
   assert.match(result.stylesheet, /\.f-menu-item \{/);
+  assert.match(result.stylesheet, /background-color: transparent;/);
   assert.match(result.stylesheet, /max-width: 32rem;/);
   assert.match(result.stylesheet, /background-blend-mode: screen;/);
 });
@@ -124,7 +137,3 @@ test('compileSources renders third batch navigation and feedback semantics', () 
   assert.match(result.stylesheet, /\.m-banner \{/);
   assert.match(result.stylesheet, /border: 1px solid #b6c3d6;/);
 });
-
-
-
-
