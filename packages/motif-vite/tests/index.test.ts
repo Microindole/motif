@@ -16,6 +16,8 @@ function hookHandler<T extends (...args: any[]) => any>(
   return typeof hook === 'function' ? hook : hook.handler;
 }
 
+// Vite accepts either bare hooks or { handler } objects, so the test harness normalizes
+// both forms to keep plugin assertions stable across hook shapes.
 function callHook<T extends (this: any, ...args: any[]) => any>(
   hook: T | { handler: T } | undefined,
   ...args: Parameters<T>

@@ -1,7 +1,7 @@
-use super::super::super::shared::append_transition;
 use super::super::super::{declaration, token_declaration, Declaration};
 use super::super::foundation::{field, surface_container};
 use super::super::typography_from_tokens;
+use super::super::with_effect_transition;
 use crate::parse::ParsedClass;
 use crate::token::TokenRegistry;
 
@@ -30,7 +30,7 @@ fn dialog(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
 }
 
 fn drawer(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    let mut declarations = vec![
+    let declarations = vec![
         declaration("display", "flex"),
         declaration("flex-direction", "column"),
         declaration("min-width", "16rem"),
@@ -48,13 +48,7 @@ fn drawer(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         declaration("padding", "1rem"),
         token_declaration("box-shadow", tokens.material.shadow.get("container-high")?),
     ];
-    append_transition(
-        &mut declarations,
-        tokens.material.effect.get("state-transition")?,
-        tokens.material.motion.get("duration")?,
-        tokens.material.motion.get("easing")?,
-    );
-    Some(declarations)
+    with_effect_transition(tokens, declarations, "state-transition")
 }
 
 fn segmented_button(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
@@ -73,13 +67,7 @@ fn segmented_button(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         token_declaration("border-radius", tokens.material.radius.get("pill")?),
         token_declaration("padding", tokens.material.space.get("action-pad")?),
     ]);
-    append_transition(
-        &mut declarations,
-        tokens.material.effect.get("state-transition")?,
-        tokens.material.motion.get("duration")?,
-        tokens.material.motion.get("easing")?,
-    );
-    Some(declarations)
+    with_effect_transition(tokens, declarations, "state-transition")
 }
 
 fn search_field(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
@@ -89,20 +77,14 @@ fn search_field(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
 }
 
 fn breadcrumb(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    let mut declarations = vec![
+    let declarations = vec![
         declaration("display", "inline-flex"),
         declaration("align-items", "center"),
         declaration("flex-wrap", "wrap"),
         declaration("gap", "0.5rem"),
         token_declaration("color", tokens.material.color.get("muted")?),
     ];
-    append_transition(
-        &mut declarations,
-        tokens.material.effect.get("transition")?,
-        tokens.material.motion.get("duration")?,
-        tokens.material.motion.get("easing")?,
-    );
-    Some(declarations)
+    with_effect_transition(tokens, declarations, "transition")
 }
 
 fn breadcrumb_item(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
@@ -116,7 +98,7 @@ fn breadcrumb_item(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
 }
 
 fn avatar(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    let mut declarations = vec![
+    let declarations = vec![
         declaration("display", "inline-grid"),
         declaration("place-items", "center"),
         declaration("inline-size", "2.5rem"),
@@ -129,17 +111,11 @@ fn avatar(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         token_declaration("border-radius", tokens.material.radius.get("pill")?),
         declaration("border", "0"),
     ];
-    append_transition(
-        &mut declarations,
-        tokens.material.effect.get("state-transition")?,
-        tokens.material.motion.get("duration")?,
-        tokens.material.motion.get("easing")?,
-    );
-    Some(declarations)
+    with_effect_transition(tokens, declarations, "state-transition")
 }
 
 fn persona(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    let mut declarations = vec![
+    let declarations = vec![
         declaration("display", "flex"),
         declaration("align-items", "center"),
         declaration("gap", "0.75rem"),
@@ -152,13 +128,7 @@ fn persona(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         token_declaration("border-radius", tokens.material.radius.get("lg")?),
         declaration("padding", "0.85rem 1rem"),
     ];
-    append_transition(
-        &mut declarations,
-        tokens.material.effect.get("state-transition")?,
-        tokens.material.motion.get("duration")?,
-        tokens.material.motion.get("easing")?,
-    );
-    Some(declarations)
+    with_effect_transition(tokens, declarations, "state-transition")
 }
 
 fn sheet(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {

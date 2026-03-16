@@ -5,7 +5,7 @@ mod foundation;
 #[path = "material/shell.rs"]
 mod shell;
 
-use super::shared::typography;
+use super::shared::{typography, with_transition};
 use super::Declaration;
 use crate::parse::ParsedClass;
 use crate::token::TokenRegistry;
@@ -29,5 +29,18 @@ fn typography_from_tokens(
         tokens.material.typography.get("line-height")?,
         tokens.material.typography.get("tracking")?,
         color,
+    ))
+}
+
+fn with_effect_transition(
+    tokens: &TokenRegistry,
+    declarations: Vec<Declaration>,
+    effect_key: &str,
+) -> Option<Vec<Declaration>> {
+    Some(with_transition(
+        declarations,
+        tokens.material.effect.get(effect_key)?,
+        tokens.material.motion.get("duration")?,
+        tokens.material.motion.get("easing")?,
     ))
 }

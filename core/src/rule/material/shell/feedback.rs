@@ -1,6 +1,6 @@
-use super::super::super::shared::append_transition;
 use super::super::super::{declaration, token_declaration, Declaration};
 use super::super::typography_from_tokens;
+use super::super::with_effect_transition;
 use crate::parse::ParsedClass;
 use crate::token::TokenRegistry;
 
@@ -18,7 +18,7 @@ pub(super) fn resolve(parsed: &ParsedClass, tokens: &TokenRegistry) -> Option<Ve
 }
 
 fn list_item(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    let mut declarations = vec![
+    let declarations = vec![
         declaration("display", "flex"),
         declaration("align-items", "center"),
         declaration("justify-content", "space-between"),
@@ -32,13 +32,7 @@ fn list_item(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         token_declaration("border-radius", tokens.material.radius.get("lg")?),
         declaration("padding", "0.85rem 1rem"),
     ];
-    append_transition(
-        &mut declarations,
-        tokens.material.effect.get("state-transition")?,
-        tokens.material.motion.get("duration")?,
-        tokens.material.motion.get("easing")?,
-    );
-    Some(declarations)
+    with_effect_transition(tokens, declarations, "state-transition")
 }
 
 fn menu_item(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
@@ -49,7 +43,7 @@ fn menu_item(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
 }
 
 fn icon_button(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    let mut declarations = vec![
+    let declarations = vec![
         declaration("display", "inline-grid"),
         declaration("place-items", "center"),
         declaration("inline-size", "2.5rem"),
@@ -63,13 +57,7 @@ fn icon_button(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         token_declaration("border-radius", tokens.material.radius.get("pill")?),
         token_declaration("box-shadow", tokens.material.shadow.get("outlined-action")?),
     ];
-    append_transition(
-        &mut declarations,
-        tokens.material.effect.get("state-transition")?,
-        tokens.material.motion.get("duration")?,
-        tokens.material.motion.get("easing")?,
-    );
-    Some(declarations)
+    with_effect_transition(tokens, declarations, "state-transition")
 }
 
 fn nav_item(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
@@ -83,13 +71,7 @@ fn nav_item(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         token_declaration("border-radius", tokens.material.radius.get("pill")?),
         token_declaration("padding", tokens.material.space.get("action-pad")?),
     ]);
-    append_transition(
-        &mut declarations,
-        tokens.material.effect.get("state-transition")?,
-        tokens.material.motion.get("duration")?,
-        tokens.material.motion.get("easing")?,
-    );
-    Some(declarations)
+    with_effect_transition(tokens, declarations, "state-transition")
 }
 
 fn tooltip(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
@@ -109,7 +91,7 @@ fn tooltip(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
 }
 
 fn banner(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    let mut declarations = vec![
+    let declarations = vec![
         declaration("display", "flex"),
         declaration("align-items", "center"),
         declaration("justify-content", "space-between"),
@@ -122,17 +104,11 @@ fn banner(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         token_declaration("border-radius", tokens.material.radius.get("lg")?),
         declaration("padding", "0.85rem 1rem"),
     ];
-    append_transition(
-        &mut declarations,
-        tokens.material.effect.get("state-transition")?,
-        tokens.material.motion.get("duration")?,
-        tokens.material.motion.get("easing")?,
-    );
-    Some(declarations)
+    with_effect_transition(tokens, declarations, "state-transition")
 }
 
 fn toast(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    let mut declarations = vec![
+    let declarations = vec![
         declaration("display", "flex"),
         declaration("align-items", "center"),
         declaration("justify-content", "space-between"),
@@ -146,11 +122,5 @@ fn toast(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         declaration("padding", "0.85rem 1rem"),
         token_declaration("box-shadow", tokens.material.shadow.get("container")?),
     ];
-    append_transition(
-        &mut declarations,
-        tokens.material.effect.get("state-transition")?,
-        tokens.material.motion.get("duration")?,
-        tokens.material.motion.get("easing")?,
-    );
-    Some(declarations)
+    with_effect_transition(tokens, declarations, "state-transition")
 }

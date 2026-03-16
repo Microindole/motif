@@ -1,3 +1,5 @@
+// Keep Rust and TS emit behavior aligned: selector escaping, variant ordering,
+// and shared keyframes must stay byte-stable across both generators.
 use crate::parse::Variant;
 use crate::rule::{Declaration, RuleMatch};
 

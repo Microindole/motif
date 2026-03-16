@@ -1,5 +1,8 @@
-use super::super::super::shared::append_transition;
-use super::super::super::{declaration, token_declaration, Declaration};
+use super::super::super::shared::{
+    accordion_content_base, accordion_header_base, accordion_item_base, append_transition,
+    table_container, table_data_row, table_header_row,
+};
+use super::super::super::{token_declaration, Declaration};
 use super::super::typography_from_tokens;
 use crate::parse::ParsedClass;
 use crate::token::TokenRegistry;
@@ -20,18 +23,13 @@ pub(super) fn resolve(parsed: &ParsedClass, tokens: &TokenRegistry) -> Option<Ve
 }
 
 fn table(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    let mut declarations = vec![
-        declaration("display", "grid"),
-        declaration("gap", "0.5rem"),
-        token_declaration("color", tokens.material.color.get("on-surface")?),
-        token_declaration(
-            "background-color",
-            tokens.material.color.get("surface-container")?,
-        ),
-        token_declaration("border", tokens.material.border.get("surface-container")?),
-        token_declaration("border-radius", tokens.material.radius.get("lg")?),
-        declaration("padding", "0.85rem 1rem"),
-    ];
+    let mut declarations = table_container(
+        tokens.material.color.get("on-surface")?,
+        tokens.material.color.get("surface-container")?,
+        tokens.material.border.get("surface-container")?,
+        tokens.material.radius.get("lg")?,
+        "0.85rem 1rem",
+    );
     append_transition(
         &mut declarations,
         tokens.material.effect.get("state-transition")?,
@@ -42,17 +40,10 @@ fn table(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
 }
 fn table_header(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = typography_from_tokens(tokens, "label-size", "label-weight", None)?;
-    declarations.extend([
-        declaration("display", "grid"),
-        declaration(
-            "grid-template-columns",
-            "minmax(0, 2fr) minmax(0, 1fr) auto",
-        ),
-        declaration("align-items", "center"),
-        declaration("gap", "0.75rem"),
-        token_declaration("color", tokens.material.color.get("muted")?),
-        declaration("padding", "0.85rem 1rem"),
-    ]);
+    declarations.extend(table_header_row(
+        tokens.material.color.get("muted")?,
+        "0.85rem 1rem",
+    ));
     Some(declarations)
 }
 fn table_cell(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
@@ -64,24 +55,13 @@ fn table_cell(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     )
 }
 fn table_row(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    let mut declarations = vec![
-        declaration("display", "grid"),
-        declaration(
-            "grid-template-columns",
-            "minmax(0, 2fr) minmax(0, 1fr) auto",
-        ),
-        declaration("align-items", "center"),
-        declaration("gap", "0.75rem"),
-        declaration("min-height", "3rem"),
-        token_declaration("color", tokens.material.color.get("on-surface")?),
-        token_declaration(
-            "background-color",
-            tokens.material.color.get("surface-container")?,
-        ),
-        token_declaration("border", tokens.material.border.get("surface-container")?),
-        token_declaration("border-radius", tokens.material.radius.get("md")?),
-        declaration("padding", "0.85rem 1rem"),
-    ];
+    let mut declarations = table_data_row(
+        tokens.material.color.get("on-surface")?,
+        tokens.material.color.get("surface-container")?,
+        tokens.material.border.get("surface-container")?,
+        tokens.material.radius.get("md")?,
+        "0.85rem 1rem",
+    );
     append_transition(
         &mut declarations,
         tokens.material.effect.get("state-transition")?,
@@ -103,18 +83,13 @@ fn table_row_selected(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     Some(declarations)
 }
 fn accordion_item(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    let mut declarations = vec![
-        declaration("display", "grid"),
-        declaration("gap", "0.75rem"),
-        token_declaration("color", tokens.material.color.get("on-surface")?),
-        token_declaration(
-            "background-color",
-            tokens.material.color.get("surface-container")?,
-        ),
-        token_declaration("border", tokens.material.border.get("surface-container")?),
-        token_declaration("border-radius", tokens.material.radius.get("lg")?),
-        declaration("padding", "1rem"),
-    ];
+    let mut declarations = accordion_item_base(
+        tokens.material.color.get("on-surface")?,
+        tokens.material.color.get("surface-container")?,
+        tokens.material.border.get("surface-container")?,
+        tokens.material.radius.get("lg")?,
+        "1rem",
+    );
     append_transition(
         &mut declarations,
         tokens.material.effect.get("state-transition")?,
@@ -125,21 +100,14 @@ fn accordion_item(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
 }
 fn accordion_header(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = typography_from_tokens(tokens, "label-size", "label-weight", None)?;
-    declarations.extend([
-        declaration("display", "flex"),
-        declaration("align-items", "center"),
-        declaration("justify-content", "space-between"),
-        token_declaration("color", tokens.material.color.get("on-surface")?),
-    ]);
+    declarations.extend(accordion_header_base(
+        tokens.material.color.get("on-surface")?,
+    ));
     Some(declarations)
 }
 fn accordion_content(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = typography_from_tokens(tokens, "body-size", "body-weight", None)?;
-    declarations.extend([
-        token_declaration("color", tokens.material.color.get("muted")?),
-        declaration("display", "grid"),
-        declaration("gap", "0.5rem"),
-    ]);
+    declarations.extend(accordion_content_base(tokens.material.color.get("muted")?));
     Some(declarations)
 }
 fn accordion_item_open(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {

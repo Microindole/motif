@@ -55,6 +55,16 @@ pub(super) fn append_transition(
     ]);
 }
 
+pub(super) fn with_transition(
+    mut declarations: Vec<Declaration>,
+    property: &str,
+    duration: &str,
+    easing: &str,
+) -> Vec<Declaration> {
+    append_transition(&mut declarations, property, duration, easing);
+    declarations
+}
+
 pub(super) fn append_inline_action_layout(declarations: &mut Vec<Declaration>) {
     declarations.extend([
         declaration("display", "inline-flex"),
@@ -65,6 +75,101 @@ pub(super) fn append_inline_action_layout(declarations: &mut Vec<Declaration>) {
     ]);
 }
 
+pub(super) fn append_search_field_adornment(declarations: &mut Vec<Declaration>) {
+    declarations.push(declaration("padding-left", "2.5rem"));
+}
+
+pub(super) fn table_container(
+    color: &str,
+    background: &str,
+    border: &str,
+    radius: &str,
+    padding: &str,
+) -> Vec<Declaration> {
+    vec![
+        declaration("display", "grid"),
+        declaration("gap", "0.5rem"),
+        token_declaration("color", color),
+        token_declaration("background-color", background),
+        token_declaration("border", border),
+        token_declaration("border-radius", radius),
+        token_declaration("padding", padding),
+    ]
+}
+
+pub(super) fn table_header_row(color: &str, padding: &str) -> Vec<Declaration> {
+    vec![
+        declaration("display", "grid"),
+        declaration(
+            "grid-template-columns",
+            "minmax(0, 2fr) minmax(0, 1fr) auto",
+        ),
+        declaration("align-items", "center"),
+        declaration("gap", "0.75rem"),
+        token_declaration("color", color),
+        token_declaration("padding", padding),
+    ]
+}
+
+pub(super) fn table_data_row(
+    color: &str,
+    background: &str,
+    border: &str,
+    radius: &str,
+    padding: &str,
+) -> Vec<Declaration> {
+    vec![
+        declaration("display", "grid"),
+        declaration(
+            "grid-template-columns",
+            "minmax(0, 2fr) minmax(0, 1fr) auto",
+        ),
+        declaration("align-items", "center"),
+        declaration("gap", "0.75rem"),
+        declaration("min-height", "3rem"),
+        token_declaration("color", color),
+        token_declaration("background-color", background),
+        token_declaration("border", border),
+        token_declaration("border-radius", radius),
+        token_declaration("padding", padding),
+    ]
+}
+
+pub(super) fn accordion_item_base(
+    color: &str,
+    background: &str,
+    border: &str,
+    radius: &str,
+    padding: &str,
+) -> Vec<Declaration> {
+    vec![
+        declaration("display", "grid"),
+        declaration("gap", "0.75rem"),
+        token_declaration("color", color),
+        token_declaration("background-color", background),
+        token_declaration("border", border),
+        token_declaration("border-radius", radius),
+        token_declaration("padding", padding),
+    ]
+}
+
+pub(super) fn accordion_header_base(color: &str) -> Vec<Declaration> {
+    vec![
+        declaration("display", "flex"),
+        declaration("align-items", "center"),
+        declaration("justify-content", "space-between"),
+        token_declaration("color", color),
+    ]
+}
+
+pub(super) fn accordion_content_base(color: &str) -> Vec<Declaration> {
+    vec![
+        token_declaration("color", color),
+        declaration("display", "grid"),
+        declaration("gap", "0.5rem"),
+    ]
+}
+
 fn control(
     min_height: &'static str,
     padding: &'static str,
@@ -72,7 +177,7 @@ fn control(
 ) -> Vec<Declaration> {
     vec![
         declaration("min-height", min_height),
-        declaration("padding", padding),
+        token_declaration("padding", padding),
         declaration("font-size", font_size),
     ]
 }

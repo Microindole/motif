@@ -1,6 +1,7 @@
-use super::super::super::shared::{append_inline_action_layout, append_transition};
+use super::super::super::shared::append_inline_action_layout;
 use super::super::super::{declaration, token_declaration, Declaration};
 use super::super::typography_from_tokens;
+use super::super::with_effect_transition;
 use crate::parse::ParsedClass;
 use crate::token::TokenRegistry;
 
@@ -36,17 +37,11 @@ pub(crate) fn field(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         token_declaration("padding", tokens.material.space.get("field-pad")?),
         token_declaration("box-shadow", tokens.material.shadow.get("field")?),
     ]);
-    append_transition(
-        &mut declarations,
-        tokens.material.effect.get("state-transition")?,
-        tokens.material.motion.get("duration")?,
-        tokens.material.motion.get("easing")?,
-    );
-    Some(declarations)
+    with_effect_transition(tokens, declarations, "state-transition")
 }
 
 fn checkbox(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    let mut declarations = vec![
+    let declarations = vec![
         declaration("appearance", "none"),
         declaration("display", "inline-grid"),
         declaration("place-items", "center"),
@@ -57,13 +52,7 @@ fn checkbox(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         token_declaration("border-radius", tokens.material.radius.get("md")?),
         token_declaration("box-shadow", tokens.material.shadow.get("outlined-action")?),
     ];
-    append_transition(
-        &mut declarations,
-        tokens.material.effect.get("state-transition")?,
-        tokens.material.motion.get("duration")?,
-        tokens.material.motion.get("easing")?,
-    );
-    Some(declarations)
+    with_effect_transition(tokens, declarations, "state-transition")
 }
 
 fn radio(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
@@ -77,7 +66,7 @@ fn radio(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
 }
 
 fn switch(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    let mut declarations = vec![
+    let declarations = vec![
         declaration("appearance", "none"),
         declaration("display", "inline-flex"),
         declaration("align-items", "center"),
@@ -91,13 +80,7 @@ fn switch(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         token_declaration("border-radius", tokens.material.radius.get("pill")?),
         token_declaration("box-shadow", tokens.material.shadow.get("outlined-action")?),
     ];
-    append_transition(
-        &mut declarations,
-        tokens.material.effect.get("state-transition")?,
-        tokens.material.motion.get("duration")?,
-        tokens.material.motion.get("easing")?,
-    );
-    Some(declarations)
+    with_effect_transition(tokens, declarations, "state-transition")
 }
 
 fn textarea(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
@@ -128,13 +111,7 @@ fn tab(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         token_declaration("padding", tokens.material.space.get("action-pad")?),
         token_declaration("border", tokens.material.border.get("outlined-action")?),
     ]);
-    append_transition(
-        &mut declarations,
-        tokens.material.effect.get("state-transition")?,
-        tokens.material.motion.get("duration")?,
-        tokens.material.motion.get("easing")?,
-    );
-    Some(declarations)
+    with_effect_transition(tokens, declarations, "state-transition")
 }
 
 fn action_primary(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
@@ -148,13 +125,7 @@ fn action_primary(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         token_declaration("padding", tokens.material.space.get("action-pad")?),
         token_declaration("box-shadow", tokens.material.shadow.get("action")?),
     ]);
-    append_transition(
-        &mut declarations,
-        tokens.material.effect.get("state-transition")?,
-        tokens.material.motion.get("duration")?,
-        tokens.material.motion.get("easing")?,
-    );
-    Some(declarations)
+    with_effect_transition(tokens, declarations, "state-transition")
 }
 
 fn action_tonal(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
@@ -171,13 +142,7 @@ fn action_tonal(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         token_declaration("padding", tokens.material.space.get("action-pad")?),
         token_declaration("box-shadow", tokens.material.shadow.get("tonal-action")?),
     ]);
-    append_transition(
-        &mut declarations,
-        tokens.material.effect.get("state-transition")?,
-        tokens.material.motion.get("duration")?,
-        tokens.material.motion.get("easing")?,
-    );
-    Some(declarations)
+    with_effect_transition(tokens, declarations, "state-transition")
 }
 
 fn action_outlined(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
@@ -191,11 +156,5 @@ fn action_outlined(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         token_declaration("padding", tokens.material.space.get("action-pad")?),
         token_declaration("box-shadow", tokens.material.shadow.get("outlined-action")?),
     ]);
-    append_transition(
-        &mut declarations,
-        tokens.material.effect.get("state-transition")?,
-        tokens.material.motion.get("duration")?,
-        tokens.material.motion.get("easing")?,
-    );
-    Some(declarations)
+    with_effect_transition(tokens, declarations, "state-transition")
 }
