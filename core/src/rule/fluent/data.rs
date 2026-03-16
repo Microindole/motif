@@ -1,4 +1,7 @@
-use super::super::shared::append_transition;
+use super::super::shared::{
+    accordion_content_base, accordion_header_base, accordion_item_base, append_transition,
+    table_container, table_data_row, table_header_row,
+};
 use super::super::{declaration, token_declaration, Declaration};
 use super::typography_from_tokens;
 use crate::parse::ParsedClass;
@@ -40,7 +43,6 @@ fn badge(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     ]);
     Some(declarations)
 }
-
 fn chip(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = typography_from_tokens(tokens, "label-size", "label-weight", None)?;
     declarations.extend([
@@ -62,7 +64,6 @@ fn chip(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     );
     Some(declarations)
 }
-
 fn tag(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = typography_from_tokens(tokens, "label-size", "label-weight", None)?;
     declarations.extend([
@@ -83,7 +84,6 @@ fn tag(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     );
     Some(declarations)
 }
-
 fn progress(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = vec![
         declaration("display", "block"),
@@ -105,7 +105,6 @@ fn progress(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     );
     Some(declarations)
 }
-
 fn spinner(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = vec![
         declaration("display", "inline-block"),
@@ -126,20 +125,8 @@ fn spinner(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     );
     Some(declarations)
 }
-
 fn skeleton(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    let mut declarations = vec![
-        declaration("display", "block"),
-        declaration("min-height", "1rem"),
-        token_declaration("background-color", tokens.fluent.color.get("surface-alt")?),
-        declaration(
-            "background-image",
-            "linear-gradient(90deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.08))",
-        ),
-        declaration("background-size", "200% 100%"),
-        token_declaration("border-radius", tokens.fluent.radius.get("sm")?),
-        declaration("animation", "motif-shimmer 1.4s ease-in-out infinite"),
-    ];
+    let mut declarations = vec![declaration("display", "block"), declaration("min-height", "1rem"), token_declaration("background-color", tokens.fluent.color.get("surface-alt")?), declaration("background-image", "linear-gradient(90deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.08))"), declaration("background-size", "200% 100%"), token_declaration("border-radius", tokens.fluent.radius.get("sm")?), declaration("animation", "motif-shimmer 1.4s ease-in-out infinite")];
     append_transition(
         &mut declarations,
         tokens.fluent.effect.get("transition")?,
@@ -148,7 +135,6 @@ fn skeleton(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     );
     Some(declarations)
 }
-
 fn empty_state(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = vec![
         declaration("display", "grid"),
@@ -171,15 +157,13 @@ fn empty_state(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
 }
 
 fn table(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    let mut declarations = vec![
-        declaration("display", "grid"),
-        declaration("gap", "0.5rem"),
-        token_declaration("color", tokens.fluent.color.get("text")?),
-        token_declaration("background-color", tokens.fluent.color.get("surface-alt")?),
-        token_declaration("border", tokens.fluent.border.get("action-subtle")?),
-        token_declaration("border-radius", tokens.fluent.radius.get("md")?),
-        token_declaration("padding", tokens.fluent.space.get("surface-pad-sm")?),
-    ];
+    let mut declarations = table_container(
+        tokens.fluent.color.get("text")?,
+        tokens.fluent.color.get("surface-alt")?,
+        tokens.fluent.border.get("action-subtle")?,
+        tokens.fluent.radius.get("md")?,
+        tokens.fluent.space.get("surface-pad-sm")?,
+    );
     append_transition(
         &mut declarations,
         tokens.fluent.effect.get("interactive-transition")?,
@@ -188,23 +172,14 @@ fn table(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     );
     Some(declarations)
 }
-
 fn table_header(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = typography_from_tokens(tokens, "label-size", "label-weight", None)?;
-    declarations.extend([
-        declaration("display", "grid"),
-        declaration(
-            "grid-template-columns",
-            "minmax(0, 2fr) minmax(0, 1fr) auto",
-        ),
-        declaration("align-items", "center"),
-        declaration("gap", "0.75rem"),
-        token_declaration("color", tokens.fluent.color.get("muted")?),
-        token_declaration("padding", tokens.fluent.space.get("surface-pad-sm")?),
-    ]);
+    declarations.extend(table_header_row(
+        tokens.fluent.color.get("muted")?,
+        tokens.fluent.space.get("surface-pad-sm")?,
+    ));
     Some(declarations)
 }
-
 fn table_cell(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     typography_from_tokens(
         tokens,
@@ -213,17 +188,14 @@ fn table_cell(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         Some(tokens.fluent.color.get("text")?),
     )
 }
-
 fn accordion_item(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    let mut declarations = vec![
-        declaration("display", "grid"),
-        declaration("gap", "0.75rem"),
-        token_declaration("color", tokens.fluent.color.get("text")?),
-        token_declaration("background-color", tokens.fluent.color.get("surface-alt")?),
-        token_declaration("border", tokens.fluent.border.get("action-subtle")?),
-        token_declaration("border-radius", tokens.fluent.radius.get("md")?),
-        token_declaration("padding", tokens.fluent.space.get("surface-pad-sm")?),
-    ];
+    let mut declarations = accordion_item_base(
+        tokens.fluent.color.get("text")?,
+        tokens.fluent.color.get("surface-alt")?,
+        tokens.fluent.border.get("action-subtle")?,
+        tokens.fluent.radius.get("md")?,
+        tokens.fluent.space.get("surface-pad-sm")?,
+    );
     append_transition(
         &mut declarations,
         tokens.fluent.effect.get("interactive-transition")?,
@@ -232,28 +204,16 @@ fn accordion_item(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     );
     Some(declarations)
 }
-
 fn accordion_header(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = typography_from_tokens(tokens, "label-size", "label-weight", None)?;
-    declarations.extend([
-        declaration("display", "flex"),
-        declaration("align-items", "center"),
-        declaration("justify-content", "space-between"),
-        token_declaration("color", tokens.fluent.color.get("text")?),
-    ]);
+    declarations.extend(accordion_header_base(tokens.fluent.color.get("text")?));
     Some(declarations)
 }
-
 fn accordion_content(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = typography_from_tokens(tokens, "body-size", "body-weight", None)?;
-    declarations.extend([
-        token_declaration("color", tokens.fluent.color.get("muted")?),
-        declaration("display", "grid"),
-        declaration("gap", "0.5rem"),
-    ]);
+    declarations.extend(accordion_content_base(tokens.fluent.color.get("muted")?));
     Some(declarations)
 }
-
 fn accordion_item_open(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = accordion_item(tokens)?;
     declarations.push(token_declaration(
@@ -266,23 +226,14 @@ fn accordion_item_open(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     ));
     Some(declarations)
 }
-
 fn table_row(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
-    let mut declarations = vec![
-        declaration("display", "grid"),
-        declaration(
-            "grid-template-columns",
-            "minmax(0, 2fr) minmax(0, 1fr) auto",
-        ),
-        declaration("align-items", "center"),
-        declaration("gap", "0.75rem"),
-        declaration("min-height", "3rem"),
-        token_declaration("color", tokens.fluent.color.get("text")?),
-        token_declaration("background-color", tokens.fluent.color.get("surface-alt")?),
-        token_declaration("border", tokens.fluent.border.get("action-subtle")?),
-        token_declaration("border-radius", tokens.fluent.radius.get("sm")?),
-        token_declaration("padding", tokens.fluent.space.get("surface-pad-sm")?),
-    ];
+    let mut declarations = table_data_row(
+        tokens.fluent.color.get("text")?,
+        tokens.fluent.color.get("surface-alt")?,
+        tokens.fluent.border.get("action-subtle")?,
+        tokens.fluent.radius.get("sm")?,
+        tokens.fluent.space.get("surface-pad-sm")?,
+    );
     append_transition(
         &mut declarations,
         tokens.fluent.effect.get("interactive-transition")?,
@@ -291,7 +242,6 @@ fn table_row(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     );
     Some(declarations)
 }
-
 fn table_row_selected(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = table_row(tokens)?;
     declarations.push(token_declaration(

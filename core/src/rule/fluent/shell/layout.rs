@@ -1,4 +1,4 @@
-use super::super::super::shared::append_transition;
+use super::super::super::shared::{append_search_field_adornment, append_transition};
 use super::super::super::{declaration, token_declaration, Declaration};
 use super::super::typography_from_tokens;
 use crate::parse::ParsedClass;
@@ -43,7 +43,6 @@ fn dialog(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     );
     Some(declarations)
 }
-
 fn drawer(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = vec![
         declaration("display", "flex"),
@@ -68,7 +67,6 @@ fn drawer(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     );
     Some(declarations)
 }
-
 fn segmented_button(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = typography_from_tokens(tokens, "label-size", "label-weight", None)?;
     declarations.extend([
@@ -90,7 +88,6 @@ fn segmented_button(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     );
     Some(declarations)
 }
-
 fn search_field(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = typography_from_tokens(tokens, "body-size", "body-weight", None)?;
     declarations.extend([
@@ -104,8 +101,8 @@ fn search_field(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         token_declaration("padding", tokens.fluent.space.get("field-pad")?),
         token_declaration("box-shadow", tokens.fluent.shadow.get("field")?),
         declaration("backdrop-filter", "blur(14px) saturate(1.05)"),
-        declaration("padding-left", "2.5rem"),
     ]);
+    append_search_field_adornment(&mut declarations);
     append_transition(
         &mut declarations,
         tokens.fluent.effect.get("interactive-transition")?,
@@ -114,7 +111,6 @@ fn search_field(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     );
     Some(declarations)
 }
-
 fn breadcrumb(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = vec![
         declaration("display", "inline-flex"),
@@ -131,7 +127,6 @@ fn breadcrumb(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     );
     Some(declarations)
 }
-
 fn breadcrumb_item(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = typography_from_tokens(tokens, "label-size", "label-weight", None)?;
     declarations.extend([
@@ -141,7 +136,6 @@ fn breadcrumb_item(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     ]);
     Some(declarations)
 }
-
 fn avatar(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = vec![
         declaration("display", "inline-grid"),
@@ -161,7 +155,6 @@ fn avatar(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     );
     Some(declarations)
 }
-
 fn persona(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = vec![
         declaration("display", "flex"),
@@ -181,7 +174,6 @@ fn persona(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     );
     Some(declarations)
 }
-
 fn sheet(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = dialog(tokens)?;
     declarations.retain(|decl| decl.property != "max-width");
@@ -189,7 +181,6 @@ fn sheet(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     declarations.push(declaration("margin-inline", "auto"));
     Some(declarations)
 }
-
 fn sheet_side(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = sheet(tokens)?;
     declarations.push(declaration("min-height", "100%"));
@@ -198,7 +189,6 @@ fn sheet_side(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     declarations.push(declaration("border-bottom-right-radius", "0"));
     Some(declarations)
 }
-
 fn sheet_bottom(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = sheet(tokens)?;
     declarations.push(declaration("max-width", "36rem"));

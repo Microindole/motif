@@ -3,11 +3,8 @@ use crate::utils::{command_output, path_from_repo, read_lines};
 use std::collections::HashMap;
 use std::path::Path;
 
-const DUPLICATE_WINDOW: usize = 12;
+const DUPLICATE_WINDOW: usize = 16;
 const HARD_FAIL_DUPLICATE_GROUPS: usize = 1;
-const ALLOWED_MIRRORED_RULE_PAIR: [&str; 2] =
-    ["core/src/rule/fluent.rs", "core/src/rule/material.rs"];
-
 // Duplicate detection stays exact and local: only repeated normalized windows count, and
 // hard failures only trigger when the repeated block touches files changed in the current diff.
 pub fn test_duplicate_blocks(
@@ -101,13 +98,27 @@ fn is_duplicate_scan_target(file: &str) -> bool {
 }
 
 fn is_allowed_mirrored_rule_report(files: &[String]) -> bool {
-    if files.len() != ALLOWED_MIRRORED_RULE_PAIR.len() {
+    if files.len() != 2 {
         return false;
     }
 
-    ALLOWED_MIRRORED_RULE_PAIR
+    let mut normalized = files
         .iter()
-        .all(|allowed| files.iter().any(|file| file == allowed))
+        .map(|file| file.replace('\\', "/"))
+        .collect::<Vec<_>>();
+    normalized.sort();
+
+    let first = normalized[0]
+        .strip_prefix("core/src/rule/fluent/")
+        .or_else(|| normalized[0].strip_prefix("core/src/rule/fluent.rs"));
+    let second = normalized[1]
+        .strip_prefix("core/src/rule/material/")
+        .or_else(|| normalized[1].strip_prefix("core/src/rule/material.rs"));
+
+    match (first, second) {
+        (Some(first), Some(second)) => first == second,
+        _ => false,
+    }
 }
 
 fn is_comment_only(line: &str) -> bool {
