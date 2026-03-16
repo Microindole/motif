@@ -15,6 +15,7 @@ pub(super) fn resolve(parsed: &ParsedClass, tokens: &TokenRegistry) -> Option<Ve
         ("tab", None) => tab(tokens),
         ("action", Some("primary")) => action_primary(tokens),
         ("action", Some("subtle")) => action_subtle(tokens),
+        ("action", Some("outlined")) => action_outlined(tokens),
         _ => None,
     }
 }
@@ -161,6 +162,32 @@ fn action_subtle(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         token_declaration("border-radius", tokens.fluent.radius.get("md")?),
         token_declaration("padding", tokens.fluent.space.get("action-pad")?),
         token_declaration("box-shadow", tokens.fluent.shadow.get("action-subtle")?),
+        declaration("backdrop-filter", "blur(18px) saturate(1.08)"),
+    ]);
+    append_transition(
+        &mut declarations,
+        tokens.fluent.effect.get("interactive-transition")?,
+        tokens.fluent.motion.get("duration")?,
+        tokens.fluent.motion.get("easing")?,
+    );
+    Some(declarations)
+}
+
+fn action_outlined(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
+    let mut declarations = typography_from_tokens(tokens, "label-size", "label-weight", None)?;
+    append_inline_action_layout(&mut declarations);
+    declarations.extend([
+        token_declaration("color", tokens.fluent.color.get("primary")?),
+        declaration("background-color", "transparent"),
+        token_declaration(
+            "background-image",
+            tokens.fluent.effect.get("surface-alt-tint")?,
+        ),
+        declaration("background-blend-mode", "screen"),
+        token_declaration("border", tokens.fluent.border.get("action-subtle")?),
+        token_declaration("border-radius", tokens.fluent.radius.get("md")?),
+        token_declaration("padding", tokens.fluent.space.get("action-pad")?),
+        token_declaration("box-shadow", tokens.fluent.shadow.get("surface-alt")?),
         declaration("backdrop-filter", "blur(18px) saturate(1.08)"),
     ]);
     append_transition(

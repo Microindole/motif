@@ -81,6 +81,7 @@ test('compileSources renders second batch component semantics', () => {
       path: '/demo/Workspace.tsx',
       content: `
         <textarea class="f-textarea"></textarea>
+        <button class="f-action-outlined"></button>
         <select class="m-select"></select>
         <button class="m-tab"></button>
         <section class="f-dialog"></section>
@@ -91,6 +92,8 @@ test('compileSources renders second batch component semantics', () => {
   ]);
 
   assert.match(result.stylesheet, /\.f-textarea \{/);
+  assert.match(result.stylesheet, /\.f-action-outlined \{/);
+  assert.match(result.stylesheet, /background-color: transparent;/);
   assert.match(result.stylesheet, /\.m-select \{/);
   assert.match(result.stylesheet, /\.m-tab \{/);
   assert.match(result.stylesheet, /\.f-dialog \{/);
@@ -121,4 +124,7 @@ test('compileSources renders third batch navigation and feedback semantics', () 
   assert.match(result.stylesheet, /\.m-banner \{/);
   assert.match(result.stylesheet, /border: 1px solid #b6c3d6;/);
 });
+
+
+
 

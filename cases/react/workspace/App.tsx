@@ -21,6 +21,7 @@ export function WorkspaceCase() {
           </select>
           <div className="f-list-item"><span>Share</span><input type="checkbox" className="f-checkbox" /></div>
           <button className="f-action-subtle focus:f-ring hover:f-bg-hover-subtle active:f-shadow-press">Preview panel</button>
+          <button className="f-action-outlined focus:f-ring hover:f-bg-hover-subtle active:f-shadow-press">Open inspector</button>
           <button className="f-action-primary hover:f-bg-hover-primary active:f-shadow-press">Send update</button>
           <div className="f-dialog f-stack"><button className="f-menu-item">Move</button></div>
           <div className="f-tooltip">Tip</div>
@@ -71,6 +72,8 @@ export function WorkspaceCase() {
     </>
   );
 }
+
+
 
 
 

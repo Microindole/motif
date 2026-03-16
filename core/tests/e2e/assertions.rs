@@ -69,6 +69,7 @@ fn assert_workspace_base_selectors(css: &str) {
         css.contains("transition-property: background-color, border-color, box-shadow, transform;")
     );
     assert!(css.contains(".f-action-subtle {"));
+    assert!(css.contains(".f-action-outlined {"));
     assert!(css.contains(".hover\\:f-bg-hover-subtle:hover {"));
     assert!(css.contains(".focus\\:f-border-focus:focus {"));
     assert!(css.contains(".m-label {"));
@@ -207,3 +208,5 @@ fn assert_workspace_material_states(css: &str) {
     assert!(css.contains(".focus\\:m-border-focus:focus {"));
     assert!(css.contains(".focus\\:m-ring:focus {"));
 }
+
+

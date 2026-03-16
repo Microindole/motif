@@ -23,6 +23,8 @@ fn list_item(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         declaration("align-items", "center"),
         declaration("justify-content", "space-between"),
         declaration("gap", "0.75rem"),
+        declaration("width", "100%"),
+        declaration("align-self", "stretch"),
         declaration("min-height", "3rem"),
         token_declaration("color", tokens.fluent.color.get("text")?),
         token_declaration("background-color", tokens.fluent.color.get("surface-alt")?),
@@ -35,6 +37,7 @@ fn list_item(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         token_declaration("border-radius", tokens.fluent.radius.get("md")?),
         token_declaration("padding", tokens.fluent.space.get("surface-pad-sm")?),
         token_declaration("box-shadow", tokens.fluent.shadow.get("surface-alt")?),
+        declaration("overflow", "hidden"),
         declaration("backdrop-filter", "blur(18px) saturate(1.08)"),
     ];
     append_transition(
@@ -82,17 +85,25 @@ fn nav_item(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     declarations.extend([
         declaration("display", "inline-flex"),
         declaration("align-items", "center"),
+        declaration("justify-content", "flex-start"),
         declaration("gap", "0.5rem"),
+        declaration("width", "100%"),
         declaration("min-height", "2.5rem"),
         token_declaration("color", tokens.fluent.color.get("text")?),
         token_declaration(
             "background-color",
             tokens.fluent.color.get("action-subtle")?,
         ),
+        token_declaration(
+            "background-image",
+            tokens.fluent.effect.get("surface-alt-tint")?,
+        ),
+        declaration("background-blend-mode", "screen"),
         token_declaration("border", tokens.fluent.border.get("action-subtle")?),
         token_declaration("border-radius", tokens.fluent.radius.get("md")?),
         token_declaration("padding", tokens.fluent.space.get("action-pad")?),
         token_declaration("box-shadow", tokens.fluent.shadow.get("action-subtle")?),
+        declaration("backdrop-filter", "blur(18px) saturate(1.08)"),
     ]);
     append_transition(
         &mut declarations,
@@ -141,12 +152,21 @@ fn toast(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         declaration("display", "flex"),
         declaration("align-items", "center"),
         declaration("justify-content", "space-between"),
+        declaration("gap", "0.75rem"),
+        declaration("width", "100%"),
         token_declaration("color", tokens.fluent.color.get("text")?),
         token_declaration("background-color", tokens.fluent.color.get("surface-alt")?),
+        token_declaration(
+            "background-image",
+            tokens.fluent.effect.get("surface-alt-tint")?,
+        ),
+        declaration("background-blend-mode", "screen"),
         token_declaration("border", tokens.fluent.border.get("action-subtle")?),
         token_declaration("border-radius", tokens.fluent.radius.get("md")?),
         token_declaration("padding", tokens.fluent.space.get("surface-pad-sm")?),
         token_declaration("box-shadow", tokens.fluent.shadow.get("surface-alt")?),
+        declaration("overflow", "hidden"),
+        declaration("backdrop-filter", "blur(18px) saturate(1.08)"),
     ];
     append_transition(
         &mut declarations,

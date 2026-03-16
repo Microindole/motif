@@ -73,6 +73,11 @@
 - 已补第十批数据组合语义：`table` `tag`
 - 已补第十一批结构语义：`table-header` `accordion-header`
 - 已补第十二批结构语义：`table-cell` `accordion-content`
+- 已补 Fluent 侧 `f-action-outlined`，并接入 workspace 场景、Rust 规则断言、e2e 断言与 `motif-vite` TS core 测试
+- 已继续收紧 `drawer/nav` 的壳层语义：侧栏改为填满容器宽度，导航项补上完整行宽与更明确的壳层表现，Rust / TS core 规则继续保持对齐
+- 已继续收紧 `list-item` 的条目壳层：列表项改为完整行宽并裁切内部内容，Rust / TS core 与 workspace 规则断言继续保持对齐
+- 已继续收紧 `sheet / toast` 的壳层语义：面板补齐拉伸与裁切约束，toast 补上完整浮层壳层与 preset 差异背景，Rust / TS core 规则继续保持对齐
+- 已继续收紧 `table / row` 的数据壳层：表格容器与选中行补上完整宽度、裁切和层次反馈，Rust / TS core 规则继续保持对齐
 - 已完成 Rust rule、`motif-vite` shared、`core/tests/e2e` 与 `core/tests/rule` 的结构拆分，当前代码侧 duplicate hard gate 已清空
 
 ## 当前优先级
@@ -100,5 +105,7 @@
 - TODO: 为未来文件级或仓库级 preset migration 预留扫描与映射结构。
 - TODO: 继续把重复代码检测、复杂度代理检查、依赖膨胀检查与变更规模检查调到低噪音，再决定哪些升级为 hard gate。
 - TODO: 评估 PR 描述检查与更细的依赖风险分级。
+
+
 
 

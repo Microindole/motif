@@ -164,6 +164,18 @@ fn table(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         tokens.fluent.radius.get("md")?,
         tokens.fluent.space.get("surface-pad-sm")?,
     );
+    declarations.push(declaration("width", "100%"));
+    declarations.push(declaration("align-self", "stretch"));
+    declarations.push(token_declaration(
+        "background-image",
+        tokens.fluent.effect.get("surface-alt-tint")?,
+    ));
+    declarations.push(declaration("background-blend-mode", "screen"));
+    declarations.push(token_declaration(
+        "box-shadow",
+        tokens.fluent.shadow.get("surface-alt")?,
+    ));
+    declarations.push(declaration("overflow", "hidden"));
     append_transition(
         &mut declarations,
         tokens.fluent.effect.get("interactive-transition")?,
@@ -234,6 +246,9 @@ fn table_row(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         tokens.fluent.radius.get("sm")?,
         tokens.fluent.space.get("surface-pad-sm")?,
     );
+    declarations.push(declaration("width", "100%"));
+    declarations.push(declaration("align-self", "stretch"));
+    declarations.push(declaration("overflow", "hidden"));
     append_transition(
         &mut declarations,
         tokens.fluent.effect.get("interactive-transition")?,
@@ -247,6 +262,10 @@ fn table_row_selected(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     declarations.push(token_declaration(
         "background-image",
         tokens.fluent.effect.get("surface-alt-tint")?,
+    ));
+    declarations.push(token_declaration(
+        "box-shadow",
+        tokens.fluent.shadow.get("surface-alt")?,
     ));
     declarations.push(token_declaration(
         "border-color",

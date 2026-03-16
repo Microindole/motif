@@ -23,6 +23,8 @@ fn list_item(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         declaration("align-items", "center"),
         declaration("justify-content", "space-between"),
         declaration("gap", "0.75rem"),
+        declaration("width", "100%"),
+        declaration("align-self", "stretch"),
         declaration("min-height", "3rem"),
         token_declaration("color", tokens.material.color.get("on-surface")?),
         token_declaration(
@@ -37,6 +39,7 @@ fn list_item(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         token_declaration("border-radius", tokens.material.radius.get("lg")?),
         declaration("padding", "0.85rem 1rem"),
         token_declaration("box-shadow", tokens.material.shadow.get("container")?),
+        declaration("overflow", "hidden"),
     ];
     with_effect_transition(tokens, declarations, "state-transition")
 }
@@ -71,7 +74,9 @@ fn nav_item(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     declarations.extend([
         declaration("display", "inline-flex"),
         declaration("align-items", "center"),
+        declaration("justify-content", "flex-start"),
         declaration("gap", "0.5rem"),
+        declaration("width", "100%"),
         declaration("min-height", "2.5rem"),
         token_declaration("color", tokens.material.color.get("primary")?),
         token_declaration(
@@ -128,15 +133,22 @@ fn toast(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         declaration("display", "flex"),
         declaration("align-items", "center"),
         declaration("justify-content", "space-between"),
+        declaration("gap", "0.75rem"),
+        declaration("width", "100%"),
         token_declaration("color", tokens.material.color.get("on-surface")?),
         token_declaration(
             "background-color",
             tokens.material.color.get("surface-container")?,
         ),
+        token_declaration(
+            "background-image",
+            tokens.material.effect.get("container-tint")?,
+        ),
         token_declaration("border", tokens.material.border.get("surface-container")?),
         token_declaration("border-radius", tokens.material.radius.get("lg")?),
         declaration("padding", "0.85rem 1rem"),
         token_declaration("box-shadow", tokens.material.shadow.get("container")?),
+        declaration("overflow", "hidden"),
     ];
     with_effect_transition(tokens, declarations, "state-transition")
 }

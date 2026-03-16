@@ -35,6 +35,9 @@ fn drawer(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         declaration("flex-direction", "column"),
         declaration("gap", "1rem"),
         declaration("min-width", "16rem"),
+        declaration("width", "100%"),
+        declaration("align-self", "stretch"),
+        declaration("overflow", "hidden"),
         token_declaration("color", tokens.material.color.get("on-surface")?),
         token_declaration(
             "background-color",
@@ -136,7 +139,9 @@ fn sheet(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = surface_container(tokens)?;
     declarations.push(declaration("max-width", "28rem"));
     declarations.push(declaration("width", "100%"));
+    declarations.push(declaration("align-self", "stretch"));
     declarations.push(declaration("margin-inline", "auto"));
+    declarations.push(declaration("overflow", "hidden"));
     Some(declarations)
 }
 fn sheet_side(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
@@ -151,6 +156,7 @@ fn sheet_bottom(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     let mut declarations = sheet(tokens)?;
     declarations.push(declaration("max-width", "36rem"));
     declarations.push(declaration("margin-bottom", "0"));
+    declarations.push(declaration("width", "100%"));
     declarations.push(declaration("border-bottom-left-radius", "0"));
     declarations.push(declaration("border-bottom-right-radius", "0"));
     Some(declarations)

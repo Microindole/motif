@@ -63,6 +63,7 @@
       </div>
       <div class="cluster">
         <button class="button-reset f-action-subtle focus:f-ring hover:f-bg-hover-subtle active:f-shadow-press">Preview panel</button>
+        <button class="button-reset f-action-outlined focus:f-ring hover:f-bg-hover-subtle active:f-shadow-press">Open inspector</button>
         <button class="button-reset f-action-primary hover:f-bg-hover-primary active:f-shadow-press">Send update</button>
       </div>
       <div class="f-dialog f-stack">
@@ -116,3 +117,5 @@
     </div>
   </section>
 </template>
+
+

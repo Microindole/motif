@@ -34,7 +34,7 @@
 | Typography | `title/body/label` | `f-title` `f-body` `f-label` | `m-title` `m-body` `m-label` | `ui-text-*` | `done_v1` | 仍需更细级别 |
 | Action | `button primary` | `f-action-primary` | `m-action-primary` | `ui-control-*` `ui-radius-*` | `done_v1` | 需扩成完整按钮矩阵 |
 | Action | `button secondary` | `f-action-subtle` | `m-action-tonal` | `ui-control-*` `ui-radius-*` | `done_v1` | |
-| Action | `button outlined` | `planned` | `m-action-outlined` | `ui-control-*` `ui-radius-*` | `in_progress` | Fluent 侧仍缺更明确对应表达 |
+| Action | `button outlined` | `f-action-outlined` | `m-action-outlined` | `ui-control-*` `ui-radius-*` | `done_v1` | Fluent 侧已补第一版安静描边表达 |
 | Form | `text field` | `f-field` | `m-field` | `ui-control-*` | `done_v1` | |
 | Form | `textarea` | `f-textarea` | `m-textarea` | `ui-control-*` `ui-text-*` | `done_v1` | 已接 workspace、Rust/TS tests |
 | Form | `select` | `f-select` | `m-select` | `ui-control-*` | `done_v1` | 已接 workspace、Rust/TS tests |
@@ -43,16 +43,16 @@
 | Form | `switch` | `f-switch` | `m-switch` | `ui-control-*` | `done_v1` | 已接 variants/workspace、Rust/TS tests |
 | Feedback | `divider` | `f-divider` | `m-divider` | - | `done_v1` | |
 | Navigation | `tabs` | `f-tab` | `m-tab` | `ui-control-*` | `done_v1` | 已接 workspace、Rust/TS tests |
-| Navigation | `drawer/nav` | `f-drawer` `f-nav-item` | `m-drawer` `m-nav-item` | `ui-pad-*` | `in_progress` | 第一版已接 workspace，仍需更像官方 |
+| Navigation | `drawer/nav` | `f-drawer` `f-nav-item` | `m-drawer` `m-nav-item` | `ui-pad-*` | `done_v1` | 已补壳层与整行导航语义，后续继续做官方拟合 |
 | Overlay | `dialog` | `f-dialog` | `m-dialog` | `ui-pad-*` `ui-radius-*` | `done_v1` | 已接 workspace、Rust/TS tests |
 | Overlay | `menu/menu-item` | `f-menu-item` | `m-menu-item` | `ui-control-*` | `done_v1` | 已接 workspace、Rust/TS tests |
-| Data | `list-item` | `f-list-item` | `m-list-item` | `ui-control-*` `ui-pad-*` | `in_progress` | 第一版已接 workspace，仍需风格拟合 |
+| Data | `list-item` | `f-list-item` | `m-list-item` | `ui-control-*` `ui-pad-*` | `done_v1` | 已补整行条目壳层，后续继续做风格拟合 |
 | Data | `badge/chip/tag` | `f-badge` `f-chip` `f-tag` | `m-badge` `m-chip` `m-tag` | `ui-text-*` `ui-radius-*` | `done_v1` | 已接 workspace、Rust/TS tests |
-| Data | `table / row` | `f-table` `f-table-row` `f-table-row-selected` | `m-table` `m-table-row` `m-table-row-selected` | `ui-pad-*` | `in_progress` | 已补 `header/cell/content`，仍需更完整表格层次 |
-| Overlay | `sheet / bottom sheet` | `f-sheet` `f-sheet-side` `f-sheet-bottom` | `m-sheet` `m-sheet-side` `m-sheet-bottom` | `ui-pad-*` `ui-radius-*` | `in_progress` | 第一版已接 workspace，仍需层次拟合 |
+| Data | `table / row` | `f-table` `f-table-row` `f-table-row-selected` | `m-table` `m-table-row` `m-table-row-selected` | `ui-pad-*` | `done_v1` | 已补完整容器与选中层次，后续继续做表格拟合 |
+| Overlay | `sheet / bottom sheet` | `f-sheet` `f-sheet-side` `f-sheet-bottom` | `m-sheet` `m-sheet-side` `m-sheet-bottom` | `ui-pad-*` `ui-radius-*` | `done_v1` | 已补面板拉伸与裁切约束，后续继续做层次拟合 |
 | Feedback | `tooltip` | `f-tooltip` | `m-tooltip` | `ui-text-*` | `done_v1` | 已接 workspace、Rust/TS tests |
 | Feedback | `banner` | `f-banner` | `m-banner` | `ui-pad-*` | `done_v1` | 已接 workspace、Rust/TS tests |
-| Feedback | `toast/snackbar` | `f-toast` | `m-toast` | `ui-pad-*` | `in_progress` | 第一版已接 workspace，仍需角色拟合 |
+| Feedback | `toast/snackbar` | `f-toast` | `m-toast` | `ui-pad-*` | `done_v1` | 已补完整浮层壳层，后续继续做角色拟合 |
 
 ## P1 组件矩阵
 - icon-button
@@ -113,3 +113,6 @@
 接下来不应再回到零散加 rule，而应持续按矩阵状态推进：
 - 先把高频组件做到 `done_v1`
 - 再继续做 Win11 / Google 风格拟合
+
+
+

@@ -2,7 +2,7 @@ use super::super::super::shared::{
     accordion_content_base, accordion_header_base, accordion_item_base, append_transition,
     table_container, table_data_row, table_header_row,
 };
-use super::super::super::{token_declaration, Declaration};
+use super::super::super::{declaration, token_declaration, Declaration};
 use super::super::typography_from_tokens;
 use crate::parse::ParsedClass;
 use crate::token::TokenRegistry;
@@ -30,6 +30,17 @@ fn table(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         tokens.material.radius.get("lg")?,
         "0.85rem 1rem",
     );
+    declarations.push(token_declaration(
+        "background-image",
+        tokens.material.effect.get("container-tint")?,
+    ));
+    declarations.push(token_declaration(
+        "box-shadow",
+        tokens.material.shadow.get("container")?,
+    ));
+    declarations.push(declaration("width", "100%"));
+    declarations.push(declaration("align-self", "stretch"));
+    declarations.push(declaration("overflow", "hidden"));
     append_transition(
         &mut declarations,
         tokens.material.effect.get("state-transition")?,
@@ -62,6 +73,9 @@ fn table_row(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
         tokens.material.radius.get("md")?,
         "0.85rem 1rem",
     );
+    declarations.push(declaration("width", "100%"));
+    declarations.push(declaration("align-self", "stretch"));
+    declarations.push(declaration("overflow", "hidden"));
     append_transition(
         &mut declarations,
         tokens.material.effect.get("state-transition")?,
@@ -75,6 +89,10 @@ fn table_row_selected(tokens: &TokenRegistry) -> Option<Vec<Declaration>> {
     declarations.push(token_declaration(
         "background-image",
         tokens.material.effect.get("container-tint")?,
+    ));
+    declarations.push(token_declaration(
+        "box-shadow",
+        tokens.material.shadow.get("container")?,
     ));
     declarations.push(token_declaration(
         "border-color",
