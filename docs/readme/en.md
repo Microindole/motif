@@ -1,6 +1,6 @@
 # motif
 
-简体中文: [`README.md`](../../README.md)
+简体中文: [README.md](../../README.md)
 
 `motif` is a minimal pipeline that scans static class names and emits CSS. It currently focuses on two built-in presets:
 

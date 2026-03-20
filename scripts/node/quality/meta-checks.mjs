@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { readGithubEventBody, readGithubHeadSha } from './github.mjs';
+import { readGithubEventBody, readGithubHeadSha, readGithubPullRequest } from './github.mjs';
 import { isGeneratedPath, normalizePath } from './source-rules.mjs';
 
 const REQUIRED_PR_SECTIONS = ['## Summary', '## Hard checks', '## Structure review', '## AI-specific review', '## Large change override'];
@@ -11,7 +11,7 @@ export function runMetaChecks({ repoRoot, trackedFiles, env, git, failures, warn
   checkDependencyHygiene({ repoRoot, trackedFiles, git, failures, warnings });
   checkChangeSize({ repoRoot, env, git, failures, warnings });
   checkCommitMessage({ repoRoot, env, git, failures, warnings });
-  checkPrDescription({ env, failures, warnings });
+  checkPrDescription({ repoRoot, env, git, failures, warnings });
   checkDuplicateBlocks({ repoRoot, trackedFiles, git, failures, warnings });
 }
 
@@ -91,16 +91,61 @@ function checkCommitMessage({ repoRoot, env, git, failures, warnings }) {
   if (!body && nonTrivial) warnings.push('HEAD commit has no body; add one when the change is non-trivial');
 }
 
-function checkPrDescription({ env, failures, warnings }) {
+function checkPrDescription({ repoRoot, env, git, failures, warnings }) {
+  const mode = classifyPrDescriptionMode(repoRoot, env, git);
   const body = readGithubEventBody(env);
   if (body === null) return;
-  if (!body.trim()) return warnings.push('PR description is empty; add one when the change is non-trivial');
+  if (!body.trim()) {
+    warnings.push(mode === 'full'
+      ? 'PR description is empty; add one when the change is non-trivial'
+      : `PR description is empty for ${mode} PR; allowed, but a short summary is still preferred`);
+    return;
+  }
+
+  if (mode !== 'full') {
+    const summary = extractSection(body, '## Summary', '## Hard checks') ?? body;
+    const meaningfulLines = summary
+      .split(/\r?\n/)
+      .map((line) => line.trim())
+      .filter((line) => line && !line.startsWith('- ['));
+    if (meaningfulLines.length === 0) {
+      warnings.push(`${mode} PR description has no plain-language summary; allowed, but reviewers will have less context`);
+    }
+    return;
+  }
+
   for (const section of REQUIRED_PR_SECTIONS) if (!body.includes(section)) failures.push(`PR description is missing required section \`${section}\``);
   const summary = extractSection(body, '## Summary', '## Hard checks');
   if (summary && summary.split(/\r?\n/).map((line) => line.trim()).filter(Boolean).every((line) => line.startsWith('- ['))) failures.push('PR Summary must include at least one non-checkbox line explaining the change');
   if ((body.includes(LARGE_CHANGE_BOX) || body.includes(LARGE_CHANGE_BOX_ALT)) && !largeChangeOverride(body)) failures.push('Large change override is checked but missing rationale under `## Large change override`');
   const unchecked = body.split(/\r?\n/).filter((line) => line.trim().startsWith('- [ ]') && !insideLargeChangeSection(body, line)).length;
   if (unchecked > 0) failures.push(`PR description still contains ${unchecked} unchecked template item(s); complete them or delete them`);
+}
+
+function classifyPrDescriptionMode(repoRoot, env, git) {
+  const pr = readGithubPullRequest(env);
+  const actor = (env.GITHUB_ACTOR ?? pr?.user?.login ?? '').toLowerCase();
+  if (actor.endsWith('[bot]') || pr?.user?.type === 'Bot') {
+    return 'bot';
+  }
+
+  const changedFiles = changedFilesForPr(repoRoot, env, git);
+  if (changedFiles.length > 0 && changedFiles.every(isDependencyOnlyPath)) {
+    return 'dependency-only';
+  }
+
+  return 'full';
+}
+
+function changedFilesForPr(repoRoot, env, git) {
+  const spec = diffSpec(repoRoot, env, git);
+  if (!spec) return [];
+  const output = git(['diff', '--name-only', spec.range], false);
+  if (output === null) return [];
+  return output
+    .split(/\r?\n/)
+    .map((line) => normalizePath(line.trim()))
+    .filter(Boolean);
 }
 
 function checkDuplicateBlocks({ repoRoot, trackedFiles, git, failures, warnings }) {
@@ -247,4 +292,16 @@ function isAllowedMirroredRuleReport(files) {
 
 function isCommentOnly(line) {
   return line.startsWith('//') || line.startsWith('/*') || line.startsWith('*') || line.startsWith('#');
+}
+
+function isDependencyOnlyPath(file) {
+  return [
+    'Cargo.toml',
+    'Cargo.lock',
+    'package.json',
+    'package-lock.json',
+    'pnpm-lock.yaml',
+    'yarn.lock',
+    '.github/dependabot.yml',
+  ].some((suffix) => file.endsWith(suffix));
 }

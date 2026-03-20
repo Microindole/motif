@@ -1,6 +1,6 @@
 # motif
 
-English: [`README.md`](docs/readme/en.md)
+English: [README.md](docs/readme/en.md)
 
 `motif` 是一个从静态类名扫描到 CSS 输出的最小工具链，当前聚焦两套内建 preset：
 

@@ -92,10 +92,11 @@
 
 ### PR 描述
 - 仅在 `pull_request` 事件中硬生效
-- PR 描述必须保留模板中的四个分区：`Summary` `Hard checks` `Structure review` `AI-specific review`
-- PR 描述中不得保留未完成的模板复选框 `- [ ]`
-- PR 的 `Summary` 分区不得只剩模板复选框，必须至少有一行非复选框说明
-- PR 的 `Summary` 不得只写 `update files` `misc changes` `fix issues` 这类空话摘要
+- 对人工 / 常规 PR，PR 描述必须保留模板中的四个分区：`Summary` `Hard checks` `Structure review` `AI-specific review`
+- 对人工 / 常规 PR，PR 描述中不得保留未完成的模板复选框 `- [ ]`
+- 对人工 / 常规 PR，`Summary` 分区不得只剩模板复选框，必须至少有一行非复选框说明
+- 对人工 / 常规 PR，`Summary` 不得只写 `update files` `misc changes` `fix issues` 这类空话摘要
+- 对 bot PR 与纯依赖升级 PR，PR 描述门禁降级为告警；优先依赖 diff、依赖风险、CI 与变更范围控制
 
 ### 文档入口一致性
 - `agent/context.md` 必须包含并链接当前强制入口文档
