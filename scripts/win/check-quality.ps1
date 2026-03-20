@@ -4,7 +4,7 @@ $ErrorActionPreference = 'Stop'
 $repoRoot = Split-Path -Parent $PSScriptRoot
 Push-Location $repoRoot
 try {
-  cargo run -p xtask -- quality
+  node scripts/node/quality.mjs
 }
 finally {
   Pop-Location

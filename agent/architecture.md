@@ -127,6 +127,8 @@
 ## 质量闸门结构
 - `cargo run -p xtask -- quality`：跨平台硬闸门入口
 - `cargo run -p xtask -- demo-builds`：跨平台 demo 构建验证入口
+- `node scripts/node/quality.mjs`：当前本地/CI 首选质量入口
+- `node scripts/node/demo-builds.mjs`：当前本地/CI 首选 demo 构建入口
 - `scripts/unix/check-quality.sh`：Linux/macOS/POSIX shell 本地便捷包装
 - `scripts/unix/check-demo-builds.sh`：Linux/macOS/POSIX shell 本地便捷包装
 - `scripts/win/check-quality.ps1`：Windows PowerShell 本地便捷包装

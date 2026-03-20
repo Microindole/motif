@@ -56,6 +56,9 @@
 - 已完成质量闸门第六轮：PR 描述模板检查
 - 已完成质量闸门第七轮：PR Summary 实质内容检查，以及“重复块命中当前变更文件”时的 hard gate
 - 已完成质量闸门第八轮：soft warning 严重级别前缀（`[info]` / `[warn]` / `[candidate]`）与 PR Summary 空话检测
+- 已补第一版 Node 本地快路径：`scripts/node/quality-fast.mjs` 与 `scripts/node/demo-builds.mjs`，用于绕开 `xtask` 编译成本，先加速 `motif-vite` 与 Web demo 的日常反馈
+- 已将 full quality / demo-builds 的本地默认入口切到 Node：`scripts/node/quality.mjs` 与 `scripts/node/demo-builds.mjs`；`xtask` 退回兼容层并转调 Node
+- 已删除 `xtask` 中旧的 quality / demo-builds Rust 实现与对应测试，repo 级检查逻辑迁入 `scripts/node/quality/`
 - 已完成多次 `cargo run -p xtask -- quality` 本地验证并通过
 - 已完成 `cargo run -p xtask -- demo-builds` 全量验证并通过
 - 已把产品文档主线更新为：最终接入体验要像 Tailwind 一样直接，但产品能力继续坚持少量 preset 与强约束语义，而不是走 Tailwind 式大全量 utility 路线
@@ -104,6 +107,7 @@
 - TODO: 按 `agent/components.md` 推进 P0 组件矩阵，并为每个组件补齐 demo / tests / 参数层。
 - TODO: 继续扩展 `f-` 的 mica / acrylic / border / hover / panel / subtle action 细节。
 - TODO: 继续扩展 `m-` 的 container / shape / typography / field / outlined action 层次。
+- TODO: 继续补齐 Node `quality` 与历史 `xtask` 规则的剩余细节差异，确认稳定后再评估是否删除 `xtask` 兼容层本身。
 - TODO: 将 token schema 从“必填 key 校验”继续升级到更细的字段语义约束。
 - TODO: 为未来文件级或仓库级 preset migration 预留扫描与映射结构。
 - TODO: 继续把重复代码检测、复杂度代理检查、依赖膨胀检查与变更规模检查调到低噪音，再决定哪些升级为 hard gate。

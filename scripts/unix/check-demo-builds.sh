@@ -4,4 +4,4 @@ set -eu
 SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 REPO_ROOT=$(CDPATH= cd -- "$SCRIPT_DIR/.." && pwd)
 cd "$REPO_ROOT"
-exec cargo run -p xtask -- demo-builds "$@"
+exec node scripts/node/demo-builds.mjs "$@"
