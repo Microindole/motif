@@ -1,6 +1,6 @@
 use motif_core::scan::{scan_root, scan_sources, SourceInput};
 use std::fs;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use std::time::{SystemTime, UNIX_EPOCH};
 
 #[test]
@@ -92,12 +92,12 @@ fn scans_in_memory_sources_with_file_level_results() {
     assert!(result
         .entries
         .iter()
-        .any(|entry| entry.path == PathBuf::from("src/app.tsx")
+        .any(|entry| entry.path == Path::new("src/app.tsx")
             && entry.class_names.contains("hover:f-bg-primary")));
     assert!(result
         .entries
         .iter()
-        .any(|entry| entry.path == PathBuf::from("src/panel.vue")
+        .any(|entry| entry.path == Path::new("src/panel.vue")
             && entry.class_names.contains("focus:m-ring")));
 }
 

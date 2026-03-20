@@ -1,7 +1,7 @@
 use motif_core::engine::compile_sources;
 use motif_core::scan::SourceInput;
 use motif_core::token::load_registry;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 #[test]
 fn compiles_in_memory_sources_for_plugin_like_entry() {
@@ -27,7 +27,7 @@ fn compiles_in_memory_sources_for_plugin_like_entry() {
         .scan_result
         .entries
         .iter()
-        .any(|entry| entry.path == PathBuf::from("src/app.tsx")));
+        .any(|entry| entry.path == Path::new("src/app.tsx")));
     assert!(
         result.stylesheet.contains(".f-action-primary {")
             && result
