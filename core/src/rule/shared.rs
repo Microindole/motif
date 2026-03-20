@@ -200,10 +200,7 @@ fn text(font_size: &'static str, line_height: &'static str) -> Vec<Declaration> 
 }
 
 fn density(padding: &'static str, gap: &'static str) -> Vec<Declaration> {
-    vec![
-        declaration("padding", padding),
-        declaration("gap", gap),
-    ]
+    vec![declaration("padding", padding), declaration("gap", gap)]
 }
 
 fn stack_inline() -> Vec<Declaration> {

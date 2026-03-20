@@ -220,7 +220,3 @@ fn assert_workspace_material_states(css: &str) {
     assert!(css.contains(".focus\\:m-border-focus:focus {"));
     assert!(css.contains(".focus\\:m-ring:focus {"));
 }
-
-
-
-
