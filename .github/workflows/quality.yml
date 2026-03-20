@@ -31,4 +31,4 @@ jobs:
 
       - name: Run quality gates
         shell: pwsh
-        run: cargo run -p xtask -- quality
+        run: node scripts/node/quality.mjs

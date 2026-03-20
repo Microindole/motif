@@ -19,16 +19,21 @@
 
 ## 当前入口
 跨平台主入口：
-- `cargo run -p xtask -- quality`
-- `cargo run -p xtask -- demo-builds`
+- `node scripts/node/quality.mjs`
+- `node scripts/node/demo-builds.mjs`
+- `cargo run -p xtask -- quality`（兼容层）
+- `cargo run -p xtask -- demo-builds`（兼容层）
 
 本地 Windows 便捷入口：
 - `scripts/unix/check-quality.sh` / `scripts/win/check-quality.ps1`
 - `scripts/unix/check-demo-builds.sh` / `scripts/win/check-demo-builds.ps1`
+- `scripts/unix/check-quality-fast.sh` / `scripts/win/check-quality-fast.ps1`
 
 原则：
-- `cargo xtask` 是主入口
-- `ps1` 只是本地包装，不再承载独立逻辑
+- Node 脚本是当前主入口
+- `cargo xtask` 退回兼容层，不再作为本地默认入口
+- `ps1` / `sh` 只是本地包装，不再承载独立逻辑
+- Node fast path 只服务本地快速反馈，不替代 full quality gate
 
 ## 当前 hard gate
 ### 基础构建
