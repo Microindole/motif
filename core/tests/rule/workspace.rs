@@ -149,12 +149,7 @@ fn resolves_universal_size_utilities() {
         "padding",
         "0.625rem"
     ));
-    assert!(has_exact(
-        &tokens,
-        "ui-density-comfortable",
-        "gap",
-        "1rem"
-    ));
+    assert!(has_exact(&tokens, "ui-density-comfortable", "gap", "1rem"));
     assert!(has_exact(&tokens, "ui-stack-inline", "display", "flex"));
     assert!(has_exact(
         &tokens,
@@ -163,68 +158,115 @@ fn resolves_universal_size_utilities() {
         "row"
     ));
     assert!(has_exact(&tokens, "ui-stack-inline", "flex-wrap", "wrap"));
-    assert!(has_exact(&tokens, "ui-stack-center", "justify-content", "center"));
+    assert!(has_exact(
+        &tokens,
+        "ui-stack-center",
+        "justify-content",
+        "center"
+    ));
 }
 
 #[test]
 fn resolves_list_and_navigation_shell_traits() {
     let tokens = tokens();
 
-    assert!(has_exact(&tokens, "f-drawer", "gap", "1rem"));
-    assert!(has_exact(&tokens, "f-drawer", "width", "100%"));
-    assert!(has_contains(&tokens, "f-drawer", "background-image", "0.44"));
-    assert!(has_contains(&tokens, "f-drawer", "backdrop-filter", "24px"));
+    assert_fluent_shell_traits(&tokens);
+    assert_material_shell_traits(&tokens);
+    assert_shared_shell_traits(&tokens);
+}
+
+fn assert_fluent_shell_traits(tokens: &motif_core::token::TokenRegistry) {
+    assert!(has_exact(tokens, "f-drawer", "gap", "1rem"));
+    assert!(has_exact(tokens, "f-drawer", "width", "100%"));
+    assert!(has_contains(tokens, "f-drawer", "background-image", "0.44"));
+    assert!(has_contains(tokens, "f-drawer", "backdrop-filter", "24px"));
     assert!(has_contains(
-        &tokens,
+        tokens,
         "f-list-item",
         "background-image",
         "0.48"
     ));
-    assert!(has_exact(&tokens, "f-list-item", "width", "100%"));
-    assert!(has_exact(&tokens, "f-list-item", "overflow", "hidden"));
+    assert!(has_exact(tokens, "f-list-item", "width", "100%"));
+    assert!(has_exact(tokens, "f-list-item", "overflow", "hidden"));
     assert!(has_exact(
-        &tokens,
+        tokens,
         "f-nav-item",
         "background-color",
         "rgba(255, 255, 255, 0.7)"
     ));
-    assert!(has_exact(&tokens, "f-nav-item", "width", "100%"));
-    assert!(has_contains(&tokens, "f-nav-item", "background-image", "0.48"));
-    assert!(has_exact(&tokens, "m-drawer", "gap", "1rem"));
-    assert!(has_exact(&tokens, "m-drawer", "width", "100%"));
-    assert!(has_contains(&tokens, "m-drawer", "background-image", "0.72"));
+    assert!(has_exact(tokens, "f-nav-item", "width", "100%"));
     assert!(has_contains(
-        &tokens,
+        tokens,
+        "f-nav-item",
+        "background-image",
+        "0.48"
+    ));
+}
+
+fn assert_material_shell_traits(tokens: &motif_core::token::TokenRegistry) {
+    assert!(has_exact(tokens, "m-drawer", "gap", "1rem"));
+    assert!(has_exact(tokens, "m-drawer", "width", "100%"));
+    assert!(has_contains(tokens, "m-drawer", "background-image", "0.72"));
+    assert!(has_contains(
+        tokens,
         "m-list-item",
         "background-image",
         "0.72"
     ));
-    assert!(has_exact(&tokens, "m-list-item", "width", "100%"));
-    assert!(has_exact(&tokens, "m-list-item", "overflow", "hidden"));
+    assert!(has_exact(tokens, "m-list-item", "width", "100%"));
+    assert!(has_exact(tokens, "m-list-item", "overflow", "hidden"));
     assert!(has_exact(
-        &tokens,
+        tokens,
         "m-nav-item",
         "border",
         "1px solid #b6c3d6"
     ));
-    assert!(has_exact(&tokens, "m-nav-item", "width", "100%"));
-    assert!(has_contains(&tokens, "m-nav-item", "background-image", "0.72"));
-    assert!(has_exact(&tokens, "f-toast", "width", "100%"));
-    assert!(has_contains(&tokens, "f-toast", "background-image", "0.48"));
-    assert!(has_exact(&tokens, "m-toast", "width", "100%"));
-    assert!(has_contains(&tokens, "m-toast", "background-image", "0.72"));
-    assert!(has_exact(&tokens, "f-sheet", "overflow", "hidden"));
-    assert!(has_exact(&tokens, "f-sheet", "align-self", "stretch"));
-    assert!(has_exact(&tokens, "m-sheet", "overflow", "hidden"));
-    assert!(has_exact(&tokens, "m-sheet", "align-self", "stretch"));
-    assert!(has_exact(&tokens, "f-table", "width", "100%"));
-    assert!(has_contains(&tokens, "f-table", "background-image", "0.48"));
-    assert!(has_exact(&tokens, "f-table-row-selected", "overflow", "hidden"));
-    assert!(has_contains(&tokens, "f-table-row-selected", "box-shadow", "34px"));
-    assert!(has_exact(&tokens, "m-table", "width", "100%"));
-    assert!(has_contains(&tokens, "m-table", "background-image", "0.72"));
-    assert!(has_exact(&tokens, "m-table-row-selected", "overflow", "hidden"));
-    assert!(has_contains(&tokens, "m-table-row-selected", "box-shadow", "rgba(60, 64, 67, 0.16)"));
+    assert!(has_exact(tokens, "m-nav-item", "width", "100%"));
+    assert!(has_contains(
+        tokens,
+        "m-nav-item",
+        "background-image",
+        "0.72"
+    ));
+}
+
+fn assert_shared_shell_traits(tokens: &motif_core::token::TokenRegistry) {
+    assert!(has_exact(tokens, "f-toast", "width", "100%"));
+    assert!(has_contains(tokens, "f-toast", "background-image", "0.48"));
+    assert!(has_exact(tokens, "m-toast", "width", "100%"));
+    assert!(has_contains(tokens, "m-toast", "background-image", "0.72"));
+    assert!(has_exact(tokens, "f-sheet", "overflow", "hidden"));
+    assert!(has_exact(tokens, "f-sheet", "align-self", "stretch"));
+    assert!(has_exact(tokens, "m-sheet", "overflow", "hidden"));
+    assert!(has_exact(tokens, "m-sheet", "align-self", "stretch"));
+    assert!(has_exact(tokens, "f-table", "width", "100%"));
+    assert!(has_contains(tokens, "f-table", "background-image", "0.48"));
+    assert!(has_exact(
+        tokens,
+        "f-table-row-selected",
+        "overflow",
+        "hidden"
+    ));
+    assert!(has_contains(
+        tokens,
+        "f-table-row-selected",
+        "box-shadow",
+        "34px"
+    ));
+    assert!(has_exact(tokens, "m-table", "width", "100%"));
+    assert!(has_contains(tokens, "m-table", "background-image", "0.72"));
+    assert!(has_exact(
+        tokens,
+        "m-table-row-selected",
+        "overflow",
+        "hidden"
+    ));
+    assert!(has_contains(
+        tokens,
+        "m-table-row-selected",
+        "box-shadow",
+        "rgba(60, 64, 67, 0.16)"
+    ));
 }
 
 #[test]
@@ -243,5 +285,3 @@ fn resolves_selection_controls_for_both_presets() {
         "#f5f7fb"
     ));
 }
-
-
